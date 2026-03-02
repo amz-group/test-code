@@ -3,661 +3,660 @@
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AMZ GROUP</title>
 <meta name="description" content="AMZ GROUP — Build for the Future"/>
 <style>
-/* ═══════════════════════════════════════════
-   RESET & ROOT
-═══════════════════════════════════════════ */
+/* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
 
-:root {
-–bg:       #07090f;
-–surface:  #0d1117;
-–surface2: #161b22;
-–surface3: #1c2333;
-–border:   rgba(255,255,255,0.07);
-–border2:  rgba(255,255,255,0.12);
-–text:     #e6edf3;
-–muted:    #7d8590;
-–accent:   #2f81f7;
-–accent2:  #3fb950;
-–accent3:  #a371f7;
-–glow:     rgba(47,129,247,0.35);
-–glow2:    rgba(63,185,80,0.25);
-–radius:   12px;
-–radius2:  20px;
-–container: 1120px;
-–transition: 0.3s cubic-bezier(0.4,0,0.2,1);
-}
-
-html { scroll-behavior: smooth; font-size: 16px; }
-
+/* ── BODY — رەنگی باکگراوند ڕاستەوخۆ نووسراوە، بێ var() ── */
 body {
-background: var(–bg);
-color: var(–text);
-font-family: ‘Segoe UI’, system-ui, -apple-system, Ubuntu, Cantarell, sans-serif;
+background-color: #07090f;
+background-image:
+radial-gradient(ellipse 900px 500px at 10% 5%, rgba(47,129,247,0.09) 0%, transparent 70%),
+radial-gradient(ellipse 700px 400px at 90% 15%, rgba(167,113,247,0.07) 0%, transparent 70%),
+radial-gradient(ellipse 600px 600px at 50% 90%, rgba(63,185,80,0.05) 0%, transparent 70%);
+color: #e6edf3;
+font-family: -apple-system, BlinkMacSystemFont, ‘Segoe UI’, system-ui, Helvetica, Arial, sans-serif;
 line-height: 1.6;
 min-height: 100vh;
 overflow-x: hidden;
-}
-
-/* background mesh */
-body::before {
-content: ‘’;
-position: fixed;
-inset: 0;
-pointer-events: none;
-z-index: 0;
-background:
-radial-gradient(ellipse 900px 500px at 10% 5%,  rgba(47,129,247,0.09) 0%, transparent 70%),
-radial-gradient(ellipse 700px 400px at 90% 15%, rgba(167,113,247,0.07) 0%, transparent 70%),
-radial-gradient(ellipse 600px 600px at 50% 90%, rgba(63,185,80,0.05)  0%, transparent 70%);
-}
-
-/* grid pattern */
-body::after {
-content: ‘’;
-position: fixed;
-inset: 0;
-pointer-events: none;
-z-index: 0;
-background-image:
-linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-background-size: 60px 60px;
 }
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 button { cursor: pointer; font-family: inherit; }
 
+/* grid overlay — بە position:absolute نەک fixed ── */
+.bg-grid {
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+width: 100%; height: 100%;
+pointer-events: none;
+z-index: 0;
+background-image:
+linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+background-size: 60px 60px;
+}
+
 .container {
 width: 100%;
-max-width: var(–container);
+max-width: 1120px;
 margin: 0 auto;
-padding: 0 24px;
+padding: 0 20px;
 position: relative;
 z-index: 1;
 }
 
-/* ═══════════════════════════════════════════
-NAVBAR
-═══════════════════════════════════════════ */
+/* ── HEADER ── */
 header {
-position: fixed;
-top: 0; left: 0; right: 0;
+position: -webkit-sticky;
+position: sticky;
+top: 0;
+width: 100%;
 z-index: 999;
-background: rgba(7,9,15,0.85);
-backdrop-filter: blur(20px);
--webkit-backdrop-filter: blur(20px);
-border-bottom: 1px solid var(–border);
+background-color: rgba(7,9,15,0.95);
+-webkit-backdrop-filter: blur(16px);
+backdrop-filter: blur(16px);
+border-bottom: 1px solid rgba(255,255,255,0.08);
 height: 64px;
 }
 
 .nav {
 height: 64px;
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
+-webkit-justify-content: space-between;
 justify-content: space-between;
-gap: 16px;
+gap: 12px;
 position: relative;
 }
 
-/* Brand */
 .brand {
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
 gap: 10px;
 font-weight: 700;
 font-size: 1.05rem;
 letter-spacing: 0.3px;
+-webkit-flex-shrink: 0;
 flex-shrink: 0;
+cursor: pointer;
 }
 
 .logo-mark {
 width: 34px; height: 34px;
 border-radius: 9px;
-background: linear-gradient(135deg, var(–accent), var(–accent3));
-display: flex; align-items: center; justify-content: center;
+background: linear-gradient(135deg, #2f81f7, #a371f7);
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
 font-weight: 900;
 font-size: 0.85rem;
 color: #fff;
-box-shadow: 0 0 16px var(–glow);
 overflow: hidden;
+-webkit-flex-shrink: 0;
 flex-shrink: 0;
+box-shadow: 0 0 14px rgba(47,129,247,0.4);
 }
-
 .logo-mark img { width: 100%; height: 100%; object-fit: cover; border-radius: 9px; }
 
-/* Desktop menu */
-.menu {
+/* Desktop nav links */
+.desk-menu {
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
 gap: 4px;
 }
 
-.menu a {
+.desk-menu a {
 padding: 7px 14px;
 border-radius: 8px;
 font-size: 0.88rem;
 font-weight: 600;
-color: var(–muted);
-transition: var(–transition);
+color: #7d8590;
+transition: color 0.2s, background 0.2s;
 white-space: nowrap;
 }
+.desk-menu a:hover  { color: #e6edf3; background: rgba(255,255,255,0.07); }
+.desk-menu a.active { color: #2f81f7; background: rgba(47,129,247,0.1); }
 
-.menu a:hover { color: var(–text); background: var(–surface2); }
-.menu a.active { color: var(–accent); background: rgba(47,129,247,0.1); }
-
-/* Language select */
-.lang-select {
+.lang-sel {
 padding: 6px 10px;
 border-radius: 8px;
-background: var(–surface2);
-color: var(–text);
-border: 1px solid var(–border2);
+background: #161b22;
+color: #e6edf3;
+border: 1px solid rgba(255,255,255,0.14);
 font-size: 0.82rem;
 font-family: inherit;
 cursor: pointer;
 outline: none;
-transition: var(–transition);
 }
-.lang-select:hover { border-color: var(–accent); }
+.lang-sel:hover { border-color: #2f81f7; }
 
-/* Hamburger (mobile) */
+/* Hamburger */
 .hamburger {
 display: none;
+-webkit-flex-direction: column;
 flex-direction: column;
+-webkit-justify-content: center;
 justify-content: center;
 gap: 5px;
-width: 36px; height: 36px;
-padding: 6px;
+width: 38px; height: 38px;
+padding: 7px;
 border-radius: 8px;
-border: 1px solid var(–border);
-background: var(–surface2);
-cursor: pointer;
-transition: var(–transition);
+border: 1px solid rgba(255,255,255,0.12);
+background: #161b22;
+-webkit-flex-shrink: 0;
 flex-shrink: 0;
 }
-.hamburger:hover { border-color: var(–border2); }
 .hamburger span {
 display: block;
 height: 2px;
-background: var(–text);
+background: #e6edf3;
 border-radius: 2px;
-transition: var(–transition);
+transition: transform 0.25s, opacity 0.25s;
+-webkit-transform-origin: center;
 transform-origin: center;
 }
-.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(1) { -webkit-transform: rotate(45deg) translate(5px,5px); transform: rotate(45deg) translate(5px,5px); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
-.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+.hamburger.open span:nth-child(3) { -webkit-transform: rotate(-45deg) translate(5px,-5px); transform: rotate(-45deg) translate(5px,-5px); }
 
-/* Mobile dropdown */
-.mobile-menu {
+/* Mobile menu */
+.mob-menu {
 display: none;
-position: absolute;
-top: 64px; right: 0; left: 0;
-background: rgba(7,9,15,0.97);
-border-bottom: 1px solid var(–border);
-padding: 12px 24px 16px;
+position: fixed;
+top: 64px; left: 0; right: 0;
+width: 100%;
+background-color: rgba(7,9,15,0.98);
+border-bottom: 1px solid rgba(255,255,255,0.08);
+padding: 12px 20px 16px;
+-webkit-flex-direction: column;
 flex-direction: column;
 gap: 4px;
-z-index: 998;
+z-index: 997;
+-webkit-backdrop-filter: blur(16px);
+backdrop-filter: blur(16px);
 }
-.mobile-menu.open { display: flex; }
-.mobile-menu a {
-padding: 10px 14px;
+.mob-menu.open { display: -webkit-flex; display: flex; }
+.mob-menu a {
+padding: 11px 14px;
 border-radius: 8px;
 font-size: 0.95rem;
 font-weight: 600;
-color: var(–muted);
-transition: var(–transition);
+color: #7d8590;
+transition: color 0.2s, background 0.2s;
 }
-.mobile-menu a:hover, .mobile-menu a.active { color: var(–text); background: var(–surface2); }
-.mobile-menu .lang-select { align-self: flex-start; margin-top: 8px; }
+.mob-menu a:hover, .mob-menu a.active { color: #e6edf3; background: rgba(255,255,255,0.07); }
 
-/* ═══════════════════════════════════════════
-SECTIONS LAYOUT (SPA)
-═══════════════════════════════════════════ */
+/* ── SPA PAGES ── */
 main { padding-top: 64px; }
-
 .page { display: none; }
 .page.active { display: block; }
 
-/* ═══════════════════════════════════════════
-HOME — HERO
-═══════════════════════════════════════════ */
+/* ── HOME HERO ── */
 .hero {
 min-height: calc(100vh - 64px);
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
-padding: 80px 0 60px;
+padding: 72px 0 56px;
 }
 
-.hero-inner {
-display: grid;
-grid-template-columns: 1fr 380px;
-gap: 48px;
+.hero-grid {
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
 align-items: center;
+gap: 48px;
 }
+
+.hero-left { -webkit-flex: 1; flex: 1; min-width: 0; }
 
 .hero-tag {
+display: -webkit-inline-flex;
 display: inline-flex;
+-webkit-align-items: center;
 align-items: center;
 gap: 8px;
 padding: 5px 14px;
 border-radius: 999px;
 border: 1px solid rgba(47,129,247,0.3);
 background: rgba(47,129,247,0.08);
-color: var(–accent);
+color: #2f81f7;
 font-size: 0.78rem;
 font-weight: 600;
-letter-spacing: 0.5px;
 margin-bottom: 20px;
 }
 
-.hero-tag .dot {
-width: 6px; height: 6px;
+.pulse-dot {
+width: 7px; height: 7px;
 border-radius: 50%;
-background: var(–accent);
+background: #2f81f7;
+-webkit-animation: pulse 2s ease-in-out infinite;
 animation: pulse 2s ease-in-out infinite;
 }
 
+@-webkit-keyframes pulse {
+0%, 100% { opacity: 1; -webkit-transform: scale(1); transform: scale(1); }
+50%       { opacity: 0.5; -webkit-transform: scale(0.8); transform: scale(0.8); }
+}
 @keyframes pulse {
 0%, 100% { opacity: 1; transform: scale(1); }
 50%       { opacity: 0.5; transform: scale(0.8); }
 }
 
 .hero h1 {
-font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+font-size: 3.2rem;
 font-weight: 800;
 line-height: 1.1;
 letter-spacing: -1px;
 margin-bottom: 18px;
+color: #e6edf3;
 }
 
-.hero h1 .highlight {
-background: linear-gradient(135deg, var(–accent), var(–accent3));
+.hero h1 .hl {
+background: linear-gradient(135deg, #2f81f7, #a371f7);
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
 background-clip: text;
+/* fallback for old browsers */
+color: #2f81f7;
 }
 
 .hero p {
 font-size: 1.05rem;
-color: var(–muted);
+color: #7d8590;
 line-height: 1.75;
-max-width: 520px;
+max-width: 500px;
 margin-bottom: 32px;
 }
 
 .hero-btns {
+display: -webkit-flex;
 display: flex;
 gap: 12px;
+-webkit-flex-wrap: wrap;
 flex-wrap: wrap;
 }
 
-/* Buttons */
+/* BUTTONS */
 .btn {
+display: -webkit-inline-flex;
 display: inline-flex;
+-webkit-align-items: center;
 align-items: center;
 gap: 8px;
 padding: 11px 22px;
-border-radius: var(–radius);
+border-radius: 10px;
 font-size: 0.9rem;
 font-weight: 700;
-border: 1px solid var(–border2);
-background: var(–surface2);
-color: var(–text);
-transition: var(–transition);
+border: 1px solid rgba(255,255,255,0.14);
+background: #161b22;
+color: #e6edf3;
+transition: background 0.2s, border-color 0.2s, -webkit-transform 0.2s, transform 0.2s, box-shadow 0.2s;
 cursor: pointer;
+text-decoration: none;
 }
+.btn:hover { background: #1c2333; -webkit-transform: translateY(-2px); transform: translateY(-2px); }
 
-.btn:hover { transform: translateY(-2px); border-color: var(–border2); background: var(–surface3); }
-
-.btn.primary {
-background: linear-gradient(135deg, var(–accent), #1a6fd4);
+.btn-primary {
+background: linear-gradient(135deg, #2f81f7, #1a6fd4);
 border-color: transparent;
 color: #fff;
-box-shadow: 0 4px 20px rgba(47,129,247,0.3);
+box-shadow: 0 4px 18px rgba(47,129,247,0.3);
 }
-.btn.primary:hover { box-shadow: 0 6px 30px rgba(47,129,247,0.45); }
+.btn-primary:hover { box-shadow: 0 6px 28px rgba(47,129,247,0.45); background: linear-gradient(135deg, #3d8ef8, #2278e0); }
 
 /* Hero visual */
-.hero-visual {
+.hero-right {
+width: 340px;
+-webkit-flex-shrink: 0;
+flex-shrink: 0;
 position: relative;
 }
 
 .pfp-frame {
-border-radius: var(–radius2);
-background: linear-gradient(135deg, rgba(47,129,247,0.2), rgba(167,113,247,0.2));
+border-radius: 20px;
 padding: 3px;
-position: relative;
+background: linear-gradient(135deg, rgba(47,129,247,0.5), rgba(167,113,247,0.5));
 }
 
 .pfp-inner {
-border-radius: calc(var(–radius2) - 3px);
-background: var(–surface);
+border-radius: 17px;
+background: #0d1117;
 overflow: hidden;
-aspect-ratio: 1;
-display: flex; align-items: center; justify-content: center;
+aspect-ratio: 1 / 1;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
+font-size: 5rem;
 }
-
 .pfp-inner img { width: 100%; height: 100%; object-fit: cover; }
 
-.pfp-placeholder {
-font-size: 5rem;
-filter: grayscale(0.3);
-}
-
-.hero-card-float {
+.float-card {
 position: absolute;
-bottom: -16px;
-left: -24px;
-background: var(–surface2);
-border: 1px solid var(–border2);
-border-radius: var(–radius);
+bottom: -14px;
+left: -20px;
+background: #161b22;
+border: 1px solid rgba(255,255,255,0.14);
+border-radius: 12px;
 padding: 12px 16px;
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
 gap: 10px;
-box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+box-shadow: 0 16px 40px rgba(0,0,0,0.6);
 white-space: nowrap;
+z-index: 2;
 }
-
-.hero-card-float .icon {
+.float-icon {
 width: 36px; height: 36px;
 border-radius: 9px;
 background: rgba(63,185,80,0.15);
 border: 1px solid rgba(63,185,80,0.3);
-display: flex; align-items: center; justify-content: center;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
 font-size: 1.1rem;
 }
+.float-card strong { display: block; font-size: 0.85rem; color: #e6edf3; }
+.float-card span   { font-size: 0.74rem; color: #7d8590; }
 
-.hero-card-float strong { display: block; font-size: 0.85rem; }
-.hero-card-float span { font-size: 0.75rem; color: var(–muted); }
-
-/* ═══════════════════════════════════════════
-HOME — FEATURE CARDS
-═══════════════════════════════════════════ */
-.section-gap { padding: 60px 0; }
-
-.cards-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
+/* ── CARDS ── */
+.two-col {
+display: -webkit-flex;
+display: flex;
 gap: 20px;
+padding: 56px 0;
 }
 
 .card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-padding: 32px;
+-webkit-flex: 1;
+flex: 1;
+background: #0d1117;
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 18px;
+padding: 30px;
 position: relative;
 overflow: hidden;
-transition: var(–transition);
+transition: border-color 0.25s, -webkit-transform 0.25s, transform 0.25s, box-shadow 0.25s;
 }
+.card:hover { border-color: rgba(255,255,255,0.14); -webkit-transform: translateY(-3px); transform: translateY(-3px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
 
-.card::before {
-content: ‘’;
+.card-shine {
 position: absolute;
 top: 0; left: 0; right: 0;
 height: 1px;
 background: linear-gradient(90deg, transparent, rgba(47,129,247,0.4), transparent);
 opacity: 0;
-transition: var(–transition);
+transition: opacity 0.25s;
 }
-
-.card:hover { border-color: var(–border2); transform: translateY(-3px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-.card:hover::before { opacity: 1; }
+.card:hover .card-shine { opacity: 1; }
 
 .kicker {
 font-size: 0.72rem;
 font-weight: 700;
 letter-spacing: 0.12em;
 text-transform: uppercase;
-color: var(–accent);
+color: #2f81f7;
 margin-bottom: 10px;
 }
 
-.card h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 12px; }
-.card p  { font-size: 0.92rem; color: var(–muted); line-height: 1.75; margin-bottom: 20px; }
+.card h2 { font-size: 1.45rem; font-weight: 700; color: #e6edf3; margin-bottom: 12px; }
+.card p  { font-size: 0.92rem; color: #7d8590; line-height: 1.75; margin-bottom: 20px; }
 
-.list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
-
-.list-item {
+.list { list-style: none; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.list li {
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: flex-start;
 align-items: flex-start;
 gap: 10px;
 font-size: 0.9rem;
 color: #c9d1d9;
 }
-
-.list-dot {
+.ldot {
 width: 18px; height: 18px;
 border-radius: 50%;
-background: rgba(63,185,80,0.15);
+background: rgba(63,185,80,0.12);
 border: 1px solid rgba(63,185,80,0.35);
-display: flex; align-items: center; justify-content: center;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
+font-size: 0.5rem;
+color: #3fb950;
+-webkit-flex-shrink: 0;
 flex-shrink: 0;
-margin-top: 2px;
-font-size: 0.55rem;
-color: var(–accent2);
+margin-top: 3px;
 }
 
-/* ═══════════════════════════════════════════
-ABOUT PAGE
-═══════════════════════════════════════════ */
-.page-header {
-padding: 60px 0 40px;
+/* ── PAGE HEADER ── */
+.pg-head {
+padding: 56px 0 36px;
 text-align: center;
 }
-
-.page-header .kicker { margin-bottom: 12px; }
-
-.page-header h1 {
-font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+.pg-head h1 {
+font-size: 2.4rem;
 font-weight: 800;
 letter-spacing: -0.5px;
-margin-bottom: 14px;
+color: #e6edf3;
+margin-bottom: 12px;
 }
+.pg-head p { font-size: 1rem; color: #7d8590; max-width: 500px; margin: 0 auto; }
 
-.page-header p {
-font-size: 1rem;
-color: var(–muted);
-max-width: 540px;
-margin: 0 auto;
-}
-
+/* ── TEAM ── */
 .team-grid {
-display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 20px;
+display: -webkit-flex;
+display: flex;
+gap: 18px;
 margin-bottom: 20px;
+-webkit-flex-wrap: wrap;
+flex-wrap: wrap;
 }
 
-.member-card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-padding: 28px 24px;
+.member {
+-webkit-flex: 1;
+flex: 1;
+min-width: 220px;
+background: #0d1117;
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 18px;
+padding: 28px 22px;
 text-align: center;
-transition: var(–transition);
 position: relative;
 overflow: hidden;
+transition: border-color 0.25s, -webkit-transform 0.25s, transform 0.25s, box-shadow 0.25s;
 }
-
-.member-card:hover {
-border-color: rgba(47,129,247,0.3);
-transform: translateY(-4px);
-box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-}
-
-.member-card::after {
+.member:hover { border-color: rgba(47,129,247,0.3); -webkit-transform: translateY(-4px); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+.member::after {
 content: ‘’;
 position: absolute;
 bottom: 0; left: 0; right: 0;
 height: 2px;
-background: linear-gradient(90deg, var(–accent), var(–accent3));
+background: linear-gradient(90deg, #2f81f7, #a371f7);
+-webkit-transform: scaleX(0);
 transform: scaleX(0);
+-webkit-transform-origin: left;
 transform-origin: left;
-transition: var(–transition);
+transition: -webkit-transform 0.3s, transform 0.3s;
 }
+.member:hover::after { -webkit-transform: scaleX(1); transform: scaleX(1); }
 
-.member-card:hover::after { transform: scaleX(1); }
-
-.avatar-wrap {
+.av-wrap {
 width: 80px; height: 80px;
 margin: 0 auto 16px;
 border-radius: 50%;
-background: linear-gradient(135deg, var(–accent), var(–accent3));
+background: linear-gradient(135deg, #2f81f7, #a371f7);
 padding: 2px;
 }
-
-.avatar-wrap .av-inner {
+.av-inner {
 width: 100%; height: 100%;
 border-radius: 50%;
-background: var(–surface);
+background: #0d1117;
 overflow: hidden;
-display: flex; align-items: center; justify-content: center;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
 font-size: 2rem;
 }
+.av-inner img { width: 100%; height: 100%; object-fit: cover; }
 
-.avatar-wrap img { width: 100%; height: 100%; object-fit: cover; }
-
-.member-role {
+.role-badge {
 display: inline-block;
 padding: 3px 12px;
 border-radius: 999px;
 background: rgba(47,129,247,0.1);
 border: 1px solid rgba(47,129,247,0.25);
-color: var(–accent);
+color: #2f81f7;
 font-size: 0.72rem;
 font-weight: 700;
 letter-spacing: 0.5px;
 margin-bottom: 10px;
 }
+.member h3 { font-size: 1rem; font-weight: 700; color: #e6edf3; margin-bottom: 10px; }
+.member p  { font-size: 0.84rem; color: #7d8590; line-height: 1.7; }
 
-.member-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
-.member-card p  { font-size: 0.85rem; color: var(–muted); line-height: 1.7; }
-
-.lfu-card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-padding: 32px;
+.lfu-row {
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
-gap: 28px;
-margin-bottom: 60px;
-transition: var(–transition);
+gap: 24px;
+background: #0d1117;
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 18px;
+padding: 28px;
+margin-bottom: 56px;
+transition: border-color 0.25s;
 }
-
-.lfu-card:hover { border-color: var(–border2); }
-
+.lfu-row:hover { border-color: rgba(255,255,255,0.14); }
 .lfu-logo {
-width: 72px; height: 72px;
+width: 68px; height: 68px;
 border-radius: 50%;
-background: var(–surface2);
-border: 2px solid var(–border2);
+background: #161b22;
+border: 2px solid rgba(255,255,255,0.12);
 overflow: hidden;
-display: flex; align-items: center; justify-content: center;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
 font-size: 2rem;
+-webkit-flex-shrink: 0;
 flex-shrink: 0;
 }
 .lfu-logo img { width: 100%; height: 100%; object-fit: cover; }
+.lfu-txt h3 { font-size: 1.05rem; font-weight: 700; color: #e6edf3; margin-bottom: 6px; }
+.lfu-txt p  { font-size: 0.88rem; color: #7d8590; line-height: 1.7; }
 
-.lfu-text h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 6px; }
-.lfu-text p  { font-size: 0.88rem; color: var(–muted); line-height: 1.7; }
-
-/* ═══════════════════════════════════════════
-PROJECTS PAGE
-═══════════════════════════════════════════ */
-.projects-grid {
-display: grid;
-grid-template-columns: 1fr 1fr;
-gap: 20px;
-padding-bottom: 60px;
+/* ── PROJECTS ── */
+.proj-grid {
+display: -webkit-flex;
+display: flex;
+-webkit-flex-wrap: wrap;
+flex-wrap: wrap;
+gap: 18px;
+padding-bottom: 56px;
 }
 
-.project-card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
+.proj-card {
+width: calc(50% - 9px);
+background: #0d1117;
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 18px;
 overflow: hidden;
-transition: var(–transition);
 position: relative;
+transition: border-color 0.3s, -webkit-transform 0.3s, transform 0.3s, box-shadow 0.3s;
 }
-
-.project-card:hover {
+.proj-card:hover {
 border-color: rgba(0,240,255,0.35);
+-webkit-transform: translateY(-5px);
 transform: translateY(-5px);
-box-shadow: 0 0 40px rgba(0,240,255,0.1), 0 24px 60px rgba(0,0,0,0.5);
+box-shadow: 0 0 36px rgba(0,240,255,0.08), 0 20px 50px rgba(0,0,0,0.5);
 }
 
-.project-img-wrap {
+.proj-img {
 position: relative;
-height: 200px;
-background: var(–surface2);
+height: 190px;
+background: #161b22;
 overflow: hidden;
-display: flex; align-items: center; justify-content: center;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
+font-size: 3.5rem;
 }
-
-.project-img-wrap img {
+.proj-img img {
 width: 100%; height: 100%;
 object-fit: cover;
 display: block;
-filter: brightness(0.7);
-transition: var(–transition);
+-webkit-filter: brightness(0.65);
+filter: brightness(0.65);
+transition: -webkit-filter 0.3s, -webkit-transform 0.3s, filter 0.3s, transform 0.3s;
+}
+.proj-card:hover .proj-img img {
+-webkit-filter: brightness(0.8);
+filter: brightness(0.8);
+-webkit-transform: scale(1.04);
+transform: scale(1.04);
 }
 
-.project-card:hover .project-img-wrap img { filter: brightness(0.85); transform: scale(1.04); }
-
-.project-img-placeholder {
-font-size: 3.5rem;
-filter: grayscale(0.2);
-}
-
-.project-scan-line {
+/* scan lines overlay */
+.proj-img::after {
+content: ‘’;
 position: absolute;
-inset: 0;
+top: 0; left: 0;
+width: 100%; height: 100%;
 background: repeating-linear-gradient(
-0deg,
-transparent,
-transparent 2px,
-rgba(0,240,255,0.03) 2px,
-rgba(0,240,255,0.03) 4px
+0deg, transparent, transparent 2px,
+rgba(0,240,255,0.03) 2px, rgba(0,240,255,0.03) 4px
 );
 pointer-events: none;
 }
 
-.project-glow-border {
-position: absolute;
-inset: 0;
-border: 2px solid transparent;
-border-radius: calc(var(–radius2) - 1px);
-background: linear-gradient(var(–surface), var(–surface)) padding-box,
-linear-gradient(135deg, rgba(0,240,255,0), rgba(0,240,255,0.4), rgba(0,240,255,0)) border-box;
-opacity: 0;
-transition: var(–transition);
-pointer-events: none;
-}
+.proj-body { padding: 22px; }
 
-.project-card:hover .project-glow-border { opacity: 1; }
-
-.project-body { padding: 24px; }
-
-.project-tag {
+.proj-tag {
+display: -webkit-inline-flex;
 display: inline-flex;
+-webkit-align-items: center;
 align-items: center;
-gap: 6px;
+gap: 5px;
 padding: 3px 10px;
 border-radius: 999px;
-background: rgba(0,240,255,0.08);
+background: rgba(0,240,255,0.07);
 border: 1px solid rgba(0,240,255,0.2);
-color: #00f0ff;
+color: #00d4e8;
 font-size: 0.7rem;
 font-weight: 700;
 letter-spacing: 0.8px;
@@ -665,173 +664,163 @@ text-transform: uppercase;
 margin-bottom: 10px;
 }
 
-.project-body h3 {
-font-size: 1.15rem;
-font-weight: 700;
-margin-bottom: 8px;
-}
+.proj-body h3 { font-size: 1.1rem; font-weight: 700; color: #e6edf3; margin-bottom: 8px; }
+.proj-body p  { font-size: 0.87rem; color: #7d8590; line-height: 1.7; margin-bottom: 16px; }
 
-.project-body p {
-font-size: 0.87rem;
-color: var(–muted);
-line-height: 1.7;
-margin-bottom: 18px;
-}
-
-.project-link {
+.proj-link {
+display: -webkit-inline-flex;
 display: inline-flex;
+-webkit-align-items: center;
 align-items: center;
-gap: 8px;
-padding: 9px 20px;
+gap: 7px;
+padding: 9px 18px;
 border-radius: 9px;
-background: transparent;
 border: 1px solid rgba(0,240,255,0.3);
-color: #00f0ff;
+color: #00d4e8;
 font-size: 0.83rem;
 font-weight: 700;
-transition: var(–transition);
+background: transparent;
 text-decoration: none;
+transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.proj-link:hover {
+background: rgba(0,240,255,0.07);
+border-color: rgba(0,240,255,0.5);
+box-shadow: 0 0 14px rgba(0,240,255,0.12);
 }
 
-.project-link:hover {
-background: rgba(0,240,255,0.08);
-border-color: rgba(0,240,255,0.55);
-box-shadow: 0 0 16px rgba(0,240,255,0.15);
-}
-
-/* ═══════════════════════════════════════════
-CONTACT PAGE
-═══════════════════════════════════════════ */
-.contact-wrap {
-max-width: 600px;
-margin: 0 auto;
-padding-bottom: 60px;
-}
+/* ── CONTACT ── */
+.contact-wrap { max-width: 580px; margin: 0 auto; padding-bottom: 60px; }
 
 .contact-card {
-background: var(–surface);
-border: 1px solid var(–border);
-border-radius: var(–radius2);
-padding: 40px;
+background: #0d1117;
+border: 1px solid rgba(255,255,255,0.08);
+border-radius: 18px;
+padding: 36px;
 }
+.contact-card .kicker { margin-bottom: 8px; }
+.contact-card h2 { font-size: 1.55rem; font-weight: 800; color: #e6edf3; margin-bottom: 10px; }
+.contact-card > p { font-size: 0.93rem; color: #7d8590; line-height: 1.7; margin-bottom: 26px; }
 
-.contact-card h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
-.contact-card p  { font-size: 0.95rem; color: var(–muted); line-height: 1.7; margin-bottom: 28px; }
+.cbtns { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 12px; }
 
-.contact-btns {
+.cbtn {
+display: -webkit-flex;
 display: flex;
-flex-direction: column;
-gap: 12px;
-}
-
-.contact-btn {
-display: flex;
+-webkit-align-items: center;
 align-items: center;
 gap: 14px;
-padding: 14px 18px;
-border-radius: var(–radius);
-background: var(–surface2);
-border: 1px solid var(–border);
-color: var(–text);
+padding: 14px 16px;
+border-radius: 10px;
+background: #161b22;
+border: 1px solid rgba(255,255,255,0.08);
+color: #e6edf3;
 font-size: 0.92rem;
 font-weight: 600;
 text-decoration: none;
-transition: var(–transition);
+transition: background 0.2s, border-color 0.2s, -webkit-transform 0.2s, transform 0.2s;
 }
+.cbtn:hover { background: #1c2333; border-color: rgba(255,255,255,0.16); -webkit-transform: translateX(4px); transform: translateX(4px); }
 
-.contact-btn:hover { border-color: var(–border2); background: var(–surface3); transform: translateX(4px); }
-
-.contact-icon {
+.cico {
 width: 40px; height: 40px;
 border-radius: 10px;
-display: flex; align-items: center; justify-content: center;
+display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;
 font-size: 1.1rem;
+-webkit-flex-shrink: 0;
 flex-shrink: 0;
 }
+.cico.em { background: rgba(47,129,247,0.12); border: 1px solid rgba(47,129,247,0.25); }
+.cico.tg { background: rgba(0,136,204,0.12);  border: 1px solid rgba(0,136,204,0.25); }
+.cico.gh { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); }
 
-.contact-icon.email { background: rgba(47,129,247,0.12); border: 1px solid rgba(47,129,247,0.25); }
-.contact-icon.tg    { background: rgba(0,136,204,0.12);  border: 1px solid rgba(0,136,204,0.25); }
-.contact-icon.gh    { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); }
+.cbtn-info strong { display: block; font-size: 0.9rem; margin-bottom: 2px; }
+.cbtn-info span   { font-size: 0.78rem; color: #7d8590; }
 
-.contact-btn-info strong { display: block; margin-bottom: 2px; }
-.contact-btn-info span   { font-size: 0.78rem; color: var(–muted); }
-
-/* ═══════════════════════════════════════════
-FOOTER
-═══════════════════════════════════════════ */
+/* ── FOOTER ── */
 footer {
-border-top: 1px solid var(–border);
+border-top: 1px solid rgba(255,255,255,0.07);
 padding: 20px 0;
 position: relative;
 z-index: 1;
 }
-
-.foot-inner {
+.foot {
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
+-webkit-justify-content: space-between;
 justify-content: space-between;
-gap: 16px;
+gap: 14px;
+-webkit-flex-wrap: wrap;
 flex-wrap: wrap;
 }
-
-.foot-copy {
-font-size: 0.85rem;
-color: var(–muted);
-}
-
+.foot-copy { font-size: 0.85rem; color: #7d8590; }
 .foot-brand {
+display: -webkit-flex;
 display: flex;
+-webkit-align-items: center;
 align-items: center;
 gap: 8px;
 font-weight: 700;
 font-size: 0.9rem;
+color: #e6edf3;
 }
 
-/* ═══════════════════════════════════════════
-ANIMATIONS
-═══════════════════════════════════════════ */
+/* ── FADE ANIMATION ── */
+@-webkit-keyframes fadeUp {
+from { opacity: 0; -webkit-transform: translateY(24px); transform: translateY(24px); }
+to   { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
+}
 @keyframes fadeUp {
-from { opacity: 0; transform: translateY(30px); }
+from { opacity: 0; transform: translateY(24px); }
 to   { opacity: 1; transform: translateY(0); }
 }
+.fi  { -webkit-animation: fadeUp 0.55s ease both; animation: fadeUp 0.55s ease both; }
+.d1  { -webkit-animation-delay: 0.08s; animation-delay: 0.08s; }
+.d2  { -webkit-animation-delay: 0.16s; animation-delay: 0.16s; }
+.d3  { -webkit-animation-delay: 0.24s; animation-delay: 0.24s; }
+.d4  { -webkit-animation-delay: 0.32s; animation-delay: 0.32s; }
 
-.fade-in { animation: fadeUp 0.6s ease both; }
-.fade-in-d1 { animation-delay: 0.1s; }
-.fade-in-d2 { animation-delay: 0.2s; }
-.fade-in-d3 { animation-delay: 0.3s; }
-.fade-in-d4 { animation-delay: 0.4s; }
-
-/* ═══════════════════════════════════════════
-RESPONSIVE
-═══════════════════════════════════════════ */
+/* ── RESPONSIVE ── */
 @media (max-width: 860px) {
-.hamburger { display: flex; }
-.menu { display: none; }
+.hamburger { display: -webkit-flex; display: flex; }
+.desk-menu { display: none; }
 
-.hero-inner { grid-template-columns: 1fr; }
-.hero-visual { display: none; }
+.hero h1 { font-size: 2.2rem; }
+.hero-right { display: none; }
+.hero-grid { -webkit-flex-direction: column; flex-direction: column; }
 
-.cards-grid { grid-template-columns: 1fr; }
-.team-grid  { grid-template-columns: 1fr; }
-.projects-grid { grid-template-columns: 1fr; }
+.two-col { -webkit-flex-direction: column; flex-direction: column; }
+.team-grid { -webkit-flex-direction: column; flex-direction: column; }
 
-.lfu-card { flex-direction: column; text-align: center; }
+.proj-card { width: 100%; }
+
+.lfu-row { -webkit-flex-direction: column; flex-direction: column; text-align: center; }
 }
 
-@media (max-width: 520px) {
-.hero h1 { font-size: 2rem; }
-.contact-card { padding: 24px; }
+@media (max-width: 500px) {
+.hero h1 { font-size: 1.85rem; }
+.contact-card { padding: 22px; }
+.pg-head h1 { font-size: 1.9rem; }
 }
 
-/* RTL adjustments */
-html[dir=“rtl”] .hero p       { margin-right: 0; }
-html[dir=“rtl”] .hero-btns    { flex-direction: row-reverse; }
-html[dir=“rtl”] .contact-btn:hover { transform: translateX(-4px); }
-html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
+/* ── RTL ── */
+html[dir=“rtl”] .hero-btns { -webkit-flex-direction: row-reverse; flex-direction: row-reverse; }
+html[dir=“rtl”] .cbtn:hover { -webkit-transform: translateX(-4px); transform: translateX(-4px); }
+html[dir=“rtl”] .member::after { -webkit-transform-origin: right; transform-origin: right; }
+html[dir=“rtl”] .float-card { left: auto; right: -20px; }
 </style>
 
 </head>
 <body>
+
+<div class="bg-grid" aria-hidden="true"></div>
 
 <!-- ═══ HEADER ═══ -->
 
@@ -839,25 +828,25 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
   <div class="container nav">
 
 ```
-<a class="brand" href="#" onclick="navigate('home')">
+<div class="brand" onclick="go('home')">
   <div class="logo-mark">
     <img src="IMG_2731.PNG" alt="AMZ" onerror="this.style.display='none';this.parentNode.textContent='A'">
   </div>
   <span>AMZ GROUP</span>
-</a>
+</div>
 
-<nav class="menu" id="desktopMenu">
-  <a href="#" data-page="home"    data-i18n-nav="navHome"    onclick="navigate('home')"   >Home</a>
-  <a href="#" data-page="about"   data-i18n-nav="navAbout"   onclick="navigate('about')"  >About Us</a>
-  <a href="#" data-page="project" data-i18n-nav="navProject" onclick="navigate('project')">Projects</a>
-  <a href="#" data-page="contact" data-i18n-nav="navContact" onclick="navigate('contact')">Contact</a>
-  <select class="lang-select" id="langDesktop" onchange="setLang(this.value)">
+<nav class="desk-menu" id="dMenu">
+  <a href="#" data-pg="home"    data-nav="navHome"    onclick="go('home');return false">Home</a>
+  <a href="#" data-pg="about"   data-nav="navAbout"   onclick="go('about');return false">About Us</a>
+  <a href="#" data-pg="project" data-nav="navProject" onclick="go('project');return false">Projects</a>
+  <a href="#" data-pg="contact" data-nav="navContact" onclick="go('contact');return false">Contact</a>
+  <select class="lang-sel" id="ld" onchange="setLang(this.value)">
     <option value="en">English</option>
     <option value="ku">کوردی</option>
   </select>
 </nav>
 
-<button class="hamburger" id="hamburger" onclick="toggleMobile()" aria-label="Menu">
+<button class="hamburger" id="hbg" onclick="toggleMob()" type="button" aria-label="Menu">
   <span></span><span></span><span></span>
 </button>
 ```
@@ -867,12 +856,12 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 
 <!-- Mobile menu -->
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#" data-page="home"    onclick="navigate('home');closeMobile()"   data-i18n-nav="navHome">Home</a>
-  <a href="#" data-page="about"   onclick="navigate('about');closeMobile()"  data-i18n-nav="navAbout">About Us</a>
-  <a href="#" data-page="project" onclick="navigate('project');closeMobile()" data-i18n-nav="navProject">Projects</a>
-  <a href="#" data-page="contact" onclick="navigate('contact');closeMobile()" data-i18n-nav="navContact">Contact</a>
-  <select class="lang-select" id="langMobile" onchange="setLang(this.value)">
+<div class="mob-menu" id="mMenu">
+  <a href="#" data-pg="home"    data-nav="navHome"    onclick="go('home');closeMob();return false">Home</a>
+  <a href="#" data-pg="about"   data-nav="navAbout"   onclick="go('about');closeMob();return false">About Us</a>
+  <a href="#" data-pg="project" data-nav="navProject" onclick="go('project');closeMob();return false">Projects</a>
+  <a href="#" data-pg="contact" data-nav="navContact" onclick="go('contact');closeMob();return false">Contact</a>
+  <select class="lang-sel" id="lm" onchange="setLang(this.value)" style="margin-top:8px">
     <option value="en">English</option>
     <option value="ku">کوردی</option>
   </select>
@@ -882,32 +871,38 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 
 <main>
 
-  <!-- ─── HOME ─── -->
+  <!-- HOME -->
 
-  <div class="page active" id="page-home">
+  <div class="page active" id="p-home">
     <div class="container">
       <div class="hero">
-        <div class="hero-inner">
+        <div class="hero-grid">
 
 ```
       <div class="hero-left">
-        <div class="hero-tag fade-in"><span class="dot"></span><span data-i18n="heroTag">Professional Development Team</span></div>
-        <h1 class="fade-in fade-in-d1">AMZ GROUP<br><span class="highlight" data-i18n="heroTitle">Build for the Future</span></h1>
-        <p class="fade-in fade-in-d2" data-i18n="homeDesc">AMZ Group is a professional team in the development of websites, software, applications and games. We provide modern and innovative solutions with high quality and international standards.</p>
-        <div class="hero-btns fade-in fade-in-d3">
-          <a class="btn primary" href="#" onclick="navigate('contact')" data-i18n="contactBtn">Contact Us</a>
-          <a class="btn" href="#" onclick="navigate('project')" data-i18n="projectBtn">View Projects</a>
+        <div class="hero-tag fi">
+          <span class="pulse-dot"></span>
+          <span data-i18n="heroTag">Professional Development Team</span>
+        </div>
+        <h1 class="fi d1">AMZ GROUP<br>
+          <span class="hl" data-i18n="heroTitle">Build for the Future</span>
+        </h1>
+        <p class="fi d2" data-i18n="homeDesc">AMZ Group is a professional team in the development of websites, software, applications and games. We provide modern and innovative solutions with high quality and international standards.</p>
+        <div class="hero-btns fi d3">
+          <a class="btn btn-primary" href="#" onclick="go('contact');return false" data-i18n="contactBtn">Contact Us</a>
+          <a class="btn" href="#" onclick="go('project');return false" data-i18n="projectBtn">View Projects</a>
         </div>
       </div>
 
-      <div class="hero-visual fade-in fade-in-d2">
+      <div class="hero-right fi d2">
         <div class="pfp-frame">
           <div class="pfp-inner">
-            <img src="IMG_2731.PNG" alt="AMZ GROUP" onerror="this.style.display='none';this.parentNode.innerHTML='<div class=pfp-placeholder>⚡</div>'">
+            <img src="IMG_2731.PNG" alt="AMZ GROUP"
+              onerror="this.style.display='none';this.parentNode.innerHTML='⚡'">
           </div>
         </div>
-        <div class="hero-card-float">
-          <div class="icon">🚀</div>
+        <div class="float-card">
+          <div class="float-icon">🚀</div>
           <div>
             <strong data-i18n="floatTitle">5+ Projects Live</strong>
             <span data-i18n="floatSub">Deployed &amp; Running</span>
@@ -918,26 +913,25 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
     </div>
   </div>
 
-  <!-- Feature cards -->
-  <div class="section-gap">
-    <div class="cards-grid">
-      <div class="card fade-in">
-        <div class="kicker" data-i18n="aboutTeam">About Team</div>
-        <h2>AMZ GROUP</h2>
-        <p data-i18n="aboutDesc">This team consists of Mohammed Barzan, Zhala Karwan, Anas Mohsen. We are a team working to create websites, software, applications, and solutions in an advanced and world-class standard.</p>
-        <a class="btn" href="#" onclick="navigate('about')" data-i18n="moreinfo">More Info</a>
-      </div>
-      <div class="card fade-in fade-in-d1">
-        <div class="kicker" data-i18n="skill">Skills &amp; Goals</div>
-        <h2 data-i18n="skill2">Team Goals</h2>
-        <div class="list">
-          <div class="list-item"><div class="list-dot">●</div><span data-i18n="g1">New Technologies</span></div>
-          <div class="list-item"><div class="list-dot">●</div><span data-i18n="g2">Innovation and Update</span></div>
-          <div class="list-item"><div class="list-dot">●</div><span data-i18n="g3">Digital system development</span></div>
-          <div class="list-item"><div class="list-dot">●</div><span data-i18n="g4">Continuous learning</span></div>
-          <div class="list-item"><div class="list-dot">●</div><span data-i18n="g5">Creating large professional projects</span></div>
-        </div>
-      </div>
+  <div class="two-col">
+    <div class="card fi">
+      <div class="card-shine"></div>
+      <div class="kicker" data-i18n="aboutTeam">About Team</div>
+      <h2>AMZ GROUP</h2>
+      <p data-i18n="aboutDesc">This team consists of Mohammed Barzan, Zhala Karwan, Anas Mohsen. We are a team working to create websites, software, applications, and solutions in an advanced and world-class standard.</p>
+      <a class="btn" href="#" onclick="go('about');return false" data-i18n="moreinfo">More Info</a>
+    </div>
+    <div class="card fi d1">
+      <div class="card-shine"></div>
+      <div class="kicker" data-i18n="skill">Skills &amp; Goals</div>
+      <h2 data-i18n="skill2">Team Goals</h2>
+      <ul class="list">
+        <li><span class="ldot">●</span><span data-i18n="g1">New Technologies</span></li>
+        <li><span class="ldot">●</span><span data-i18n="g2">Innovation and Update</span></li>
+        <li><span class="ldot">●</span><span data-i18n="g3">Digital system development</span></li>
+        <li><span class="ldot">●</span><span data-i18n="g4">Continuous learning</span></li>
+        <li><span class="ldot">●</span><span data-i18n="g5">Creating large professional projects</span></li>
+      </ul>
     </div>
   </div>
 </div>
@@ -945,11 +939,11 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 
   </div>
 
-  <!-- ─── ABOUT ─── -->
+  <!-- ABOUT -->
 
-  <div class="page" id="page-about">
+  <div class="page" id="p-about">
     <div class="container">
-      <div class="page-header fade-in">
+      <div class="pg-head fi">
         <div class="kicker" data-i18n="aboutDev">About Developers</div>
         <h1 data-i18n="devinfo">The Team</h1>
         <p data-i18n="aboutSub">Meet the people behind AMZ GROUP</p>
@@ -957,49 +951,39 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 
 ```
   <div class="team-grid">
-
-    <div class="member-card fade-in">
-      <div class="avatar-wrap">
-        <div class="av-inner">
-          <img src="hama.png" alt="Mohammed Barzan" onerror="this.style.display='none';this.parentNode.innerHTML='👑'">
-        </div>
-      </div>
-      <div class="member-role" data-i18n="role1">Founder &amp; Leader</div>
+    <div class="member fi">
+      <div class="av-wrap"><div class="av-inner">
+        <img src="hama.png" alt="Mohammed Barzan" onerror="this.style.display='none';this.parentNode.textContent='👑'">
+      </div></div>
+      <div class="role-badge" data-i18n="role1">Founder &amp; Leader</div>
       <h3>Mohammed Barzan</h3>
-      <p data-i18n="Mabout">Founder and Team Leader, Mohammad Barzan is a student in the IT department and a project initiator who is an expert in website building, design, and programming in a fully advanced and standardized manner.</p>
+      <p data-i18n="Mabout">Founder and Team Leader, expert in website building, design, and programming in a fully advanced and standardized manner.</p>
     </div>
-
-    <div class="member-card fade-in fade-in-d1">
-      <div class="avatar-wrap">
-        <div class="av-inner">
-          <img src="zhalla.png" alt="Zhalla Karwan" onerror="this.style.display='none';this.parentNode.innerHTML='🎖️'">
-        </div>
-      </div>
-      <div class="member-role" data-i18n="role2">Team Manager</div>
+    <div class="member fi d1">
+      <div class="av-wrap"><div class="av-inner">
+        <img src="zhalla.png" alt="Zhalla Karwan" onerror="this.style.display='none';this.parentNode.textContent='🎖️'">
+      </div></div>
+      <div class="role-badge" data-i18n="role2">Team Manager</div>
       <h3>Zhalla Karwan</h3>
-      <p data-i18n="Zabout">The team manager, Zhalla Karwan, a student of the IT department, the recipient and initiator, and the organization and conceptualization of projects before they start, has extensive experience in programming and website management.</p>
+      <p data-i18n="Zabout">Team manager with extensive experience in programming, website management, and organizing projects before they start.</p>
     </div>
-
-    <div class="member-card fade-in fade-in-d2">
-      <div class="avatar-wrap">
-        <div class="av-inner">
-          <img src="anas.png" alt="Anas Mohsin" onerror="this.style.display='none';this.parentNode.innerHTML='🎖️'">
-        </div>
-      </div>
-      <div class="member-role" data-i18n="role3">Project Manager</div>
+    <div class="member fi d2">
+      <div class="av-wrap"><div class="av-inner">
+        <img src="anas.png" alt="Anas Mohsin" onerror="this.style.display='none';this.parentNode.textContent='🎖️'">
+      </div></div>
+      <div class="role-badge" data-i18n="role3">Project Manager</div>
       <h3>Anas Mohsin</h3>
-      <p data-i18n="Aabout">The Team Project Manager, Anas Mohsen, a student in the IT department, is the one who brainstorms the projects and leads the team when any problem arises and is ready to solve it in a professional manner, and supports the team.</p>
+      <p data-i18n="Aabout">Project Manager who leads the team when problems arise and is ready to solve them professionally while supporting the team.</p>
     </div>
-
   </div>
 
-  <div class="lfu-card fade-in">
+  <div class="lfu-row fi">
     <div class="lfu-logo">
-      <img src="lfu.png" alt="LFU" onerror="this.style.display='none';this.parentNode.innerHTML='🎓'">
+      <img src="lfu.png" alt="LFU" onerror="this.style.display='none';this.parentNode.textContent='🎓'">
     </div>
-    <div class="lfu-text">
+    <div class="lfu-txt">
       <h3>Lebanese French University</h3>
-      <p data-i18n="lfu">Our team is proudly supported and supervised by the Lebanese French University. Our team members are students of the IT Department, committed to building this team in a dedicated and professional way.</p>
+      <p data-i18n="lfu">Our team is proudly supported and supervised by the Lebanese French University. Our team members are IT Department students committed to building this team in a dedicated and professional way.</p>
     </div>
   </div>
 </div>
@@ -1007,86 +991,80 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 
   </div>
 
-  <!-- ─── PROJECTS ─── -->
+  <!-- PROJECTS -->
 
-  <div class="page" id="page-project">
+  <div class="page" id="p-project">
     <div class="container">
-      <div class="page-header fade-in">
+      <div class="pg-head fi">
         <div class="kicker" data-i18n="ourProjects">Our Projects</div>
         <h1 data-i18n="projectsTitle">What We Built</h1>
         <p data-i18n="projectsSub">A collection of live projects by AMZ GROUP</p>
       </div>
+      <div class="proj-grid">
 
 ```
-  <div class="projects-grid">
-
-    <div class="project-card fade-in">
-      <div class="project-img-wrap">
-        <img src="IMG_2799.jpeg" alt="Mathematics Solver" onerror="this.style.display='none';this.parentNode.innerHTML='<div class=project-img-placeholder>🧮</div>'">
-        <div class="project-scan-line"></div>
+    <div class="proj-card fi">
+      <div class="proj-img">
+        <img src="IMG_2799.jpeg" alt="Mathematics Solver" onerror="this.style.display='none'">
+        <span style="position:relative;z-index:1">🧮</span>
       </div>
-      <div class="project-glow-border"></div>
-      <div class="project-body">
-        <div class="project-tag">🧮 Math</div>
+      <div class="proj-body">
+        <div class="proj-tag">🧮 Math</div>
         <h3>MATHEMATICS SOLVER</h3>
-        <p data-i18n="mathSolver">This project solves mathematical equations quickly and accurately, providing clear step-by-step solutions to help students understand and learn better.</p>
-        <a href="https://amz-group.github.io/amz-maths/" target="_blank" class="project-link" data-i18n="openProject">Open Project ↗</a>
+        <p data-i18n="mathSolver">Solves mathematical equations quickly and accurately, providing clear step-by-step solutions to help students learn better.</p>
+        <a href="https://amz-group.github.io/amz-maths/" target="_blank" class="proj-link" data-i18n="openProject">Open Project ↗</a>
       </div>
     </div>
 
-    <div class="project-card fade-in fade-in-d1">
-      <div class="project-img-wrap">
-        <img src="IMG_2794.jpeg" alt="Speed WiFi" onerror="this.style.display='none';this.parentNode.innerHTML='<div class=project-img-placeholder>📶</div>'">
-        <div class="project-scan-line"></div>
+    <div class="proj-card fi d1">
+      <div class="proj-img">
+        <img src="IMG_2794.jpeg" alt="Speed WiFi" onerror="this.style.display='none'">
+        <span style="position:relative;z-index:1">📶</span>
       </div>
-      <div class="project-glow-border"></div>
-      <div class="project-body">
-        <div class="project-tag">📶 Network</div>
+      <div class="proj-body">
+        <div class="proj-tag">📶 Network</div>
         <h3>SPEED WIFI</h3>
-        <p data-i18n="wifi">A smart WiFi speed testing website designed to measure download speed, upload speed, and ping in real-time, helping users monitor their internet performance easily.</p>
-        <a href="https://amz-group.github.io/Speed-wifi/" target="_blank" class="project-link" data-i18n="openProject">Open Project ↗</a>
+        <p data-i18n="wifi">Smart WiFi speed testing — measures download, upload, and ping in real-time.</p>
+        <a href="https://amz-group.github.io/Speed-wifi/" target="_blank" class="proj-link" data-i18n="openProject">Open Project ↗</a>
       </div>
     </div>
 
-    <div class="project-card fade-in fade-in-d2">
-      <div class="project-img-wrap">
-        <img src="IMG_2798.jpeg" alt="QRCode Pro" onerror="this.style.display='none';this.parentNode.innerHTML='<div class=project-img-placeholder>📷</div>'">
-        <div class="project-scan-line"></div>
+    <div class="proj-card fi d2">
+      <div class="proj-img">
+        <img src="IMG_2798.jpeg" alt="QRCode Pro" onerror="this.style.display='none'">
+        <span style="position:relative;z-index:1">📷</span>
       </div>
-      <div class="project-glow-border"></div>
-      <div class="project-body">
-        <div class="project-tag">📷 Tool</div>
+      <div class="proj-body">
+        <div class="proj-tag">📷 Tool</div>
         <h3>QRCODE PRO</h3>
-        <p data-i18n="qr">Modern QR Code Generator & Scanner Web App with Camera Support, Image Scan, Download Option, Multi-Language, Login System, QR History & PWA Installable Design.</p>
-        <a href="https://amz-group.github.io/QRcode-pro/" target="_blank" class="project-link" data-i18n="openProject">Open Project ↗</a>
+        <p data-i18n="qr">QR Code Generator &amp; Scanner with camera support, image scan, multi-language, history &amp; PWA.</p>
+        <a href="https://amz-group.github.io/QRcode-pro/" target="_blank" class="proj-link" data-i18n="openProject">Open Project ↗</a>
       </div>
     </div>
 
-    <div class="project-card fade-in fade-in-d3">
-      <div class="project-img-wrap">
-        <img src="IMG_2797.jpeg" alt="AMZ Snake" onerror="this.style.display='none';this.parentNode.innerHTML='<div class=project-img-placeholder>🐍</div>'">
-        <div class="project-scan-line"></div>
+    <div class="proj-card fi d3">
+      <div class="proj-img">
+        <img src="IMG_2797.jpeg" alt="AMZ Snake" onerror="this.style.display='none'">
+        <span style="position:relative;z-index:1">🐍</span>
       </div>
-      <div class="project-glow-border"></div>
-      <div class="project-body">
-        <div class="project-tag">🎮 Game</div>
+      <div class="proj-body">
+        <div class="proj-tag">🎮 Game</div>
         <h3>AMZ SNAKE</h3>
-        <p data-i18n="snake">Snake is a classic arcade game where players control a growing snake that eats apples to increase its length. Avoid hitting the walls or the snake's own body.</p>
-        <a href="https://amz-group.github.io/snakegame/" target="_blank" class="project-link" data-i18n="openProject">Open Project ↗</a>
+        <p data-i18n="snake">Classic snake arcade game — eat apples, grow longer, avoid walls and yourself.</p>
+        <a href="https://amz-group.github.io/snakegame/" target="_blank" class="proj-link" data-i18n="openProject">Open Project ↗</a>
       </div>
     </div>
 
-    <div class="project-card fade-in fade-in-d4">
-      <div class="project-img-wrap">
-        <img src="IMG_2796.jpeg" alt="Flappy Bird" onerror="this.style.display='none';this.parentNode.innerHTML='<div class=project-img-placeholder>🐦</div>'">
-        <div class="project-scan-line"></div>
+    <div class="proj-card fi d4">
+      <div class="proj-img">
+        <img src="IMG_2796.jpeg" alt="Flappy Bird" onerror="this.style.display='none'">
+        <span style="position:relative;z-index:1">🐦</span>
       </div>
-      <div class="project-glow-border"></div>
-      <div class="project-body">
-        <div class="project-tag">🎮 Game</div>
+      <div class="proj-body">
+        <div class="proj-tag">🎮 Game</div>
         <h3>AMZ FLAPPY BIRD</h3>
-        <p data-i18n="flappy">Flappy Bird is a highly addictive arcade game where players tap to guide a bird through endless obstacles, testing their timing and precision.</p>
-        <a href="https://amz-group.github.io/flappy-bird/" target="_blank" class="project-link" data-i18n="openProject">Open Project ↗</a>
+        <p data-i18n="flappy">Addictive arcade game — tap to guide a bird through endless obstacles.</p>
+        <a href="https://amz-group.github.io/flappy-bird/" target="_blank" class="proj-link" data-i18n="openProject">Open Project ↗</a>
       </div>
     </div>
 
@@ -1096,38 +1074,38 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 
   </div>
 
-  <!-- ─── CONTACT ─── -->
+  <!-- CONTACT -->
 
-  <div class="page" id="page-contact">
+  <div class="page" id="p-contact">
     <div class="container">
-      <div class="page-header fade-in">
+      <div class="pg-head fi">
         <div class="kicker">Contact</div>
         <h1 data-i18n="contactTitle">Get in Touch</h1>
         <p data-i18n="conAbout">If you would like more information or to contact us, please select one of the options below.</p>
       </div>
       <div class="contact-wrap">
-        <div class="contact-card fade-in">
+        <div class="contact-card fi">
           <div class="kicker">Reach Out</div>
           <h2 data-i18n="contactTitle2">We're Here</h2>
           <p data-i18n="conAbout2">Choose your preferred way to connect with the AMZ GROUP team.</p>
-          <div class="contact-btns">
-            <a href="mailto:amz.group.development@gmail.com" class="contact-btn">
-              <div class="contact-icon email">✉️</div>
-              <div class="contact-btn-info">
+          <div class="cbtns">
+            <a href="mailto:amz.group.development@gmail.com" class="cbtn">
+              <div class="cico em">✉️</div>
+              <div class="cbtn-info">
                 <strong data-i18n="emailLabel">Email</strong>
                 <span>amz.group.development@gmail.com</span>
               </div>
             </a>
-            <a href="https://t.me/amzgroup_xyz" target="_blank" class="contact-btn">
-              <div class="contact-icon tg">✈️</div>
-              <div class="contact-btn-info">
+            <a href="https://t.me/amzgroup_xyz" target="_blank" class="cbtn">
+              <div class="cico tg">✈️</div>
+              <div class="cbtn-info">
                 <strong>Telegram</strong>
                 <span>@amzgroup_xyz</span>
               </div>
             </a>
-            <a href="https://github.com/amz-group" target="_blank" class="contact-btn">
-              <div class="contact-icon gh">⌨️</div>
-              <div class="contact-btn-info">
+            <a href="https://github.com/amz-group" target="_blank" class="cbtn">
+              <div class="cico gh">⌨️</div>
+              <div class="cbtn-info">
                 <strong>GitHub</strong>
                 <span>github.com/amz-group</span>
               </div>
@@ -1140,14 +1118,14 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 
 </main>
 
-<!-- ═══ FOOTER ═══ -->
+<!-- FOOTER -->
 
 <footer>
   <div class="container">
-    <div class="foot-inner">
-      <div class="foot-copy">© <span id="year"></span> AMZ GROUP. All rights reserved.</div>
+    <div class="foot">
+      <span class="foot-copy">© <span id="yr"></span> AMZ GROUP. All rights reserved.</span>
       <div class="foot-brand">
-        <div class="logo-mark" style="width:26px;height:26px;font-size:0.7rem;">
+        <div class="logo-mark" style="width:26px;height:26px;font-size:0.7rem">
           <img src="IMG_2731.PNG" alt="A" onerror="this.style.display='none';this.parentNode.textContent='A'">
         </div>
         AMZ GROUP
@@ -1157,136 +1135,103 @@ html[dir=“rtl”] .foot-inner   { flex-direction: row-reverse; }
 </footer>
 
 <script>
-/* ═══ YEAR ═══ */
-document.getElementById('year').textContent = new Date().getFullYear();
+/* year */
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-/* ═══ NAVIGATION ═══ */
-function navigate(page) {
-  // hide all pages
-  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
-  // show target
-  var target = document.getElementById('page-' + page);
-  if (target) { target.classList.add('active'); }
-  // update nav active states
-  document.querySelectorAll('[data-page]').forEach(function(a){
-    a.classList.toggle('active', a.getAttribute('data-page') === page);
-  });
-  // scroll top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+/* navigate */
+function go(id) {
+  var pages = document.querySelectorAll('.page');
+  for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+  var t = document.getElementById('p-' + id);
+  if (t) t.classList.add('active');
+  var links = document.querySelectorAll('[data-pg]');
+  for (var j = 0; j < links.length; j++) {
+    if (links[j].getAttribute('data-pg') === id) {
+      links[j].classList.add('active');
+    } else {
+      links[j].classList.remove('active');
+    }
+  }
+  window.scrollTo(0, 0);
 }
 
-/* ═══ HAMBURGER ═══ */
-function toggleMobile() {
-  var h = document.getElementById('hamburger');
-  var m = document.getElementById('mobileMenu');
-  h.classList.toggle('open');
-  m.classList.toggle('open');
+/* hamburger */
+function toggleMob() {
+  document.getElementById('hbg').classList.toggle('open');
+  document.getElementById('mMenu').classList.toggle('open');
+}
+function closeMob() {
+  document.getElementById('hbg').classList.remove('open');
+  document.getElementById('mMenu').classList.remove('open');
 }
 
-function closeMobile() {
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('mobileMenu').classList.remove('open');
-}
-
-/* ═══ LANGUAGE ═══ */
-var translations = {
+/* i18n */
+var T = {
   ku: {
-    navHome:      'ماڵەوە',
-    navAbout:     'دەربارەمان',
-    navProject:   'پرۆژەکان',
-    navContact:   'پەیوەندی',
-    heroTag:      'تیمی پرۆفیشناڵی گەشەپێدان',
-    heroTitle:    'بنیات بنێ بۆ داهاتوو',
-    homeDesc:     'AMZ Group تیمێکی پرۆفیشناڵە لە پەرەپێدانی وێبسایت، سۆفتوێر، بەرنامە و یاریەکان. ئێمە ئامەدەین بۆ چارەسەر کردنی هەموو کێشەکان بە شێوەیەکی مۆدێرن و داهێنەرانە.',
-    contactBtn:   'پەیوەندی بکە',
-    projectBtn:   'پرۆژەکانمان',
-    floatTitle:   '٥+ پرۆژە ئاکتیڤ',
-    floatSub:     'ئامادە و بەکارهاتوو',
-    aboutTeam:    'دەربارەی تیم',
-    aboutDesc:    'ئەم تیمە پێکهاتوە لەلایەن محمد بارزان، ژاڵە کاروان، ئەنەس موحسین. ئێمە تیمێکین کاردەکەین بۆ دروستکردنی وێبسایت، سۆفتوێر، بەرنامە، بە ستانداردی جیهانی.',
-    skill:        'تواناکان و ئامانجەکان',
-    skill2:       'ئامانجەکانی تیم',
-    g1: 'تەکنەلۆژیای نوێ',
-    g2: 'داهێنان و نوێکردنەوە',
-    g3: 'پەرەپێدانی سیستەمی دیجیتاڵ',
-    g4: 'فێربوونی بەردەوام',
-    g5: 'دروستکردنی پرۆژەی گەورە و پرۆفیشناڵ',
-    moreinfo:     'زانیاری زیاتر',
-    aboutDev:     'دەربارەی دەڤەلۆپەرەکان',
-    devinfo:      'تیمەکە',
-    aboutSub:     'ئەو کەسانە بناسە کە لەپشت AMZ GROUP کاردەکەن',
-    role1:        'دامەزرێنەر و سەرۆک',
-    role2:        'بەرپرسی تیم',
-    role3:        'بەرپرسی پرۆژە',
-    Mabout:       'دامەزێنەر و سەرۆکی تیم، محمد بارزان قوتابی بەشی IT، شارەزا لە دروست کردنی وێبسایت، دیزاین، پرۆگرامینگ، بەشێوەیەکی تەواو پێشکەوتو.',
-    Zabout:       'بەرێوبەری تیم، ژاڵە کاروان قوتابی بەشی IT، شارەزای تەواوی هەیە لە پرۆگرامینگ و بەرێوبردنی وێبسایت.',
-    Aabout:       'بەرێوبەری تیم و پرۆژەکان، ئەنەس موحسین قوتابی بەشی IT، ئامەدە دەبێت بە چارەسەرکردنی هەر کێشەیەک بە شێوەیەکی پرۆفیشناڵانە.',
-    lfu:          'بە شانازیەوە تیمەکەمان لەلایەن زانکۆی لوبنانی فەرەنسی پشتگیری و چاودێری دەکرێت، تیمەکەمان قوتابیی بەشی تەکنەلۆژیای زانیاریین.',
-    ourProjects:  'پرۆژەکانمان',
-    projectsTitle:'ئەوەی دروستمان کرد',
-    projectsSub:  'کۆمەڵێک پرۆژەی ئاکتیڤ لە AMZ GROUP',
-    mathSolver:   'ئەم پرۆژەیە ئامەدە کراوە بۆ قوتابیان، پێکهاتوا لە چەند بابەتێکی شیکارکردنی وانەکانی بیرکاری.',
-    wifi:         'ئەم پرۆژەیە داندراوە بۆ تێست کردنی تۆری وایفای بە شێوەیەکی پێشکەوتو.',
-    qr:           'ئەم پرۆژەیە دروست کراوە بۆ خزمەتگوزاری QR Code & Scan، بەرهەمەکە پێکهاتوە لە دروستکردنی QR Code و Scan کردن.',
-    snake:        'یارییەکی کلاسیکیە تیایدا یاریزانان کۆنتڕۆڵی مارێکی گەورە دەکەن کە سێو دەخوات بۆ زیادکردنی درێژی.',
-    flappy:       'Flappy Bird یاریەکی ئاڵودەکەرە کە یاریزانان کلیک دەکەن بۆ فراندنی باڵندەکە بە شێوەیەکی بێکۆتایی.',
-    openProject:  'کردنەوەی پرۆژە ↗',
-    contactTitle: 'پەیوەندی بکە',
-    contactTitle2:'ئێمە ئێرەین',
-    conAbout:     'گەر دەتەوێت زانیاری زیاتر یاخود پەیوەندیمان پێوە بکەیت، یەکێک لە هەڵبژاردەکانی خوارەوە هەڵبژێرە.',
-    conAbout2:    'ئەو شێوازە هەڵبژێرە کە خۆشت دێت بۆ پەیوەندی کردن بە تیمی AMZ GROUP.',
-    emailLabel:   'ئیمەیل'
+    navHome:'ماڵەوە', navAbout:'دەربارەمان', navProject:'پرۆژەکان', navContact:'پەیوەندی',
+    heroTag:'تیمی پرۆفیشناڵی گەشەپێدان',
+    heroTitle:'بنیات بنێ بۆ داهاتوو',
+    homeDesc:'AMZ Group تیمێکی پرۆفیشناڵە لە پەرەپێدانی وێبسایت، سۆفتوێر، بەرنامە و یاریەکان. ئێمە چارەسەری هەموو کێشەکان دابین دەکەین بە شێوەیەکی مۆدێرن.',
+    contactBtn:'پەیوەندی بکە', projectBtn:'پرۆژەکانمان',
+    floatTitle:'٥+ پرۆژە ئاکتیڤ', floatSub:'ئامادە و بەکارهاتوو',
+    aboutTeam:'دەربارەی تیم',
+    aboutDesc:'ئەم تیمە پێکهاتوە لەلایەن محمد بارزان، ژاڵە کاروان، ئەنەس موحسین. کاردەکەین بۆ دروستکردنی وێبسایت، سۆفتوێر، بەرنامە بە ستانداردی جیهانی.',
+    skill:'تواناکان و ئامانجەکان', skill2:'ئامانجەکانی تیم',
+    g1:'تەکنەلۆژیای نوێ', g2:'داهێنان و نوێکردنەوە',
+    g3:'پەرەپێدانی سیستەمی دیجیتاڵ', g4:'فێربوونی بەردەوام',
+    g5:'دروستکردنی پرۆژەی گەورە و پرۆفیشناڵ',
+    moreinfo:'زانیاری زیاتر',
+    aboutDev:'دەربارەی دەڤەلۆپەرەکان', devinfo:'تیمەکە',
+    aboutSub:'ئەو کەسانە بناسە کە لەپشت AMZ GROUP کاردەکەن',
+    role1:'دامەزرێنەر و سەرۆک', role2:'بەرپرسی تیم', role3:'بەرپرسی پرۆژە',
+    Mabout:'دامەزێنەر و سەرۆکی تیم، محمد بارزان قوتابی بەشی IT، شارەزا لە دیزاین و پرۆگرامینگ.',
+    Zabout:'بەرێوبەری تیم، ژاڵە کاروان قوتابی بەشی IT، شارەزای تەواوی هەیە لە پرۆگرامینگ.',
+    Aabout:'بەرێوبەری پرۆژەکان، ئەنەس موحسین قوتابی بەشی IT، ئامەدە دەبێت بە چارەسەرکردنی هەر کێشەیەک.',
+    lfu:'بە شانازیەوە تیمەکەمان لەلایەن زانکۆی لوبنانی فەرەنسی پشتگیری و چاودێری دەکرێت.',
+    ourProjects:'پرۆژەکانمان', projectsTitle:'ئەوەی دروستمان کرد',
+    projectsSub:'کۆمەڵێک پرۆژەی ئاکتیڤ لە AMZ GROUP',
+    mathSolver:'ئەم پرۆژەیە ئامەدە کراوە بۆ قوتابیان بۆ شیکارکردنی وانەکانی بیرکاری.',
+    wifi:'تێست کردنی تۆری وایفای — داندراون، ئەپلۆد، پینگ.',
+    qr:'دروستکردن و Scan کردنی QR Code بە پشتگیری دۆربین و چەندین زمان.',
+    snake:'یارییەکی کلاسیکیە تیایدا کۆنتڕۆڵی مارێکی گەورە دەکەیت.',
+    flappy:'Flappy Bird یاریەکی ئاڵودەکەرەیە کە بەردەوام سەختتر دەبێت.',
+    openProject:'کردنەوەی پرۆژە ↗',
+    contactTitle:'پەیوەندی بکە', contactTitle2:'ئێمە ئێرەین',
+    conAbout:'گەر دەتەوێت پەیوەندیمان پێوە بکەیت، یەکێک لە هەڵبژاردەکانی خوارەوە هەڵبژێرە.',
+    conAbout2:'ئەو شێوازە هەڵبژێرە کە خۆشت دێت بۆ پەیوەندی کردن.',
+    emailLabel:'ئیمەیل'
   }
 };
 
-var currentLang = 'en';
-
 function setLang(lang) {
-  currentLang = lang;
-  localStorage.setItem('amz_lang', lang);
-
-  // sync both selects
-  document.getElementById('langDesktop').value = lang;
-  document.getElementById('langMobile').value  = lang;
-
-  var isRTL = (lang === 'ku');
-  document.documentElement.setAttribute('dir',  isRTL ? 'rtl' : 'ltr');
+  localStorage.setItem('amzlang', lang);
+  document.getElementById('ld').value = lang;
+  document.getElementById('lm').value = lang;
+  var rtl = (lang === 'ku');
+  document.documentElement.setAttribute('dir', rtl ? 'rtl' : 'ltr');
   document.documentElement.setAttribute('lang', lang);
-
-  if (lang === 'en') {
-    // reload to restore original English text
-    location.reload();
-    return;
+  if (lang === 'en') { location.reload(); return; }
+  var t = T[lang]; if (!t) return;
+  var els = document.querySelectorAll('[data-i18n]');
+  for (var i = 0; i < els.length; i++) {
+    var k = els[i].getAttribute('data-i18n');
+    if (t[k]) els[i].textContent = t[k];
   }
-
-  var t = translations[lang];
-  if (!t) return;
-
-  // Translate data-i18n elements
-  document.querySelectorAll('[data-i18n]').forEach(function(el){
-    var key = el.getAttribute('data-i18n');
-    if (t[key]) el.textContent = t[key];
-  });
-
-  // Translate nav links
-  document.querySelectorAll('[data-i18n-nav]').forEach(function(el){
-    var key = el.getAttribute('data-i18n-nav');
-    if (t[key]) el.textContent = t[key];
-  });
+  var navEls = document.querySelectorAll('[data-nav]');
+  for (var j = 0; j < navEls.length; j++) {
+    var nk = navEls[j].getAttribute('data-nav');
+    if (t[nk]) navEls[j].textContent = t[nk];
+  }
 }
 
-// Init on load
-(function(){
-  var saved = localStorage.getItem('amz_lang') || 'en';
-  if (saved !== 'en') {
-    document.getElementById('langDesktop').value = saved;
-    document.getElementById('langMobile').value  = saved;
-    setLang(saved);
-  }
+/* init */
+(function() {
+  var s = localStorage.getItem('amzlang') || 'en';
+  document.getElementById('ld').value = s;
+  document.getElementById('lm').value = s;
+  if (s !== 'en') setLang(s);
+  go('home');
 })();
-
-// default page = home, nav active
-navigate('home');
 </script>
 
 </body>
