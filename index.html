@@ -1,127 +1,460 @@
 <!DOCTYPE html>
-<html lang="ku">
+
+<html lang="ku" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>Programming Difficulty</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سەختی زمانەکانی پرۆگرامسازی</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cairo:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --bg: #030508;
+    --card: #0a0d14;
+    --glow1: #00f5ff;
+    --glow2: #ff6b35;
+    --glow3: #7c3aed;
+    --text: #e8f4fd;
+    --muted: #4a5568;
+  }
 
-body{
-background:linear-gradient(135deg,#0f0f0f,#1c1c1c);
-font-family:Arial;
-color:white;
-padding:40px;
+- { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+background: var(–bg);
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘Cairo’, sans-serif;
+overflow: hidden;
+position: relative;
 }
 
-h1{
-text-align:center;
-margin-bottom:40px;
-color:#ffb347;
+/* Animated background grid */
+body::before {
+content: ‘’;
+position: fixed;
+inset: 0;
+background-image:
+linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+background-size: 50px 50px;
+animation: gridMove 20s linear infinite;
+pointer-events: none;
 }
 
-.skill{
-margin:20px 0;
+@keyframes gridMove {
+0% { transform: translateY(0); }
+100% { transform: translateY(50px); }
 }
 
-.title{
-display:flex;
-justify-content:space-between;
-margin-bottom:6px;
-font-size:18px;
+/* Floating orbs */
+.orb {
+position: fixed;
+border-radius: 50%;
+filter: blur(80px);
+pointer-events: none;
+animation: orbFloat 8s ease-in-out infinite;
+}
+.orb1 { width: 300px; height: 300px; background: rgba(0,245,255,0.06); top: -100px; right: -100px; animation-delay: 0s; }
+.orb2 { width: 400px; height: 400px; background: rgba(124,58,237,0.05); bottom: -150px; left: -150px; animation-delay: -4s; }
+.orb3 { width: 200px; height: 200px; background: rgba(255,107,53,0.07); top: 50%; left: 50%; animation-delay: -2s; }
+
+@keyframes orbFloat {
+0%, 100% { transform: translateY(0) scale(1); }
+50% { transform: translateY(-30px) scale(1.05); }
 }
 
-.bar{
-width:100%;
-height:25px;
-background:#333;
-border-radius:30px;
-overflow:hidden;
-box-shadow:0 0 10px #000 inset;
+.container {
+width: 100%;
+max-width: 780px;
+padding: 48px 40px;
+position: relative;
+z-index: 10;
 }
 
-.fill{
-height:100%;
-width:0%;
-border-radius:30px;
-background:linear-gradient(90deg,#ff7b00,#ffb347);
-transition:width 3s;
+/* Header */
+.header {
+text-align: center;
+margin-bottom: 52px;
+opacity: 0;
+animation: fadeDown 0.8s ease forwards;
 }
 
+.header-label {
+font-family: ‘Orbitron’, monospace;
+font-size: 11px;
+letter-spacing: 6px;
+text-transform: uppercase;
+color: var(–glow1);
+margin-bottom: 16px;
+opacity: 0.7;
+}
+
+.header h1 {
+font-size: clamp(28px, 5vw, 42px);
+font-weight: 900;
+color: var(–text);
+line-height: 1.2;
+position: relative;
+display: inline-block;
+}
+
+.header h1 .accent {
+background: linear-gradient(135deg, var(–glow1), var(–glow3));
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+}
+
+.header-line {
+width: 80px;
+height: 2px;
+background: linear-gradient(90deg, transparent, var(–glow1), transparent);
+margin: 20px auto 0;
+animation: lineGrow 1s ease 0.5s both;
+}
+
+@keyframes lineGrow {
+from { width: 0; opacity: 0; }
+to { width: 80px; opacity: 1; }
+}
+
+/* Lang items */
+.lang-list {
+display: flex;
+flex-direction: column;
+gap: 18px;
+}
+
+.lang-item {
+opacity: 0;
+transform: translateX(40px);
+animation: slideIn 0.6s ease forwards;
+position: relative;
+}
+
+.lang-item:nth-child(1) { animation-delay: 0.3s; }
+.lang-item:nth-child(2) { animation-delay: 0.5s; }
+.lang-item:nth-child(3) { animation-delay: 0.7s; }
+.lang-item:nth-child(4) { animation-delay: 0.9s; }
+.lang-item:nth-child(5) { animation-delay: 1.1s; }
+.lang-item:nth-child(6) { animation-delay: 1.3s; }
+.lang-item:nth-child(7) { animation-delay: 1.5s; }
+.lang-item:nth-child(8) { animation-delay: 1.7s; }
+
+@keyframes slideIn {
+to { opacity: 1; transform: translateX(0); }
+}
+
+.lang-card {
+background: var(–card);
+border: 1px solid rgba(255,255,255,0.05);
+border-radius: 14px;
+padding: 18px 22px;
+position: relative;
+overflow: hidden;
+transition: border-color 0.3s, transform 0.3s;
+cursor: default;
+}
+
+.lang-card:hover {
+border-color: rgba(0,245,255,0.2);
+transform: translateX(-4px);
+}
+
+.lang-card::before {
+content: ‘’;
+position: absolute;
+inset: 0;
+background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent);
+pointer-events: none;
+}
+
+/* Rank badge */
+.rank-badge {
+position: absolute;
+top: 50%;
+left: 22px;
+transform: translateY(-50%);
+width: 32px;
+height: 32px;
+border-radius: 8px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-family: ‘Orbitron’, monospace;
+font-size: 12px;
+font-weight: 700;
+border: 1px solid;
+}
+
+.lang-content {
+margin-right: 52px;
+margin-left: 80px;
+}
+
+.lang-top {
+display: flex;
+align-items: center;
+justify-content: space-between;
+margin-bottom: 10px;
+}
+
+.lang-name {
+font-size: 15px;
+font-weight: 700;
+color: var(–text);
+font-family: ‘Orbitron’, monospace;
+letter-spacing: 1px;
+}
+
+.lang-meta {
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.difficulty-label {
+font-size: 10px;
+letter-spacing: 2px;
+text-transform: uppercase;
+font-family: ‘Orbitron’, monospace;
+padding: 3px 8px;
+border-radius: 4px;
+border: 1px solid;
+}
+
+.pct-value {
+font-family: ‘Orbitron’, monospace;
+font-size: 18px;
+font-weight: 900;
+min-width: 52px;
+text-align: left;
+}
+
+/* Bar */
+.bar-track {
+height: 8px;
+background: rgba(255,255,255,0.06);
+border-radius: 99px;
+overflow: hidden;
+position: relative;
+}
+
+.bar-fill {
+height: 100%;
+border-radius: 99px;
+width: 0%;
+transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+.bar-fill::after {
+content: ‘’;
+position: absolute;
+top: 0; left: -100%;
+width: 60%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+animation: shimmer 2s ease 2s infinite;
+}
+
+@keyframes shimmer {
+0% { left: -60%; }
+100% { left: 150%; }
+}
+
+/* Difficulty tiers */
+.tier-easy    { –c: #10b981; }
+.tier-medium  { –c: #f59e0b; }
+.tier-hard    { –c: #ef4444; }
+.tier-expert  { –c: #7c3aed; }
+
+.tier-easy    .bar-fill { background: linear-gradient(90deg, #065f46, #10b981); }
+.tier-medium  .bar-fill { background: linear-gradient(90deg, #78350f, #f59e0b); }
+.tier-hard    .bar-fill { background: linear-gradient(90deg, #7f1d1d, #ef4444); }
+.tier-expert  .bar-fill { background: linear-gradient(90deg, #3b0764, #7c3aed, #c084fc); }
+
+.tier-easy    .rank-badge { background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.3); color: #10b981; }
+.tier-medium  .rank-badge { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.3); color: #f59e0b; }
+.tier-hard    .rank-badge { background: rgba(239,68,68,0.1);  border-color: rgba(239,68,68,0.3);  color: #ef4444;  }
+.tier-expert  .rank-badge { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.3); color: #c084fc; }
+
+.tier-easy    .pct-value { color: #10b981; }
+.tier-medium  .pct-value { color: #f59e0b; }
+.tier-hard    .pct-value { color: #ef4444; }
+.tier-expert  .pct-value { color: #c084fc; }
+
+.tier-easy    .difficulty-label { color: #10b981; border-color: rgba(16,185,129,0.25); background: rgba(16,185,129,0.06); }
+.tier-medium  .difficulty-label { color: #f59e0b; border-color: rgba(245,158,11,0.25); background: rgba(245,158,11,0.06); }
+.tier-hard    .difficulty-label { color: #ef4444; border-color: rgba(239,68,68,0.25);  background: rgba(239,68,68,0.06); }
+.tier-expert  .difficulty-label { color: #c084fc; border-color: rgba(124,58,237,0.25); background: rgba(124,58,237,0.08); }
+
+/* Glow line on left of hard+ cards */
+.tier-expert .lang-card::after {
+content: ‘’;
+position: absolute;
+right: 0; top: 0; bottom: 0;
+width: 3px;
+background: linear-gradient(to bottom, transparent, #7c3aed, transparent);
+border-radius: 0 14px 14px 0;
+}
+
+/* Dots on bar track */
+.bar-dots {
+display: flex;
+justify-content: space-between;
+margin-top: 5px;
+padding: 0 1px;
+}
+.bar-dot-label {
+font-size: 9px;
+color: rgba(255,255,255,0.2);
+font-family: ‘Orbitron’, monospace;
+}
+
+/* Footer */
+.footer {
+margin-top: 36px;
+display: flex;
+justify-content: center;
+gap: 28px;
+opacity: 0;
+animation: fadeUp 0.6s ease 2.2s forwards;
+}
+
+.legend-item {
+display: flex;
+align-items: center;
+gap: 7px;
+font-size: 11px;
+color: rgba(255,255,255,0.4);
+font-family: ‘Orbitron’, monospace;
+letter-spacing: 1px;
+}
+
+.legend-dot {
+width: 8px; height: 8px;
+border-radius: 2px;
+}
+
+@keyframes fadeDown {
+from { opacity: 0; transform: translateY(-20px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(10px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scanline effect */
+body::after {
+content: ‘’;
+position: fixed;
+inset: 0;
+background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+pointer-events: none;
+z-index: 100;
+}
 </style>
-</head>
 
+</head>
 <body>
 
-<h1></h1>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
 
-<div class="skill">
-<div class="title">HTML & CSS <span id="t1">0%</span></div>
-<div class="bar"><div class="fill" id="s1"></div></div>
+<div class="container">
+  <div class="header">
+    <div class="header-label">PROGRAMMING LANGUAGES</div>
+    <h1>سەختی زمانەکانی <span class="accent">پرۆگرامسازی</span></h1>
+    <div class="header-line"></div>
+  </div>
+
+  <div class="lang-list" id="langList"></div>
+
+  <div class="footer">
+    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>ئاسان</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>ناوەند</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>سەخت</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div>پسپۆڕ</div>
+  </div>
 </div>
-
-<div class="skill">
-<div class="title">JavaScript <span id="t2">0%</span></div>
-<div class="bar"><div class="fill" id="s2"></div></div>
-</div>
-
-<div class="skill">
-<div class="title">Python <span id="t3">0%</span></div>
-<div class="bar"><div class="fill" id="s3"></div></div>
-</div>
-
-<div class="skill">
-<div class="title">Java <span id="t4">0%</span></div>
-<div class="bar"><div class="fill" id="s4"></div></div>
-</div>
-
-<div class="skill">
-<div class="title">C++ <span id="t5">0%</span></div>
-<div class="bar"><div class="fill" id="s5"></div></div>
-</div>
-
-<div class="skill">
-<div class="title">C# <span id="t6">0%</span></div>
-<div class="bar"><div class="fill" id="s6"></div></div>
-</div>
-
-<div class="skill">
-<div class="title">PHP <span id="t7">0%</span></div>
-<div class="bar"><div class="fill" id="s7"></div></div>
-</div>
-
-
 
 <script>
+const langs = [
+  { rank: 1, name: "HTML & CSS",   pct: 20, tier: "easy",   label: "ئاسان",   desc: "BEGINNER" },
+  { rank: 2, name: "Flutter",      pct: 38, tier: "medium",  label: "ناوەند",  desc: "MODERATE" },
+  { rank: 3, name: "Python",       pct: 45, tier: "medium",  label: "ناوەند",  desc: "MODERATE" },
+  { rank: 4, name: "JavaScript",   pct: 55, tier: "medium",  label: "ناوەند",  desc: "MODERATE" },
+  { rank: 5, name: "Java",         pct: 68, tier: "hard",    label: "سەخت",    desc: "ADVANCED" },
+  { rank: 6, name: "C#",           pct: 72, tier: "hard",    label: "سەخت",    desc: "ADVANCED" },
+  { rank: 7, name: "C++",          pct: 85, tier: "expert",  label: "پسپۆڕ",   desc: "EXPERT"  },
+  { rank: 8, name: "C",            pct: 92, tier: "expert",  label: "پسپۆڕ",   desc: "MASTER"  },
+];
 
-function animate(bar,text,value,delay){
+const list = document.getElementById('langList');
 
-setTimeout(()=>{
+langs.forEach((l, i) => {
+  const item = document.createElement('div');
+  item.className = 'lang-item';
+  item.innerHTML = `
+    <div class="lang-card tier-${l.tier}">
+      <div class="rank-badge">#${l.rank}</div>
+      <div class="lang-content">
+        <div class="lang-top">
+          <span class="lang-name">${l.name}</span>
+          <div class="lang-meta">
+            <span class="difficulty-label">${l.desc}</span>
+            <span class="pct-value">0%</span>
+          </div>
+        </div>
+        <div class="bar-track">
+          <div class="bar-fill" data-pct="${l.pct}"></div>
+        </div>
+        <div class="bar-dots">
+          <span class="bar-dot-label">0</span>
+          <span class="bar-dot-label">25</span>
+          <span class="bar-dot-label">50</span>
+          <span class="bar-dot-label">75</span>
+          <span class="bar-dot-label">100</span>
+        </div>
+      </div>
+    </div>
+  `;
+  list.appendChild(item);
+});
 
-let i=0
-let interval=setInterval(()=>{
+// Animate bars + counters after items slide in
+function animateBar(barEl, pctEl, target, delay) {
+  setTimeout(() => {
+    barEl.style.width = target + '%';
 
-i++
-document.getElementById(bar).style.width=i+"%"
-document.getElementById(text).innerText=i+"%"
-
-if(i>=value){
-clearInterval(interval)
+    let current = 0;
+    const duration = 1400;
+    const step = duration / target;
+    const timer = setInterval(() => {
+      current++;
+      pctEl.textContent = current + '%';
+      if (current >= target) {
+        pctEl.textContent = target + '%';
+        clearInterval(timer);
+      }
+    }, step);
+  }, delay);
 }
 
-},30)
-
-},delay)
-
-}
-
-animate("s1","t1",25,500)
-animate("s2","t2",52,1000)
-animate("s3","t3",45,1500)
-animate("s4","t4",73,2000)
-animate("s5","t5",85,2500)
-animate("s6","t6",52,3000)
-animate("s7","t7",45,3500)
-
+document.querySelectorAll('.lang-item').forEach((item, i) => {
+  const bar = item.querySelector('.bar-fill');
+  const pct = item.querySelector('.pct-value');
+  const target = parseInt(bar.dataset.pct);
+  const delay = 300 + i * 200 + 800; // after slide-in
+  animateBar(bar, pct, target, delay);
+});
 </script>
 
 </body>
