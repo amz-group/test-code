@@ -1,93 +1,405 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" dir="ltr">
 <head>
-<title>Hand Drawing</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMZ SHOPPING - Professional Shopping Website</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; line-height: 1.6; color: #333; background: #f8f9fa; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+        /* Navbar */
+        nav { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        nav .container { display: flex; justify-content: space-between; align-items: center; padding: 1rem 20px; }
+        .logo { font-size: 1.8rem; font-weight: 700; color: white; text-decoration: none; }
+        .nav-links { display: flex; list-style: none; gap: 2rem; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #ffd700; }
+        .hamburger { display: none; flex-direction: column; cursor: pointer; }
+        .hamburger span { width: 25px; height: 3px; background: white; margin: 3px 0; transition: 0.3s; }
 
-<style>
-body{
-margin:0;
-overflow:hidden;
-background:black;
-}
-canvas{
-position:absolute;
-left:0;
-top:0;
-}
-</style>
+        /* Hero Slider */
+        .slider { height: 100vh; background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80'); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; color: white; margin-top: 70px; position: relative; }
+        .slider h1 { font-size: 4rem; margin-bottom: 1rem; animation: fadeInUp 1s ease; }
+        .slider p { font-size: 1.5rem; margin-bottom: 2rem; animation: fadeInUp 1s ease 0.2s both; }
+        .slider button { background: #ff6b6b; color: white; border: none; padding: 15px 30px; font-size: 1.2rem; border-radius: 50px; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; animation: fadeInUp 1s ease 0.4s both; }
+        .slider button:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,107,107,0.4); }
+
+        /* Products Section */
+        .products { padding: 80px 0; }
+        .section-title { text-align: center; font-size: 3rem; margin-bottom: 3rem; color: #333; }
+        .filters { display: flex; gap: 1rem; justify-content: center; margin-bottom: 3rem; flex-wrap: wrap; }
+        .filters select, .filters input { padding: 10px 20px; border: 2px solid #ddd; border-radius: 25px; font-size: 1rem; transition: border 0.3s; }
+        .filters select:focus, .filters input:focus { outline: none; border-color: #667eea; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .product-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .product-img { width: 100%; height: 250px; object-fit: cover; }
+        .product-info { padding: 1.5rem; }
+        .product-title { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .product-price { font-size: 1.5rem; color: #ff6b6b; font-weight: 700; }
+        .add-to-cart { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 24px; border-radius: 25px; cursor: pointer; width: 100%; font-size: 1rem; transition: transform 0.3s; margin-top: 1rem; }
+        .add-to-cart:hover { transform: scale(1.05); }
+
+        /* Shopping Cart */
+        .cart { position: fixed; top: 100px; right: -400px; width: 400px; height: calc(100vh - 120px); background: white; box-shadow: -10px 0 30px rgba(0,0,0,0.1); transition: right 0.3s; z-index: 1001; padding: 2rem; overflow-y: auto; }
+        .cart.open { right: 0; }
+        .cart-toggle { position: fixed; top: 100px; right: 20px; background: #ff6b6b; color: white; border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; z-index: 1002; transition: transform 0.3s; }
+        .cart h3 { margin-bottom: 1rem; }
+        .cart-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #eee; }
+        .cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 10px; }
+        .cart-total { font-size: 1.5rem; font-weight: 700; margin-top: 1rem; text-align: center; color: #333; }
+
+        /* Auth Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; }
+        .modal.open { display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 2rem; border-radius: 20px; width: 90%; max-width: 400px; text-align: center; }
+        .close { position: absolute; top: 20px; right: 30px; font-size: 2rem; cursor: pointer; color: #aaa; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group input { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 1rem; transition: border 0.3s; }
+        .form-group input:focus { outline: none; border-color: #667eea; }
+        .btn { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; width: 100%; font-size: 1rem; transition: transform 0.3s; margin-top: 1rem; }
+
+        /* About/Contact */
+        .about, .contact { padding: 80px 0; text-align: center; }
+        .about h2, .contact h2 { font-size: 3rem; margin-bottom: 2rem; color: #333; }
+        .about p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 2rem; }
+
+        /* Checkout */
+        .checkout { padding: 80px 0; max-width: 600px; margin: 0 auto; }
+        .checkout form { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .form-row { display: flex; gap: 1rem; margin-bottom: 1rem; }
+        .form-row input { flex: 1; }
+
+        /* Admin Panel */
+        .admin { display: none; background: white; padding: 2rem; border-radius: 20px; margin: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .admin form { display: flex; flex-direction: column; gap: 1rem; max-width: 500px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 70px; left: -100%; width: 100%; height: calc(100vh - 70px); background: #667eea; flex-direction: column; justify-content: start; align-items: center; padding-top: 2rem; transition: left 0.3s; }
+            .nav-links.active { left: 0; }
+            .slider h1 { font-size: 2.5rem; }
+            .form-row { flex-direction: column; }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeInUp 0.8s ease forwards; opacity: 0; }
+    </style>
 </head>
-
 <body>
+    <!-- Navbar -->
+    <nav>
+        <div class="container">
+            <a href="#" class="logo">AMZ SHOPPING</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+            <button onclick="toggleAuth()" class="btn" style="padding:10px 20px;font-size:0.9rem;">Login</button>
+        </div>
+    </nav>
 
-<video id="video" style="display:none"></video>
-<canvas id="canvas"></canvas>
+    <!-- Slider -->
+    <section id="home" class="slider">
+        <div>
+            <h1>Welcome to AMZ SHOPPING</h1>
+            <p>Discover the best products with amazing deals!</p>
+            <button onclick="document.getElementById('products').scrollIntoView()">Shop Now</button>
+        </div>
+    </section>
 
-<script>
+    <!-- Products -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">Our Products</h2>
+            <div class="filters">
+                <input type="text" id="search" placeholder="🔍 Search products..." oninput="filterProducts()">
+                <select id="category" onchange="filterProducts()">
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="books">Books</option>
+                </select>
+            </div>
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+    </section>
 
-const video = document.getElementById("video")
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
+    <!-- Shopping Cart -->
+    <button class="cart-toggle" onclick="toggleCart()" id="cartToggle">
+        <i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span>
+    </button>
+    <div class="cart" id="cart">
+        <h3>🛒 Shopping Cart</h3>
+        <div id="cartItems"></div>
+        <div class="cart-total" id="cartTotal">$0.00</div>
+        <button class="btn" onclick="openCheckout()">Checkout</button>
+    </div>
 
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAuth()">&times;</span>
+            <h2 id="modalTitle">Login</h2>
+            <form id="authForm">
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn">Login / Register</button>
+            </form>
+            <p id="authStatus"></p>
+        </div>
+    </div>
 
-let lastX = 0
-let lastY = 0
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCheckout()">&times;</span>
+            <h2>Checkout</h2>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Full Address" required>
+                </div>
+                <div class="form-row">
+                    <input type="tel" placeholder="Mobile Number" required>
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <button type="submit" class="btn">Order via WhatsApp</button>
+            </form>
+        </div>
+    </div>
 
-const hands = new Hands({
-locateFile: (file) => {
-return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
-}
-})
+    <!-- Admin Panel -->
+    <div class="admin container" id="adminPanel">
+        <h2>Admin Panel</h2>
+        <form id="addProductForm">
+            <input type="text" placeholder="Product Title" required>
+            <input type="number" placeholder="Price" step="0.01" required>
+            <input type="text" placeholder="Image URL" required>
+            <input type="text" placeholder="Category" required>
+            <textarea placeholder="Description"></textarea>
+            <button type="submit" class="btn">Add Product</button>
+        </form>
+        <h3>Orders</h3>
+        <div id="ordersList"></div>
+    </div>
 
-hands.setOptions({
-maxNumHands:1,
-minDetectionConfidence:0.7,
-minTrackingConfidence:0.7
-})
+    <!-- About -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About AMZ SHOPPING</h2>
+            <p>We provide high-quality products at unbeatable prices. Fast delivery and excellent customer service guaranteed.</p>
+        </div>
+    </section>
 
-hands.onResults(results => {
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>Email: info@amzshopping.com | WhatsApp: +964-xxx-xxxxxx</p>
+        </div>
+    </section>
 
-ctx.clearRect(0,0,canvas.width,canvas.height)
+    <script>
+        // Sample Products
+        let products = [
+            {id:1, title:'Laptop', price:999, img:'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400', category:'electronics'},
+            {id:2, title:'T-Shirt', price:29, img:'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400', category:'clothing'},
+            {id:3, title:'Book', price:19, img:'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400', category:'books'},
+            {id:4, title:'Phone', price:699, img:'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400', category:'electronics'},
+            {id:5, title:'Jeans', price:79, img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400', category:'clothing'},
+            {id:6, title:'Headphones', price:149, img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400', category:'electronics'}
+        ];
 
-if(results.multiHandLandmarks){
+        let cart = [];
+        let isLoggedIn = false;
+        let currentUser = null;
 
-for(const landmarks of results.multiHandLandmarks){
+        // Load products
+        function loadProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card" data-id="${p.id}" data-category="${p.category}">
+                    <img src="${p.img}" alt="${p.title}" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">${p.title}</h3>
+                        <div class="product-price">$${p.price}</div>
+                        <button class="add-to-cart" onclick="addToCart(${p.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-let x = landmarks[8].x * canvas.width
-let y = landmarks[8].y * canvas.height
+        // Cart functions
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const cartItem = cart.find(item => item.id === id);
+            if (cartItem) {
+                cartItem.qty += 1;
+            } else {
+                cart.push({...product, qty: 1});
+            }
+            updateCart();
+        }
 
-ctx.beginPath()
-ctx.moveTo(lastX,lastY)
-ctx.lineTo(x,y)
-ctx.strokeStyle="cyan"
-ctx.lineWidth=5
-ctx.stroke()
+        function toggleCart() {
+            document.getElementById('cart').classList.toggle('open');
+        }
 
-lastX = x
-lastY = y
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartCount = document.getElementById('cartCount');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.img}" alt="${item.title}">
+                    <div>
+                        <h4>${item.title}</h4>
+                        <p>$${item.price} x ${item.qty}</p>
+                        <button onclick="removeFromCart(${item.id})" style="background:#ff6b6b;color:white;border:none;padding:5px 10px;border-radius:5px;">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartTotal.textContent = `$${cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2)}`;
+        }
 
-}
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCart();
+        }
 
-}
+        // Filter
+        function filterProducts() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const category = document.getElementById('category').value;
+            
+            const filtered = products.filter(p => 
+                p.title.toLowerCase().includes(search) && 
+                (!category || p.category === category)
+            );
+            
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = filtered.map(p => `
+                <div class="product-card" data-id="${p.id}" data-category="${p.category}">
+                    <img src="${p.img}" alt="${p.title}" class="product-img">
+                    <div class="product-info">
+                        <h3 class="product-title">${p.title}</h3>
+                        <div class="product-price">$${p.price}</div>
+                        <button class="add-to-cart" onclick="addToCart(${p.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
-})
+        // Auth
+        function toggleAuth() {
+            document.getElementById('authModal').classList.toggle('open');
+            document.getElementById('modalTitle').textContent = isLoggedIn ? 'Logout' : 'Login';
+        }
 
-const camera = new Camera(video,{
-onFrame: async () => {
-await hands.send({image:video})
-},
-width:640,
-height:480
-})
+        function closeAuth() {
+            document.getElementById('authModal').classList.remove('open');
+        }
 
-camera.start()
+        document.getElementById('authForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            // Simple auth simulation
+            if (email && password) {
+                isLoggedIn = true;
+                currentUser = email;
+                document.getElementById('authStatus').innerHTML = '<p style="color:green;">Logged in successfully!</p>';
+                if (email === 'admin@amz.com' && password === 'admin123') {
+                    document.getElementById('adminPanel').style.display = 'block';
+                }
+                setTimeout(closeAuth, 1500);
+            }
+        });
 
-</script>
+        // Checkout
+        function openCheckout() {
+            if (cart.length === 0) return alert('Cart is empty!');
+            document.getElementById('checkoutModal').classList.add('open');
+            toggleCart();
+        }
 
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('open');
+        }
+
+        document.getElementById('checkoutForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const order = {
+                items: cart,
+                total: cart.reduce((sum, item) => sum + (item.price * item.qty), 0),
+                ...Object.fromEntries(formData)
+            };
+            // Send to WhatsApp
+            const message = `New Order!\nItems: ${cart.map(i => `${i.title} x${i.qty}`).join('\n')}\nTotal: $${order.total}\nName: ${order['Full Name']}\nAddress: ${order['Full Address']}\nPhone: ${order['Mobile Number']}\nEmail: ${order['Email']}`;
+            window.open(`https://wa.me/964xxxxxxxxx?text=${encodeURIComponent(message)}`, '_blank');
+            cart = [];
+            updateCart();
+            closeCheckout();
+            alert('Order sent to WhatsApp!');
+        });
+
+        // Admin
+        document.getElementById('addProductForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const newProduct = {
+                id: products.length + 1,
+                title: formData.get('title'),
+                price: parseFloat(formData.get('price')),
+                img: formData.get('img'),
+                category: formData.get('category')
+            };
+            products.push(newProduct);
+            loadProducts();
+            e.target.reset();
+        });
+
+        // Navbar responsive
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Close cart on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.cart') && !e.target.closest('#cartToggle')) {
+                document.getElementById('cart').classList.remove('open');
+            }
+        });
+
+        // Init
+        loadProducts();
+        updateCart();
+    </script>
 </body>
 </html>
