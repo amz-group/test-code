@@ -1,219 +1,92 @@
 <!DOCTYPE html>
-
-<html lang="ckb" dir="rtl">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>سەختی زمانەکانی پرۆگرامسازی</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;600;700;900&family=Oxanium:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>Hand Drawing</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#07080f;
-  --card:#0d101c;
-  --card2:#111422;
-  --gold:#d4a847;
-  --gold-l:#f0c96a;
-  --ivory:#f5f0e8;
-  --ivory-d:rgba(245,240,232,.55);
-  --ivory-f:rgba(245,240,232,.18);
-  --c-easy:#3ecf8e;
-  --c-med:#f7a034;
-  --c-hard:#f05252;
-  --c-expert:#a855f7;
-  --fku:'Noto Naskh Arabic','Noto Sans Arabic',serif;
-  --fen:'Oxanium',monospace;
-}
-html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--bg);
-  min-height:100vh;
-  display:-webkit-box;display:-ms-flexbox;display:flex;
-  -webkit-box-align:center;-ms-flex-align:center;align-items:center;
-  -webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;
-  font-family:var(--fku);
-  direction:rtl;
-  padding:32px 16px;
-  position:relative;
-  overflow-x:hidden;
+margin:0;
+overflow:hidden;
+background:black;
 }
-
-/* BG LAYERS */
-.bg-glow-a{position:fixed;top:-180px;right:-180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,71,.07) 0%,transparent 70%);pointer-events:none;z-index:0}
-.bg-glow-b{position:fixed;bottom:-180px;left:-180px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(168,85,247,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
-.bg-lines{position:fixed;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 52px,rgba(255,255,255,.016) 52px,rgba(255,255,255,.016) 53px);pointer-events:none;z-index:0}
-
-/* CARD */
-.card{
-position:relative;z-index:10;
-width:100%;max-width:740px;
-background:var(–card);
-border-radius:24px;
-padding:44px 40px 40px;
-border:1px solid rgba(212,168,71,.12);
--webkit-box-shadow:0 0 0 1px rgba(255,255,255,.03),0 32px 80px rgba(0,0,0,.6),0 0 60px rgba(212,168,71,.04);
-box-shadow:0 0 0 1px rgba(255,255,255,.03),0 32px 80px rgba(0,0,0,.6),0 0 60px rgba(212,168,71,.04);
-}
-.card::before{content:’’;position:absolute;top:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(212,168,71,.4),transparent);border-radius:50%}
-
-/* HEADER */
-.header{text-align:center;margin-bottom:44px;opacity:0;-webkit-animation:fsd .7s cubic-bezier(.22,1,.36,1) .1s forwards;animation:fsd .7s cubic-bezier(.22,1,.36,1) .1s forwards}
-.eyebrow{display:inline-block;font-family:var(–fen);font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(–gold);opacity:.7;margin-bottom:14px;border:1px solid rgba(212,168,71,.2);border-radius:100px;padding:4px 14px}
-.header h1{font-family:var(–fku);font-size:clamp(22px,4.5vw,36px);font-weight:700;color:var(–ivory);line-height:1.4}
-.header h1 em{font-style:normal;color:var(–gold-l)}
-.hdiv{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:14px;margin-top:20px;justify-content:center}
-.hdiv s{display:block;width:60px;height:1px;text-decoration:none}
-.hdiv s:first-child{background:linear-gradient(90deg,transparent,rgba(212,168,71,.35))}
-.hdiv s:last-child{background:linear-gradient(270deg,transparent,rgba(212,168,71,.35))}
-.hdiv i{display:block;width:6px;height:6px;border-radius:50%;background:var(–gold);opacity:.6}
-
-/* LIST */
-.lang-list{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;gap:13px}
-
-/* ITEM */
-.lang-item{opacity:0;-webkit-transform:translateY(18px);transform:translateY(18px);-webkit-animation:fsu .55s cubic-bezier(.22,1,.36,1) forwards;animation:fsu .55s cubic-bezier(.22,1,.36,1) forwards}
-.lang-item:nth-child(1){-webkit-animation-delay:.25s;animation-delay:.25s}
-.lang-item:nth-child(2){-webkit-animation-delay:.38s;animation-delay:.38s}
-.lang-item:nth-child(3){-webkit-animation-delay:.51s;animation-delay:.51s}
-.lang-item:nth-child(4){-webkit-animation-delay:.64s;animation-delay:.64s}
-.lang-item:nth-child(5){-webkit-animation-delay:.77s;animation-delay:.77s}
-.lang-item:nth-child(6){-webkit-animation-delay:.90s;animation-delay:.90s}
-.lang-item:nth-child(7){-webkit-animation-delay:1.03s;animation-delay:1.03s}
-.lang-item:nth-child(8){-webkit-animation-delay:1.16s;animation-delay:1.16s}
-
-.lang-row{
-background:var(–card2);
-border-radius:14px;
-padding:16px 18px;
-border:1px solid rgba(255,255,255,.04);
--webkit-transition:border-color .25s,-webkit-box-shadow .25s;transition:border-color .25s,box-shadow .25s;
-position:relative;overflow:hidden;
-}
-.lang-row:hover{border-color:var(–hc,rgba(255,255,255,.1));-webkit-box-shadow:0 4px 24px rgba(0,0,0,.3);box-shadow:0 4px 24px rgba(0,0,0,.3)}
-.lang-row::after{content:’’;position:absolute;right:0;top:20%;bottom:20%;width:3px;border-radius:0 3px 3px 0;background:var(–ac,transparent);opacity:.65}
-
-/* TOP ROW */
-.lang-top{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:11px;margin-bottom:11px}
-.rank-n{font-family:var(–fen);font-size:11px;font-weight:700;color:var(–ivory-f);min-width:20px;text-align:center;-ms-flex-negative:0;flex-shrink:0}
-.lang-n{font-family:var(–fen);font-size:15px;font-weight:700;color:var(–ivory);letter-spacing:.5px;-webkit-box-flex:1;-ms-flex:1;flex:1}
-.badge{font-family:var(–fku);font-size:12px;font-weight:600;padding:3px 11px;border-radius:100px;border:1px solid;-ms-flex-negative:0;flex-shrink:0;line-height:1.6}
-.pct{font-family:var(–fen);font-size:20px;font-weight:800;min-width:52px;text-align:left;-ms-flex-negative:0;flex-shrink:0;letter-spacing:-.5px}
-
-/* BAR */
-.bar-track{height:9px;background:rgba(255,255,255,.05);border-radius:100px;overflow:hidden;position:relative}
-.bar-fill{height:100%;width:0%;border-radius:100px;position:relative;overflow:hidden;-webkit-transition:width 1.3s cubic-bezier(.4,0,.2,1);transition:width 1.3s cubic-bezier(.4,0,.2,1);will-change:width}
-.bar-fill::after{content:’’;position:absolute;top:0;left:-80%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);-webkit-animation:swp 2.5s ease 2.2s infinite;animation:swp 2.5s ease 2.2s infinite}
-.ticks{display:-webkit-box;display:-ms-flexbox;display:flex;justify-content:space-between;margin-top:5px;padding:0 2px}
-.tick{font-family:var(–fen);font-size:9px;color:rgba(255,255,255,.16)}
-
-/* TIERS */
-.tier-easy  .lang-row{–ac:var(–c-easy);–hc:rgba(62,207,142,.18)}
-.tier-easy  .badge{color:var(–c-easy);border-color:rgba(62,207,142,.25);background:rgba(62,207,142,.07)}
-.tier-easy  .pct{color:var(–c-easy)}
-.tier-easy  .bar-fill{background:linear-gradient(90deg,#0a4a30,#3ecf8e)}
-
-.tier-med   .lang-row{–ac:var(–c-med);–hc:rgba(247,160,52,.18)}
-.tier-med   .badge{color:var(–c-med);border-color:rgba(247,160,52,.25);background:rgba(247,160,52,.07)}
-.tier-med   .pct{color:var(–c-med)}
-.tier-med   .bar-fill{background:linear-gradient(90deg,#5a2e00,#f7a034)}
-
-.tier-hard  .lang-row{–ac:var(–c-hard);–hc:rgba(240,82,82,.18)}
-.tier-hard  .badge{color:var(–c-hard);border-color:rgba(240,82,82,.25);background:rgba(240,82,82,.07)}
-.tier-hard  .pct{color:var(–c-hard)}
-.tier-hard  .bar-fill{background:linear-gradient(90deg,#5a0a0a,#f05252)}
-
-.tier-expert .lang-row{–ac:var(–c-expert);–hc:rgba(168,85,247,.2);-webkit-box-shadow:inset 0 0 30px rgba(168,85,247,.04);box-shadow:inset 0 0 30px rgba(168,85,247,.04)}
-.tier-expert .badge{color:#d8b4fe;border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.1)}
-.tier-expert .pct{color:#d8b4fe}
-.tier-expert .bar-fill{background:linear-gradient(90deg,#2e1065,#a855f7,#d8b4fe)}
-
-/* LEGEND */
-.legend{display:-webkit-box;display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;justify-content:center;gap:18px;margin-top:34px;opacity:0;-webkit-animation:fsu .5s ease 1.7s forwards;animation:fsu .5s ease 1.7s forwards}
-.leg-item{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:7px}
-.leg-dot{width:9px;height:9px;border-radius:3px;-ms-flex-negative:0;flex-shrink:0}
-.leg-txt{font-family:var(–fku);font-size:13px;font-weight:600;color:var(–ivory-d);line-height:1}
-
-/* KEYFRAMES */
-@-webkit-keyframes fsd{from{opacity:0;-webkit-transform:translateY(-16px);transform:translateY(-16px)}to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}}
-@keyframes fsd{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
-@-webkit-keyframes fsu{from{opacity:0;-webkit-transform:translateY(18px);transform:translateY(18px)}to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0)}}
-@keyframes fsu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-@-webkit-keyframes swp{0%{left:-60%}100%{left:160%}}
-@keyframes swp{0%{left:-60%}100%{left:160%}}
-
-/* RESPONSIVE */
-@media(max-width:500px){
-.card{padding:28px 18px}
-.lang-n{font-size:13px}
-.pct{font-size:16px;min-width:44px}
-.badge{font-size:11px;padding:2px 8px}
-.header h1{font-size:20px}
+canvas{
+position:absolute;
+left:0;
+top:0;
 }
 </style>
-
 </head>
+
 <body>
 
-<div class="bg-glow-a"></div>
-<div class="bg-glow-b"></div>
-<div class="bg-lines"></div>
-
-<div class="card">
-  <div class="header">
-    <div class="eyebrow">DIFFICULTY RANKING</div>
-    <h1>سەختی <em>زمانەکانی</em> پرۆگرامسازی</h1>
-    <div class="hdiv"><s></s><i></i><s></s></div>
-  </div>
-
-  <div class="lang-list" id="langList"></div>
-
-  <div class="legend">
-    <div class="leg-item"><div class="leg-dot" style="background:#3ecf8e"></div><span class="leg-txt">ئاسان</span></div>
-    <div class="leg-item"><div class="leg-dot" style="background:#f7a034"></div><span class="leg-txt">ناوەند</span></div>
-    <div class="leg-item"><div class="leg-dot" style="background:#f05252"></div><span class="leg-txt">سەخت</span></div>
-    <div class="leg-item"><div class="leg-dot" style="background:#a855f7"></div><span class="leg-txt">پسپۆڕ</span></div>
-  </div>
-</div>
+<video id="video" style="display:none"></video>
+<canvas id="canvas"></canvas>
 
 <script>
-var data=[
-  {r:1,n:"HTML & CSS",  p:20,t:"easy",  ku:"ئاسان"},
-  {r:2,n:"Flutter",     p:38,t:"med",   ku:"ناوەند"},
-  {r:3,n:"Python",      p:45,t:"med",   ku:"ناوەند"},
-  {r:4,n:"JavaScript",  p:55,t:"med",   ku:"ناوەند"},
-  {r:5,n:"Java",        p:68,t:"hard",  ku:"سەخت"},
-  {r:6,n:"C#",          p:72,t:"hard",  ku:"سەخت"},
-  {r:7,n:"C++",         p:87,t:"expert",ku:"پسپۆڕ"},
 
-];
+const video = document.getElementById("video")
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
 
-var list=document.getElementById('langList');
-data.forEach(function(l){
-  var d=document.createElement('div');
-  d.className='lang-item tier-'+l.t;
-  d.innerHTML='<div class="lang-row"><div class="lang-top"><span class="rank-n">'+l.r+'</span><span class="lang-n">'+l.n+'</span><span class="badge">'+l.ku+'</span><span class="pct" data-t="'+l.p+'">0%</span></div><div class="bar-track"><div class="bar-fill" data-p="'+l.p+'"></div></div><div class="ticks"><span class="tick">0</span><span class="tick">25</span><span class="tick">50</span><span class="tick">75</span><span class="tick">100</span></div></div>';
-  list.appendChild(d);
-});
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
-var raf=window.requestAnimationFrame||function(fn){setTimeout(fn,16)};
-document.querySelectorAll('.lang-item').forEach(function(item,i){
-  var bar=item.querySelector('.bar-fill');
-  var pctEl=item.querySelector('.pct');
-  var target=parseInt(bar.getAttribute('data-p'),10);
-  var delay=320+i*145+520;
-  setTimeout(function(){
-    bar.style.width=target+'%';
-    var start=Date.now(),dur=1300;
-    (function tick(){
-      var t=Math.min((Date.now()-start)/dur,1);
-      var e=1-Math.pow(1-t,3);
-      pctEl.textContent=Math.round(e*target)+'%';
-      if(t<1)raf(tick);
-    })();
-  },delay);
-});
+let lastX = 0
+let lastY = 0
+
+const hands = new Hands({
+locateFile: (file) => {
+return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+}
+})
+
+hands.setOptions({
+maxNumHands:1,
+minDetectionConfidence:0.7,
+minTrackingConfidence:0.7
+})
+
+hands.onResults(results => {
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+if(results.multiHandLandmarks){
+
+for(const landmarks of results.multiHandLandmarks){
+
+let x = landmarks[8].x * canvas.width
+let y = landmarks[8].y * canvas.height
+
+ctx.beginPath()
+ctx.moveTo(lastX,lastY)
+ctx.lineTo(x,y)
+ctx.strokeStyle="cyan"
+ctx.lineWidth=5
+ctx.stroke()
+
+lastX = x
+lastY = y
+
+}
+
+}
+
+})
+
+const camera = new Camera(video,{
+onFrame: async () => {
+await hands.send({image:video})
+},
+width:640,
+height:480
+})
+
+camera.start()
+
 </script>
 
 </body>
