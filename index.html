@@ -4,520 +4,2383 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AMZ Mathematics</title>
+<!-- Favicon (Windows + Browser) -->
 <link rel="icon" type="image/png" sizes="32x32" href="19AA7E0C-97DE-497F-AD57-7649CB276D95.png">
 <link rel="icon" type="image/png" sizes="192x192" href="19AA7E0C-97DE-497F-AD57-7649CB276D95.png">
 
+<!-- Apple (iPhone Home Screen) -->
 <link rel="apple-touch-icon" href="19AA7E0C-97DE-497F-AD57-7649CB276D95.png">
 
+<!-- PWA Manifest (Android + Windows App) -->
 <link rel="manifest" href="manifest.json">
 
+<!-- Theme -->
 <meta name="theme-color" content="#0a0a0f">
 
+<!-- Apple Settings -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AMZ Math">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
+<!--------->
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  /* Global Modern Reset & Theme */
-  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-  body { background: #0b0c10; color: #c5c6c7; line-height: 1.6; overflow-x: hidden; scroll-behavior: smooth; }
-  
-  /* Navigation Bar */
-  header {
-    background: rgba(11, 12, 16, 0.95);
-    border-bottom: 1px solid #1f2833;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-  }
-  .navbar {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-  }
-  .logo {
-    color: #66fcf1;
-    font-size: 24px;
-    font-weight: bold;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .nav-links {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-  }
-  .nav-links a {
-    color: #c5c6c7;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 500;
-    transition: color 0.3s ease;
-  }
-  .nav-links a:hover {
-    color: #66fcf1;
-  }
+:root {
+  --bg:#0a0a0f; --surface:#111118; --surface2:#18181f; --border:#2a2a3a;
+  --accent:hwb(194 2% 2%); --accent2:#ff6b6b; --accent3:#43e97b; --accent4:#f9ca24;
+  --text:#e8e8f0; --muted:#7878a0; --glass:rgba(108,99,255,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
 
-  /* Main Hero Container */
-  .hero {
-    background: linear-gradient(135deg, #1f2833 0%, #0b0c10 100%);
-    padding: 80px 20px;
-    text-align: center;
-    border-bottom: 1px solid #1f2833;
-  }
-  .hero h1 { font-size: 45px; color: #fff; margin-bottom: 15px; }
-  .hero p { color: #66fcf1; font-size: 18px; max-width: 600px; margin: 0 auto; }
+/* ══════════════════════════════════════════
+   NAVBAR — Redesigned
+══════════════════════════════════════════ */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:68px;
+  background:rgba(10,10,15,0.85);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+nav::after {
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent),rgba(108,99,255,0.5),transparent);
+}
+.nav-logo {
+  display:flex;align-items:center;gap:10px;
+  font-size:1.1rem;font-weight:800;letter-spacing:3px;
+  color:var(--text);text-transform:uppercase;cursor:pointer;
+  text-decoration:none;
+}
+.nav-logo .logo-icon {
+  width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(135deg,var(--accent),rgba(108,99,255,0.8));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:900;color:#fff;
+  box-shadow:0 0 16px rgba(0,209,255,0.35);
+}
+.nav-logo .logo-text { display:flex;flex-direction:column;line-height:1; }
+.nav-logo .logo-main { font-size:1rem;font-weight:800;letter-spacing:2px;color:var(--text); }
+.nav-logo .logo-sub { font-size:0.6rem;font-weight:600;letter-spacing:3px;color:var(--accent);text-transform:uppercase; }
 
-  /* Main Dynamic Content Layout */
-  .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
-  
-  .tabs-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-  }
-  .tab-btn {
-    background: #1f2833;
-    color: #c5c6c7;
-    border: 1px solid #45f3ff33;
-    padding: 12px 25px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 30px;
-    transition: all 0.3s ease;
-  }
-  .tab-btn:hover, .tab-btn.active {
-    background: #66fcf1;
-    color: #0b0c10;
-    box-shadow: 0 0 15px rgba(102, 252, 241, 0.4);
-  }
+.nav-links {
+  display:flex;align-items:center;gap:4px;
+}
+.nav-links a {
+  position:relative;background:none;border:none;
+  color:var(--muted);font-family:'Syne',sans-serif;
+  font-size:0.8rem;font-weight:600;padding:8px 16px;
+  border-radius:8px;cursor:pointer;
+  transition:all 0.25s;letter-spacing:0.8px;text-transform:uppercase;
+  text-decoration:none;display:inline-block;
+}
+.nav-links a::after {
+  content:'';position:absolute;bottom:4px;left:50%;right:50%;
+  height:2px;background:var(--accent);border-radius:2px;
+  transition:all 0.25s;
+}
+.nav-links a:hover { color:var(--text); }
+.nav-links a:hover::after { left:16px;right:16px; }
+.nav-links a.active { color:var(--text); }
+.nav-links a.active::after { left:16px;right:16px; }
 
-  /* Content Cards */
-  .calc-card {
-    background: #151922;
-    border: 1px solid #1f2833;
-    border-radius: 16px;
-    padding: 30px;
-    margin-bottom: 40px;
-    display: none;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  }
-  .calc-card.active { display: block; animation: fadeIn 0.5s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.nav-download-btn {
+  margin-left:8px;
+  background:linear-gradient(135deg,var(--accent),#0099cc);
+  color:#fff !important;border:none;
+  font-family:'Syne',sans-serif;font-size:0.78rem;font-weight:700;
+  padding:8px 20px;border-radius:8px;cursor:pointer;
+  transition:all 0.25s;letter-spacing:0.8px;text-transform:uppercase;
+  text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  box-shadow:0 0 20px rgba(0,209,255,0.2);
+}
+.nav-download-btn:hover {
+  transform:translateY(-1px);
+  box-shadow:0 4px 24px rgba(0,209,255,0.35);
+}
+.nav-download-btn::after { display:none !important; }
 
-  h2 { color: #fff; margin-bottom: 25px; border-left: 4px solid #66fcf1; padding-left: 15px; font-size: 24px; }
-  
-  /* Forms & Inputs */
-  .input-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    margin-bottom: 25px;
-  }
-  .input-group { display: flex; flex-direction: column; gap: 8px; }
-  .input-group label { color: #66fcf1; font-size: 14px; font-weight: 500; }
-  input, select {
-    background: #1f2833;
-    border: 1px solid #45f3ff33;
-    color: #fff;
-    padding: 12px 15px;
-    border-radius: 8px;
-    font-size: 16px;
-    outline: none;
-    transition: border 0.3s ease;
-  }
-  input:focus, select:focus { border-color: #66fcf1; }
-  
-  /* Buttons */
-  .btn-container { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 15px; }
-  button.action-btn {
-    background: linear-gradient(90deg, #66fcf1, #45b6fe);
-    color: #0b0c10;
-    border: none;
-    padding: 12px 28px;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-  }
-  button.action-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 252, 241, 0.4);
-  }
+.hamburger {
+  display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;
+}
+.hamburger span {
+  width:22px;height:2px;background:var(--muted);border-radius:2px;
+  transition:all 0.3s;display:block;
+}
 
-  /* Result Area (خەزنەکە) */
-  .result-box {
-    margin-top: 30px;
-    background: #0b0c10;
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px dashed #1f2833;
-    display: none;
-  }
-  .result-box.visible { display: block; }
-  .res-header { font-size: 20px; color: #66fcf1; margin-bottom: 15px; font-weight: bold; }
-  .res-item { background: #151922; border: 1px solid #1f2833; border-radius: 8px; padding: 15px; margin-bottom: 12px; }
-  .res-title { font-weight: bold; color: #fff; margin-bottom: 5px; font-size: 15px; }
-  .res-body { font-size: 15px; color: #c5c6c7; }
-  .hl { color: #66fcf1; font-weight: bold; }
-  .op { color: #ff4a4a; font-weight: bold; }
-  .rv { color: #2ecc71; font-weight: bold; }
-  
-  /* Meet the Team Section */
-  .team-section {
-    padding: 60px 0;
-    border-top: 1px solid #1f2833;
-  }
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-top: 30px;
-  }
-  .team-card {
-    background: #151922;
-    border: 1px solid #1f2833;
-    border-radius: 16px;
-    padding: 25px;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .team-card:hover {
-    transform: translateY(-10px);
-    border-color: #66fcf1;
-    box-shadow: 0 10px 25px rgba(102, 252, 241, 0.15);
-  }
-  .team-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 15px;
-    border: 3px solid #66fcf1;
-    background: #1f2833;
-  }
-  .team-card h3 { color: #fff; margin-bottom: 5px; font-size: 20px; }
-  .team-card p { color: #66fcf1; font-size: 14px; }
+/* ══════════════════════════════════════════
+   PAGES
+══════════════════════════════════════════ */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+#page-home{padding-top:68px;}
+.hero{position:relative;text-align:center;padding:100px 40px 60px;overflow:hidden;}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(108,99,255,0.15) 0%,transparent 70%);pointer-events:none;}
+.hero-badge{display:inline-block;padding:5px 16px;background:rgba(108,99,255,0.15);border:1px solid rgba(108,99,255,0.4);border-radius:100px;font-size:0.75rem;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;}
+.hero h1{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:20px;}
+.hero h1 .hl{color:var(--accent);}
+.hero p{font-size:1.05rem;color:var(--muted);max-width:560px;margin:0 auto 48px;line-height:1.7;font-weight:400;}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px;padding:0 40px 80px;max-width:1400px;margin:0 auto;}
+.subject-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;cursor:pointer;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);position:relative;overflow:hidden;}
+.subject-card::before{content:'';position:absolute;inset:0;background:var(--card-glow,rgba(108,99,255,0.05));opacity:0;transition:opacity 0.3s;}
+.subject-card:hover{transform:translateY(-6px);border-color:var(--card-color,var(--accent));}
+.subject-card:hover::before{opacity:1;}
+.card-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:18px;background:var(--card-icon-bg,rgba(108,99,255,0.15));}
+.subject-card h3{font-size:1.15rem;font-weight:700;margin-bottom:8px;color:var(--text);}
+.subject-card p{font-size:0.82rem;color:var(--muted);line-height:1.6;margin-bottom:18px;}
+.card-topics{display:flex;flex-wrap:wrap;gap:6px;}
+.topic-chip{font-size:0.7rem;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid var(--border);color:var(--muted);font-family:'JetBrains Mono',monospace;}
+.card-arrow{position:absolute;top:24px;right:24px;font-size:1.2rem;opacity:0.3;transition:all 0.3s;}
+.subject-card:hover .card-arrow{opacity:1;transform:translate(4px,-4px);}
+.solver-page{padding-top:68px;min-height:100vh;}
+.solver-header{padding:48px 40px 32px;border-bottom:1px solid var(--border);background:var(--surface);}
+.solver-header .back-btn{display:inline-flex;align-items:center;gap:8px;background:none;border:1px solid var(--border);color:var(--muted);font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:600;padding:7px 16px;border-radius:8px;cursor:pointer;margin-bottom:20px;transition:all 0.2s;}
+.solver-header .back-btn:hover{color:var(--text);border-color:var(--accent);}
+.solver-header h2{font-size:2rem;font-weight:800;letter-spacing:-0.5px;}
+.solver-header .subtitle{color:var(--muted);font-size:0.9rem;margin-top:6px;}
+.tabs{display:flex;gap:6px;padding:24px 40px 0;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--surface);}
+.tab-btn{background:none;border:1px solid transparent;border-bottom:none;color:var(--muted);font-family:'Syne',sans-serif;font-size:0.82rem;font-weight:600;padding:8px 18px;border-radius:8px 8px 0 0;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--text);background:var(--bg);border-color:var(--border);border-bottom-color:var(--bg);margin-bottom:-1px;}
+.solver-body{padding:40px;max-width:920px;}
+.topic-panel{display:none;}
+.topic-panel.active{display:block;}
+.input-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px;margin-bottom:24px;}
+.input-section h4{font-size:0.9rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:18px;}
+.field-row{display:flex;gap:12px;align-items:flex-end;margin-bottom:14px;flex-wrap:wrap;}
+.field-group{display:flex;flex-direction:column;gap:6px;flex:1;min-width:160px;}
+.field-group label{font-size:0.78rem;font-weight:600;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:0.5px;}
+input[type="text"],input[type="number"],select,textarea{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.92rem;padding:10px 14px;border-radius:8px;outline:none;transition:border-color 0.2s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);}
+textarea{resize:vertical;min-height:80px;}
+.matrix-grid{display:inline-grid;gap:6px;margin-bottom:12px;}
+.matrix-grid input{width:72px;text-align:center;padding:8px;}
+.matrix-label{font-size:0.78rem;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:8px;letter-spacing:1px;}
+.btn-primary{background:var(--accent);color:#fff;border:none;font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;padding:12px 28px;border-radius:10px;cursor:pointer;transition:all 0.2s;letter-spacing:0.3px;}
+.btn-primary:hover{background:#00c9ec;transform:translateY(-1px);}
+.btn-primary:active{transform:translateY(0);}
+.result-panel{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:none;}
+.result-panel.show{display:block;}
+.result-header{padding:16px 24px;background:rgba(108,99,255,0.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.result-header .dot{width:8px;height:8px;border-radius:50%;background:var(--accent3);box-shadow:0 0 8px var(--accent3);}
+.result-header span{font-size:0.85rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;}
+.steps-container{padding:24px;}
+.step{display:flex;gap:16px;margin-bottom:20px;animation:stepIn 0.4s ease both;}
+@keyframes stepIn{from{opacity:0;transform:translateX(-16px);}to{opacity:1;transform:translateX(0);}}
+.step-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:0.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;margin-top:2px;}
+.step-content{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;}
+.step-title{font-size:0.78rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
+.step-body{font-family:'JetBrains Mono',monospace;font-size:0.9rem;color:var(--text);line-height:1.8;}
+.step-body .hl{color:var(--accent);font-weight:600;}
+.step-body .op{color:var(--accent2);}
+.step-body .rv{color:var(--accent3);font-weight:700;font-size:1.05em;}
+.final-answer{margin:16px 0 0;padding:18px 24px;background:linear-gradient(135deg,rgba(67,233,123,0.1),rgba(108,99,255,0.1));border:1px solid rgba(67,233,123,0.3);border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:var(--accent3);text-align:center;}
+.error-msg{padding:14px 20px;background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);border-radius:10px;color:var(--accent2);font-size:0.88rem;font-family:'JetBrains Mono',monospace;}
+.matrix-display{display:inline-grid;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-family:'JetBrains Mono',monospace;font-size:0.88rem;margin:4px;}
+.matrix-display .mrow{display:flex;gap:12px;}
+.matrix-display .mcell{min-width:36px;text-align:right;color:var(--accent);}
+.prime-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;}
+.prime-chip{background:rgba(3, 179, 255, 0.15);border:1px solid rgba(3, 156, 252, 0.35);color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.82rem;font-weight:600;padding:4px 12px;border-radius:6px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.subject-card{animation:fadeUp 0.5s ease both;}
+.subject-card:nth-child(1){animation-delay:0.04s;}
+.subject-card:nth-child(2){animation-delay:0.08s;}
+.subject-card:nth-child(3){animation-delay:0.12s;}
+.subject-card:nth-child(4){animation-delay:0.16s;}
+.subject-card:nth-child(5){animation-delay:0.20s;}
+.subject-card:nth-child(6){animation-delay:0.24s;}
+.subject-card:nth-child(7){animation-delay:0.28s;}
+.subject-card:nth-child(8){animation-delay:0.32s;}
+.subject-card:nth-child(9){animation-delay:0.36s;}
+.size-row{display:flex;gap:12px;align-items:flex-end;margin-bottom:16px;}
+.size-row .field-group{flex:0 0 100px;}
+.info-box{background:rgba(2, 248, 248, 0.07);border:1px solid rgba(99, 221, 255, 0.2);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--muted);line-height:1.7;}
+.info-box strong{color:var(--accent);}
+footer{text-align:center;padding:32px;color:var(--muted);font-size:0.8rem;border-top:1px solid var(--border);}
+footer span{color:var(--accent);font-weight:700;}
 
-  /* Contact Section */
-  .contact-section {
-    padding: 60px 0;
-    border-top: 1px solid #1f2833;
-  }
-  .contact-container {
-    background: #151922;
-    border: 1px solid #1f2833;
-    border-radius: 16px;
-    padding: 40px;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  .contact-form { display: flex; flex-direction: column; gap: 20px; }
-  .contact-form textarea {
-    background: #1f2833; border: 1px solid #45f3ff33; color: #fff; padding: 15px; border-radius: 8px; font-size: 16px; outline: none; resize: vertical; min-height: 120px;
-  }
-  .contact-form textarea:focus { border-color: #66fcf1; }
+/* ══════════════════════════════════════════
+   MEET THE TEAM PAGE
+══════════════════════════════════════════ */
+#page-team {
+  padding-top:68px;
+  min-height:100vh;
+  background:var(--bg);
+}
 
-  footer { text-align: center; padding: 30px; border-top: 1px solid #1f2833; color: #455a64; font-size: 14px; }
+.team-hero {
+  position:relative;
+  text-align:center;
+  padding:80px 40px 60px;
+  overflow:hidden;
+}
+.team-hero-glow {
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:700px;height:500px;
+  background:radial-gradient(ellipse at top,rgba(0,209,255,0.12) 0%,rgba(108,99,255,0.08) 40%,transparent 70%);
+  pointer-events:none;
+}
+.team-eyebrow {
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 18px;
+  background:rgba(0,209,255,0.08);
+  border:1px solid rgba(0,209,255,0.25);
+  border-radius:100px;
+  font-size:0.72rem;font-weight:700;
+  color:var(--accent);letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.team-eyebrow .dot-pulse {
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100%{box-shadow:0 0 0 0 rgba(0,209,255,0.4);}
+  50%{box-shadow:0 0 0 6px rgba(0,209,255,0);}
+}
+.team-hero h1 {
+  font-size:clamp(2.4rem,5vw,4rem);
+  font-weight:800;
+  letter-spacing:-1.5px;
+  line-height:1.1;
+  margin-bottom:16px;
+  color:var(--text);
+}
+.team-hero h1 em {
+  font-style:normal;
+  background:linear-gradient(135deg,var(--accent),#a78bfa);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.team-hero p {
+  font-size:1rem;color:var(--muted);
+  max-width:500px;margin:0 auto 48px;
+  line-height:1.75;
+}
 
-  /* Mobile Responsive */
-  @media (max-width: 768px) {
-    .navbar { flex-direction: column; gap: 15px; text-align: center; }
-    .hero h1 { font-size: 32px; }
-    .tabs-container { gap: 5px; }
-    .tab-btn { padding: 8px 15px; font-size: 13px; }
+/* Team stats bar */
+.team-stats {
+  display:flex;justify-content:center;gap:48px;
+  margin-bottom:72px;
+  padding:0 40px;
+  flex-wrap:wrap;
+}
+.team-stat {
+  text-align:center;
+}
+.team-stat .stat-num {
+  font-size:2rem;font-weight:800;
+  color:var(--accent);letter-spacing:-1px;
+  font-family:'JetBrains Mono',monospace;
+}
+.team-stat .stat-label {
+  font-size:0.72rem;font-weight:600;color:var(--muted);
+  letter-spacing:2px;text-transform:uppercase;margin-top:4px;
+}
+
+/* Team cards grid */
+.team-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:28px;
+  padding:0 40px 80px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.team-card {
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  overflow:hidden;
+  transition:all 0.4s cubic-bezier(0.4,0,0.2,1);
+  animation:fadeUp 0.6s ease both;
+}
+.team-card:nth-child(1){animation-delay:0.1s;}
+.team-card:nth-child(2){animation-delay:0.2s;}
+.team-card:nth-child(3){animation-delay:0.3s;}
+
+.team-card:hover {
+  transform:translateY(-8px);
+  border-color:rgba(0,209,255,0.3);
+  box-shadow:0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,209,255,0.1);
+}
+
+/* Card top banner */
+.card-banner {
+  height:140px;
+  position:relative;
+  overflow:hidden;
+}
+.card-banner-bg {
+  position:absolute;inset:0;
+  background:var(--card-banner-gradient, linear-gradient(135deg,#0a0a1a,#111130));
+}
+.card-banner-pattern {
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 20% 50%, var(--card-accent,rgba(0,209,255,0.15)) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(108,99,255,0.1) 0%, transparent 50%);
+}
+.card-banner-lines {
+  position:absolute;inset:0;
+  background-image:repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 20px,
+    rgba(255,255,255,0.015) 20px,
+    rgba(255,255,255,0.015) 21px
+  );
+}
+.card-role-badge {
+  position:absolute;top:16px;right:16px;
+  padding:4px 12px;
+  background:rgba(0,0,0,0.5);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:100px;
+  font-size:0.65rem;font-weight:700;
+  color:var(--card-accent-color,var(--accent));
+  letter-spacing:2px;text-transform:uppercase;
+  backdrop-filter:blur(8px);
+}
+
+/* Avatar area */
+.card-avatar-wrap {
+  position:absolute;
+  bottom:-40px;
+  left:28px;
+  width:80px;height:80px;
+}
+.card-avatar {
+  width:80px;height:80px;border-radius:50%;
+  border:3px solid var(--bg);
+  background:var(--surface2);
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+}
+.card-avatar img {
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.card-avatar .avatar-placeholder {
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg, var(--card-accent-color, var(--accent)) 0%, rgba(108,99,255,0.5) 100%);
+  font-size:1.8rem;font-weight:800;color:#fff;
+  letter-spacing:-1px;font-family:'Syne',sans-serif;
+}
+.card-avatar-ring {
+  position:absolute;inset:-4px;border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(var(--bg),var(--bg)) padding-box,
+             linear-gradient(135deg,var(--card-accent-color,var(--accent)),rgba(108,99,255,0.6)) border-box;
+}
+
+/* Card body */
+.card-body {
+  padding:52px 28px 28px;
+}
+.card-name {
+  font-size:1.3rem;font-weight:800;
+  letter-spacing:-0.5px;color:var(--text);
+  margin-bottom:4px;
+}
+.card-title {
+  font-size:0.78rem;font-weight:600;
+  color:var(--card-accent-color,var(--accent));
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.card-bio {
+  font-size:0.85rem;color:var(--muted);
+  line-height:1.7;margin-bottom:20px;
+}
+.card-skills {
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-bottom:24px;
+}
+.skill-tag {
+  font-size:0.68rem;font-weight:600;
+  padding:4px 10px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--border);
+  border-radius:6px;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+  transition:all 0.2s;
+}
+.team-card:hover .skill-tag {
+  border-color:rgba(0,209,255,0.2);
+  color:var(--text);
+}
+.card-divider {
+  height:1px;background:var(--border);margin-bottom:20px;
+}
+.card-meta {
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-dept {
+  display:flex;align-items:center;gap:6px;
+  font-size:0.72rem;font-weight:600;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;
+}
+.card-dept-icon { font-size:0.9rem; }
+.card-index {
+  font-size:1.8rem;font-weight:800;
+  font-family:'JetBrains Mono',monospace;
+  color:rgba(255,255,255,0.04);
+  letter-spacing:-2px;
+  line-height:1;
+}
+
+/* Leader card — special styling */
+.team-card.is-leader {
+  border-color:rgba(0,209,255,0.2);
+}
+.team-card.is-leader::before {
+  content:'';
+  position:absolute;inset:0;border-radius:24px;
+  background:linear-gradient(135deg,rgba(0,209,255,0.03),transparent,rgba(108,99,255,0.03));
+  pointer-events:none;
+}
+.leader-crown {
+  position:absolute;top:16px;left:28px;
+  font-size:0.65rem;font-weight:700;
+  color:var(--accent4);
+  letter-spacing:2px;text-transform:uppercase;
+  display:flex;align-items:center;gap:5px;
+  background:rgba(249,202,36,0.1);
+  border:1px solid rgba(249,202,36,0.25);
+  padding:4px 10px;border-radius:100px;
+}
+
+/* Contact & Download pages — simple placeholders */
+.simple-page {
+  padding-top:68px;
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;
+}
+.simple-page-content {
+  padding:40px;
+  max-width:560px;
+}
+.simple-page h2 {
+  font-size:2.5rem;font-weight:800;
+  letter-spacing:-1px;margin-bottom:16px;
+}
+.simple-page p {
+  font-size:1rem;color:var(--muted);
+  line-height:1.7;margin-bottom:32px;
+}
+.simple-icon {
+  font-size:3.5rem;margin-bottom:24px;
+}
+
+/* Download btn on page */
+.page-download-btn {
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 32px;
+  background:linear-gradient(135deg,var(--accent),#0099cc);
+  border:none;border-radius:12px;
+  font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;
+  color:#fff;cursor:pointer;
+  transition:all 0.25s;letter-spacing:0.5px;
+  box-shadow:0 0 32px rgba(0,209,255,0.25);
+  text-decoration:none;
+}
+.page-download-btn:hover {
+  transform:translateY(-2px);
+  box-shadow:0 8px 40px rgba(0,209,255,0.4);
+}
+
+/* Contact form */
+.contact-form {
+  width:100%;max-width:560px;
+  margin:0 auto;
+  text-align:left;
+}
+.contact-form .field-group {
+  margin-bottom:16px;
+}
+.contact-form label {
+  font-size:0.78rem;font-weight:600;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;letter-spacing:0.5px;
+  display:block;margin-bottom:6px;
+}
+
+@media(max-width:600px){
+  nav{padding:0 16px;}
+  .nav-links a{padding:6px 10px;font-size:0.7rem;letter-spacing:0.5px;}
+  .nav-download-btn{padding:7px 12px;font-size:0.7rem;}
+  .hero{padding:80px 20px 40px;}
+  .cards-grid{padding:0 16px 40px;}
+  .solver-body{padding:20px 16px;}
+  .tabs{padding:16px 16px 0;}
+  .solver-header{padding:32px 20px 24px;}
+  .team-grid{padding:0 16px 60px;grid-template-columns:1fr;}
+  .team-hero{padding:60px 20px 40px;}
+  .team-stats{gap:28px;}
+  .hamburger{display:flex;}
+  .nav-links{
+    position:fixed;top:68px;left:0;right:0;
+    background:rgba(10,10,15,0.98);
+    flex-direction:column;gap:0;
+    padding:16px;
+    border-bottom:1px solid var(--border);
+    display:none;
   }
+  .nav-links.open{display:flex;}
+  .nav-links a{width:100%;padding:12px 16px;}
+  .nav-download-btn{width:100%;justify-content:center;margin-left:0;margin-top:8px;}
+}
 </style>
 </head>
 <body>
 
-<header>
-  <nav class="navbar">
-    <a href="#" class="logo">📐 AMZ Math</a>
-    <ul class="nav-links">
-      <li><a href="#">Home</a></li>
-      <li><a href="#calculators">Calculators</a></li>
-      <li><a href="#team">Meet The Team</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-</header>
-
-<section class="hero">
-  <h1>Advanced Mathematical Suite</h1>
-  <p>Perform precise computational analyses on matrices, vector fields, and infinite series efficiently.</p>
-</section>
-
-<div class="main-container">
-
-  <div id="calculators" style="scroll-margin-top: 100px;">
-    <div class="tabs-container">
-      <button class="tab-btn active" onclick="switchTab('seq-tab')">Geometric Series</button>
-      <button class="tab-btn" onclick="switchTab('mat-tab')">Matrix Operations</button>
-      <button class="tab-btn" onclick="switchTab('vec-tab')">Vector Calculus</button>
-    </div>
-
-    <div id="seq-tab" class="calc-card active">
-      <h2>Infinite Geometric Series</h2>
-      <div class="input-grid">
-        <div class="input-group">
-          <label>First Term (a₁)</label>
-          <input type="number" id="seq-a1" placeholder="e.g., 2">
-        </div>
-        <div class="input-group">
-          <label>Common Ratio (r)</label>
-          <input type="number" id="seq-r" step="any" placeholder="e.g., 0.5">
-        </div>
-      </div>
-      <div class="btn-container">
-        <button class="action-btn" onclick="calcGeometric()">Analyze Series</button>
-      </div>
-      <div id="res-inf" class="result-box"></div>
-    </div>
-
-    <div id="mat-tab" class="calc-card">
-      <h2>Matrix Analysis & Operations</h2>
-      <div class="input-grid">
-        <div class="input-group">
-          <label>Select Matrix Size</label>
-          <select id="mat-size" onchange="buildMatrixInputs()">
-            <option value="2">2 × 2 Matrix</option>
-            <option value="3">3 × 3 Matrix</option>
-          </select>
-        </div>
-      </div>
-      
-      <div id="matrix-grid-container" style="margin-bottom: 25px;"></div>
-      
-      <div class="btn-container">
-        <button class="action-btn" onclick="calcMatrix()">Compute Properties</button>
-      </div>
-      <div id="res-mat" class="result-box"></div>
-    </div>
-
-    <div id="vec-tab" class="calc-card">
-      <h2>Vector Field Calculus</h2>
-      <p style="margin-bottom: 20px; color: #85929e;">Enter components for a 3D vector field: F(x, y, z) = P i + Q j + R k</p>
-      <div class="input-grid">
-        <div class="input-group">
-          <label>P(x, y, z)</label>
-          <input type="text" id="vec-p" placeholder="e.g., x^2*y">
-        </div>
-        <div class="input-group">
-          <label>Q(x, y, z)</label>
-          <input type="text" id="vec-q" placeholder="e.g., y*z">
-        </div>
-        <div class="input-group">
-          <label>R(x, y, z)</label>
-          <input type="text" id="vec-r" placeholder="e.g., z*x">
-        </div>
-      </div>
-      <div class="btn-container">
-        <button class="action-btn" onclick="calcVector()">Compute Divergence & Curl</button>
-      </div>
-      <div id="res-vec" class="result-box"></div>
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="logo-icon">∑</div>
+    <div class="logo-text">
+      <span class="logo-main">AMZ</span>
+      <span class="logo-sub">Mathematics</span>
     </div>
   </div>
 
-  <section id="team" class="team-section" style="scroll-margin-top: 100px;">
-    <h2>Meet Our Team</h2>
-    <div class="team-grid">
-      <div class="team-card">
-        <img src="team1.jpg" alt="Team Member" class="team-img" onerror="this.src='https://via.placeholder.com/150/1f2833/66fcf1?text=User+1'">
-        <h3>Your Name</h3>
-        <p>Lead Developer & Mathematician</p>
-      </div>
-      <div class="team-card">
-        <img src="team2.jpg" alt="Team Member" class="team-img" onerror="this.src='https://via.placeholder.com/150/1f2833/66fcf1?text=User+2'">
-        <h3>Partner Name</h3>
-        <p>UI/UX Designer</p>
-      </div>
-    </div>
-  </section>
+  <div class="nav-links" id="navLinks">
+    <a class="active" onclick="showPage('home')">Home</a>
+    <a onclick="showPage('solver')">Solver</a>
+    <a onclick="showPage('team')">Meet the Team</a>
+    <a onclick="showPage('contact')">Contact</a>
+    <a class="nav-download-btn" onclick="showPage('download')">⬇ Download</a>
+  </div>
 
-  <section id="contact" class="contact-section" style="scroll-margin-top: 100px;">
-    <h2>Contact Us</h2>
-    <div class="contact-container">
-      <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully!');">
-        <div class="input-group">
-          <label>Name</label>
-          <input type="text" placeholder="Your Name" required>
-        </div>
-        <div class="input-group">
-          <label>Email</label>
-          <input type="email" placeholder="Your Email" required>
-        </div>
-        <div class="input-group">
-          <label>Message</label>
-          <textarea placeholder="Write your message here..." required></textarea>
-        </div>
-        <button type="submit" class="action-btn" style="width: 100%;">Send Message</button>
-      </form>
-    </div>
-  </section>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
 
+<!-- ══════════════ HOME PAGE ══════════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">AMZ GROUP — Mathematics</div>
+    <h1>Solve Math,<br><span class="hl">Step by Step.</span></h1>
+    <p>An interactive mathematics solver covering 9 major topics. Enter your values and watch every solution unfold clearly, step by step.</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="subject-card" style="--card-color:#6c63ff;--card-glow:rgba(108,99,255,0.08);--card-icon-bg:rgba(108,99,255,0.15);" onclick="openSolver('set')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon">∪</div>
+      <h3>Set Theory</h3>
+      <p>Unions, intersections, differences, complements and subset checks with full step-by-step workings.</p>
+      <div class="card-topics"><span class="topic-chip">Union</span><span class="topic-chip">Intersection</span><span class="topic-chip">Difference</span><span class="topic-chip">Complement</span><span class="topic-chip">Subset</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#f9ca24;--card-glow:rgba(249,202,36,0.06);--card-icon-bg:rgba(249,202,36,0.12);" onclick="openSolver('logic')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#f9ca24;">⊕</div>
+      <h3>Logic</h3>
+      <p>Evaluate logical propositions and auto-generate truth tables using AND, OR, NOT, IMPLIES, XOR.</p>
+      <div class="card-topics"><span class="topic-chip">AND</span><span class="topic-chip">OR</span><span class="topic-chip">NOT</span><span class="topic-chip">IMPLIES</span><span class="topic-chip">XOR</span><span class="topic-chip">Truth Table</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#ff6b6b;--card-glow:rgba(255,107,107,0.06);--card-icon-bg:rgba(255,107,107,0.12);" onclick="openSolver('binary')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#ff6b6b;font-size:1.1rem;font-weight:800;">01</div>
+      <h3>Binary System</h3>
+      <p>Binary arithmetic and conversions between binary and decimal with complete bit-level steps.</p>
+      <div class="card-topics"><span class="topic-chip">Addition</span><span class="topic-chip">Subtraction</span><span class="topic-chip">Multiply</span><span class="topic-chip">Division</span><span class="topic-chip">Dec↔Bin</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#43e97b;--card-glow:rgba(67,233,123,0.06);--card-icon-bg:rgba(67,233,123,0.12);" onclick="openSolver('matrix')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#43e97b;">⊞</div>
+      <h3>Matrix</h3>
+      <p>Add, subtract, multiply matrices, find determinants and transpose with element-by-element breakdown.</p>
+      <div class="card-topics"><span class="topic-chip">Addition</span><span class="topic-chip">Subtraction</span><span class="topic-chip">Multiply</span><span class="topic-chip">Determinant</span><span class="topic-chip">Transpose</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#ff9f43;--card-glow:rgba(255,159,67,0.06);--card-icon-bg:rgba(255,159,67,0.12);" onclick="openSolver('prime')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#ff9f43;">ℙ</div>
+      <h3>Prime Numbers</h3>
+      <p>Check primality, list all primes in a range, and factorize using step-by-step divisibility testing.</p>
+      <div class="card-topics"><span class="topic-chip">Primality Test</span><span class="topic-chip">List Primes</span><span class="topic-chip">Factorization</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#a29bfe;--card-glow:rgba(162,155,254,0.07);--card-icon-bg:rgba(162,155,254,0.13);" onclick="openSolver('deriv')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#a29bfe;">d/dx</div>
+      <h3>Derivatives</h3>
+      <p>Differentiate polynomial, trigonometric, exponential and logarithmic functions step by step.</p>
+      <div class="card-topics"><span class="topic-chip">Power Rule</span><span class="topic-chip">Chain Rule</span><span class="topic-chip">Trig</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#fd79a8;--card-glow:rgba(253,121,168,0.07);--card-icon-bg:rgba(253,121,168,0.13);" onclick="openSolver('integ')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#fd79a8;">∫</div>
+      <h3>Integrals</h3>
+      <p>Compute definite and indefinite integrals of common functions with full antiderivative steps.</p>
+      <div class="card-topics"><span class="topic-chip">Indefinite</span><span class="topic-chip">Definite</span><span class="topic-chip">Power Rule</span><span class="topic-chip">Trig</span><span class="topic-chip">Exp/Log</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#00cec9;--card-glow:rgba(0,206,201,0.07);--card-icon-bg:rgba(0,206,201,0.13);" onclick="openSolver('seq')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#00cec9;font-size:1.3rem;">aₙ</div>
+      <h3>Sequences</h3>
+      <p>Find the nth term and partial sums of arithmetic and geometric sequences step by step.</p>
+      <div class="card-topics"><span class="topic-chip">Arithmetic</span><span class="topic-chip">Geometric</span><span class="topic-chip">nth Term</span><span class="topic-chip">Partial Sum</span></div>
+    </div>
+
+    <div class="subject-card" style="--card-color:#e17055;--card-glow:rgba(225,112,85,0.07);--card-icon-bg:rgba(225,112,85,0.13);" onclick="openSolver('series')">
+      <div class="card-arrow">↗</div>
+      <div class="card-icon" style="color:#e17055;">Σ</div>
+      <h3>Series</h3>
+      <p>Calculate sums of arithmetic and geometric series, and test convergence of infinite geometric series.</p>
+      <div class="card-topics"><span class="topic-chip">Infinite Series</span><span class="topic-chip">Convergence</span></div>
+    </div>
+  </div>
+
+  <footer>Built by <span>AMZ GROUP</span> · Lebanese French University </footer>
 </div>
 
-<footer>
-  &copy; 2026 AMZ Mathematics. All rights reserved.
-</footer>
+<!-- ══════════════ SOLVER PAGE ══════════════ -->
+<div id="page-solver" class="page solver-page">
 
+  <!-- ── SET THEORY ── -->
+  <div id="solver-set" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Set Theory</h2>
+      <div class="subtitle">Enter sets as comma-separated values (e.g. 1, 2, 3)</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('set','union',this)">Union</button>
+      <button class="tab-btn" onclick="switchTab('set','inter',this)">Intersection</button>
+      <button class="tab-btn" onclick="switchTab('set','diff',this)">Difference</button>
+      <button class="tab-btn" onclick="switchTab('set','comp',this)">Complement</button>
+      <button class="tab-btn" onclick="switchTab('set','subset',this)">Subset</button>
+    </div>
+    <div class="solver-body">
+      <div id="set-union" class="topic-panel active">
+        <div class="input-section"><h4>Union A ∪ B</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Set A</label><input type="text" id="su-a" placeholder="1, 2, 3, 4"></div>
+            <div class="field-group"><label>Set B</label><input type="text" id="su-b" placeholder="3, 4, 5, 6"></div>
+          </div>
+          <button class="btn-primary" onclick="solveSetUnion()">Solve →</button>
+        </div>
+        <div id="res-su" class="result-panel"></div>
+      </div>
+      <div id="set-inter" class="topic-panel">
+        <div class="input-section"><h4>Intersection A ∩ B</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Set A</label><input type="text" id="si-a" placeholder="1, 2, 3, 4"></div>
+            <div class="field-group"><label>Set B</label><input type="text" id="si-b" placeholder="3, 4, 5, 6"></div>
+          </div>
+          <button class="btn-primary" onclick="solveSetInter()">Solve →</button>
+        </div>
+        <div id="res-si" class="result-panel"></div>
+      </div>
+      <div id="set-diff" class="topic-panel">
+        <div class="input-section"><h4>Difference A − B</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Set A</label><input type="text" id="sd-a" placeholder="1, 2, 3, 4"></div>
+            <div class="field-group"><label>Set B</label><input type="text" id="sd-b" placeholder="3, 4, 5, 6"></div>
+          </div>
+          <button class="btn-primary" onclick="solveSetDiff()">Solve →</button>
+        </div>
+        <div id="res-sd" class="result-panel"></div>
+      </div>
+      <div id="set-comp" class="topic-panel">
+        <div class="input-section"><h4>Complement A′ (relative to U)</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Universal Set U</label><input type="text" id="sc-u" placeholder="1, 2, 3, 4, 5, 6"></div>
+            <div class="field-group"><label>Set A</label><input type="text" id="sc-a" placeholder="1, 2, 3"></div>
+          </div>
+          <button class="btn-primary" onclick="solveSetComp()">Solve →</button>
+        </div>
+        <div id="res-sc" class="result-panel"></div>
+      </div>
+      <div id="set-subset" class="topic-panel">
+        <div class="input-section"><h4>Check A ⊆ B</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Set A</label><input type="text" id="ss-a" placeholder="1, 2"></div>
+            <div class="field-group"><label>Set B</label><input type="text" id="ss-b" placeholder="1, 2, 3, 4"></div>
+          </div>
+          <button class="btn-primary" onclick="solveSubset()">Check →</button>
+        </div>
+        <div id="res-ss" class="result-panel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LOGIC ── -->
+  <div id="solver-logic" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Logic</h2>
+      <div class="subtitle">Use T/F · Operators: AND, OR, NOT, IMPLIES, XOR · Variables: P, Q</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('logic','eval',this)">Evaluate</button>
+      <button class="tab-btn" onclick="switchTab('logic','truth',this)">Truth Table</button>
+    </div>
+    <div class="solver-body">
+      <div id="logic-eval" class="topic-panel active">
+        <div class="input-section"><h4>Evaluate Expression</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Value of P</label><select id="lv-p"><option value="true">True (T)</option><option value="false">False (F)</option></select></div>
+            <div class="field-group"><label>Value of Q</label><select id="lv-q"><option value="true">True (T)</option><option value="false">False (F)</option></select></div>
+          </div>
+          <div class="field-row">
+            <div class="field-group" style="min-width:300px;"><label>Expression</label><input type="text" id="lv-expr" value="P AND Q" placeholder="P AND Q"></div>
+          </div>
+          <button class="btn-primary" onclick="solveLogicEval()">Evaluate →</button>
+        </div>
+        <div id="res-lv" class="result-panel"></div>
+      </div>
+      <div id="logic-truth" class="topic-panel">
+        <div class="input-section"><h4>Generate Truth Table</h4>
+          <div class="field-row">
+            <div class="field-group" style="min-width:300px;"><label>Expression (use P, Q)</label><input type="text" id="lt-expr" value="(P OR Q) AND (NOT P)" placeholder="P AND Q"></div>
+          </div>
+          <button class="btn-primary" onclick="solveTruthTable()">Generate →</button>
+        </div>
+        <div id="res-lt" class="result-panel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BINARY ── -->
+  <div id="solver-binary" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Binary System</h2>
+      <div class="subtitle">Enter binary numbers (only 0s and 1s) or decimal integers for conversion</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('binary','badd',this)">Addition</button>
+      <button class="tab-btn" onclick="switchTab('binary','bsub',this)">Subtraction</button>
+      <button class="tab-btn" onclick="switchTab('binary','bmul',this)">Multiply</button>
+      <button class="tab-btn" onclick="switchTab('binary','bdiv',this)">Division</button>
+      <button class="tab-btn" onclick="switchTab('binary','d2b',this)">Dec → Bin</button>
+      <button class="tab-btn" onclick="switchTab('binary','b2d',this)">Bin → Dec</button>
+    </div>
+    <div class="solver-body">
+      <div id="binary-badd" class="topic-panel active">
+        <div class="input-section"><h4>Binary Addition</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Binary A</label><input type="text" id="ba-a" placeholder="1011"></div>
+            <div class="field-group"><label>Binary B</label><input type="text" id="ba-b" placeholder="0110"></div>
+          </div>
+          <button class="btn-primary" onclick="solveBinAdd()">Add →</button>
+        </div>
+        <div id="res-ba" class="result-panel"></div>
+      </div>
+      <div id="binary-bsub" class="topic-panel">
+        <div class="input-section"><h4>Binary Subtraction (A − B)</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Binary A</label><input type="text" id="bs-a" placeholder="1011"></div>
+            <div class="field-group"><label>Binary B</label><input type="text" id="bs-b" placeholder="0101"></div>
+          </div>
+          <button class="btn-primary" onclick="solveBinSub()">Subtract →</button>
+        </div>
+        <div id="res-bs" class="result-panel"></div>
+      </div>
+      <div id="binary-bmul" class="topic-panel">
+        <div class="input-section"><h4>Binary Multiplication</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Binary A</label><input type="text" id="bm-a" placeholder="101"></div>
+            <div class="field-group"><label>Binary B</label><input type="text" id="bm-b" placeholder="011"></div>
+          </div>
+          <button class="btn-primary" onclick="solveBinMul()">Multiply →</button>
+        </div>
+        <div id="res-bm" class="result-panel"></div>
+      </div>
+      <div id="binary-bdiv" class="topic-panel">
+        <div class="input-section"><h4>Binary Division (A ÷ B)</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Dividend (Binary A)</label><input type="text" id="bd-a" placeholder="1100"></div>
+            <div class="field-group"><label>Divisor (Binary B)</label><input type="text" id="bd-b" placeholder="10"></div>
+          </div>
+          <button class="btn-primary" onclick="solveBinDiv()">Divide →</button>
+        </div>
+        <div id="res-bd" class="result-panel"></div>
+      </div>
+      <div id="binary-d2b" class="topic-panel">
+        <div class="input-section"><h4>Decimal to Binary</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Decimal Number</label><input type="number" id="b-d2b" placeholder="42" min="0"></div>
+          </div>
+          <button class="btn-primary" onclick="solveDec2Bin()">Convert →</button>
+        </div>
+        <div id="res-d2b" class="result-panel"></div>
+      </div>
+      <div id="binary-b2d" class="topic-panel">
+        <div class="input-section"><h4>Binary to Decimal</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Binary Number</label><input type="text" id="b-b2d" placeholder="101010"></div>
+          </div>
+          <button class="btn-primary" onclick="solveBin2Dec()">Convert →</button>
+        </div>
+        <div id="res-b2d" class="result-panel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MATRIX ── -->
+  <div id="solver-matrix" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Matrix</h2>
+      <div class="subtitle">Specify rows and columns, fill in the values, then solve</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('matrix','madd',this)">Addition</button>
+      <button class="tab-btn" onclick="switchTab('matrix','msub',this)">Subtraction</button>
+      <button class="tab-btn" onclick="switchTab('matrix','mmul',this)">Multiply</button>
+      <button class="tab-btn" onclick="switchTab('matrix','mdet',this)">Determinant</button>
+      <button class="tab-btn" onclick="switchTab('matrix','mtrans',this)">Transpose</button>
+    </div>
+    <div class="solver-body">
+      <div id="matrix-madd" class="topic-panel active">
+        <div class="input-section"><h4>Matrix Addition A + B</h4>
+          <div class="size-row">
+            <div class="field-group"><label>Rows</label><input type="number" id="madd-r" value="2" min="1" max="5" oninput="buildAB('madd')"></div>
+            <div class="field-group"><label>Cols</label><input type="number" id="madd-c" value="2" min="1" max="5" oninput="buildAB('madd')"></div>
+          </div>
+          <div id="madd-inputs"></div>
+          <button class="btn-primary" onclick="solveMatAdd()">Add →</button>
+        </div>
+        <div id="res-madd" class="result-panel"></div>
+      </div>
+      <div id="matrix-msub" class="topic-panel">
+        <div class="input-section"><h4>Matrix Subtraction A − B</h4>
+          <div class="size-row">
+            <div class="field-group"><label>Rows</label><input type="number" id="msub-r" value="2" min="1" max="5" oninput="buildAB('msub')"></div>
+            <div class="field-group"><label>Cols</label><input type="number" id="msub-c" value="2" min="1" max="5" oninput="buildAB('msub')"></div>
+          </div>
+          <div id="msub-inputs"></div>
+          <button class="btn-primary" onclick="solveMatSub()">Subtract →</button>
+        </div>
+        <div id="res-msub" class="result-panel"></div>
+      </div>
+      <div id="matrix-mmul" class="topic-panel">
+        <div class="input-section"><h4>Matrix Multiplication A × B (A is m×n, B is n×p)</h4>
+          <div class="size-row">
+            <div class="field-group"><label>A Rows (m)</label><input type="number" id="mmul-m" value="2" min="1" max="4" oninput="buildMul()"></div>
+            <div class="field-group"><label>Shared (n)</label><input type="number" id="mmul-n" value="2" min="1" max="4" oninput="buildMul()"></div>
+            <div class="field-group"><label>B Cols (p)</label><input type="number" id="mmul-p" value="2" min="1" max="4" oninput="buildMul()"></div>
+          </div>
+          <div id="mmul-inputs"></div>
+          <button class="btn-primary" onclick="solveMatMul()">Multiply →</button>
+        </div>
+        <div id="res-mmul" class="result-panel"></div>
+      </div>
+      <div id="matrix-mdet" class="topic-panel">
+        <div class="input-section"><h4>Determinant of Square Matrix</h4>
+          <div class="size-row">
+            <div class="field-group"><label>Size</label><select id="mdet-size" onchange="buildDet()"><option value="2">2×2</option><option value="3">3×3</option></select></div>
+          </div>
+          <div id="mdet-inputs"></div>
+          <button class="btn-primary" onclick="solveMatDet()">Determinant →</button>
+        </div>
+        <div id="res-mdet" class="result-panel"></div>
+      </div>
+      <div id="matrix-mtrans" class="topic-panel">
+        <div class="input-section"><h4>Matrix Transpose</h4>
+          <div class="size-row">
+            <div class="field-group"><label>Rows</label><input type="number" id="mtrans-r" value="2" min="1" max="5" oninput="buildTrans()"></div>
+            <div class="field-group"><label>Cols</label><input type="number" id="mtrans-c" value="3" min="1" max="5" oninput="buildTrans()"></div>
+          </div>
+          <div id="mtrans-inputs"></div>
+          <button class="btn-primary" onclick="solveMatTrans()">Transpose →</button>
+        </div>
+        <div id="res-mtrans" class="result-panel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PRIME ── -->
+  <div id="solver-prime" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Prime Numbers</h2>
+      <div class="subtitle">Test primality, list primes in a range, or factorize numbers</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('prime','ptest',this)">Primality Test</button>
+      <button class="tab-btn" onclick="switchTab('prime','plist',this)">List Primes</button>
+      <button class="tab-btn" onclick="switchTab('prime','pfact',this)">Factorization</button>
+    </div>
+    <div class="solver-body">
+      <div id="prime-ptest" class="topic-panel active">
+        <div class="input-section"><h4>Is this number prime?</h4>
+          <div class="field-row"><div class="field-group"><label>Number (≥ 2)</label><input type="number" id="pt-n" placeholder="17" min="2"></div></div>
+          <button class="btn-primary" onclick="solvePrimeTest()">Test →</button>
+        </div>
+        <div id="res-pt" class="result-panel"></div>
+      </div>
+      <div id="prime-plist" class="topic-panel">
+        <div class="input-section"><h4>List All Primes in Range</h4>
+          <div class="field-row">
+            <div class="field-group"><label>From</label><input type="number" id="pl-from" value="1" min="1"></div>
+            <div class="field-group"><label>To</label><input type="number" id="pl-to" value="50" min="2"></div>
+          </div>
+          <button class="btn-primary" onclick="solvePrimeList()">List →</button>
+        </div>
+        <div id="res-pl" class="result-panel"></div>
+      </div>
+      <div id="prime-pfact" class="topic-panel">
+        <div class="input-section"><h4>Prime Factorization</h4>
+          <div class="field-row"><div class="field-group"><label>Number (≥ 2)</label><input type="number" id="pf-n" placeholder="60" min="2"></div></div>
+          <button class="btn-primary" onclick="solvePrimeFact()">Factorize →</button>
+        </div>
+        <div id="res-pf" class="result-panel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── DERIVATIVES ── -->
+  <div id="solver-deriv" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Derivatives</h2>
+      <div class="subtitle">Find derivatives of common function types step by step</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('deriv','dpower',this)">Power Rule</button>
+    
+      <button class="tab-btn" onclick="switchTab('deriv','dchain',this)">Chain Rule</button>
+      <button class="tab-btn" onclick="switchTab('deriv','dtrig',this)">Trig / Exp / Log</button>
+    </div>
+    <div class="solver-body">
+
+      <!-- Power Rule -->
+      <div id="deriv-dpower" class="topic-panel active">
+        <div class="info-box"><strong>Power Rule:</strong> d/dx [axⁿ] = n·a·xⁿ⁻¹<br>Enter a polynomial as a sum of terms, e.g. <strong>3x^4 + 2x^2 - 5x + 7</strong></div>
+        <div class="input-section"><h4>Differentiate Polynomial</h4>
+          <div class="field-row"><div class="field-group" style="min-width:320px;"><label>f(x)</label><input type="text" id="dp-fx" placeholder="3x^4 + 2x^2 - 5x + 7" value="3x^4 + 2x^2 - 5x + 7"></div></div>
+          <button class="btn-primary" onclick="solvePowerRule()">Differentiate →</button>
+        </div>
+        <div id="res-dp" class="result-panel"></div>
+      </div>
+
+      <!-- Product Rule -->
+      <div id="deriv-dprod" class="topic-panel">
+        <div class="info-box"><strong>Product Rule:</strong> d/dx [u·v] = u'·v + u·v'<br>Enter each factor as a monomial term, e.g. <strong>ax^n</strong></div>
+        <div class="input-section"><h4>d/dx [u(x) · v(x)]</h4>
+          <div class="field-row">
+            <div class="field-group"><label>u(x) — coefficient a</label><input type="number" id="dpr-ua" value="3"></div>
+            <div class="field-group"><label>u(x) — power n</label><input type="number" id="dpr-un" value="2"></div>
+          </div>
+          <div class="field-row">
+            <div class="field-group"><label>v(x) — coefficient b</label><input type="number" id="dpr-va" value="2"></div>
+            <div class="field-group"><label>v(x) — power m</label><input type="number" id="dpr-vm" value="3"></div>
+          </div>
+          <button class="btn-primary" onclick="solveProductRule()">Apply Product Rule →</button>
+        </div>
+        <div id="res-dpr" class="result-panel"></div>
+      </div>
+
+      <!-- Quotient Rule -->
+      <div id="deriv-dquot" class="topic-panel">
+        <div class="info-box"><strong>Quotient Rule:</strong> d/dx [u/v] = (u'·v − u·v') / v²<br>Enter each as a monomial ax^n</div>
+        <div class="input-section"><h4>d/dx [ u(x) / v(x) ]</h4>
+          <div class="field-row">
+            <div class="field-group"><label>u(x) — coefficient a</label><input type="number" id="dqr-ua" value="4"></div>
+            <div class="field-group"><label>u(x) — power n</label><input type="number" id="dqr-un" value="3"></div>
+          </div>
+          <div class="field-row">
+            <div class="field-group"><label>v(x) — coefficient b</label><input type="number" id="dqr-va" value="2"></div>
+            <div class="field-group"><label>v(x) — power m</label><input type="number" id="dqr-vm" value="1"></div>
+          </div>
+          <button class="btn-primary" onclick="solveQuotientRule()">Apply Quotient Rule →</button>
+        </div>
+        <div id="res-dqr" class="result-panel"></div>
+      </div>
+
+      <!-- Chain Rule -->
+      <div id="deriv-dchain" class="topic-panel">
+        <div class="info-box"><strong>Chain Rule:</strong> d/dx [f(g(x))] = f'(g(x)) · g'(x)<br>Outer function choices: xⁿ, sin, cos, eˣ, ln · Inner g(x) = ax^n</div>
+        <div class="input-section"><h4>Outer f applied to Inner g(x) = ax^n</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Outer function f</label>
+              <select id="dcr-outer">
+                <option value="pow">Power: (...)^p</option>
+                <option value="sin">sin(...)</option>
+                <option value="cos">cos(...)</option>
+                <option value="exp">e^(...)</option>
+                <option value="ln">ln(...)</option>
+              </select>
+            </div>
+            <div class="field-group" id="dcr-pow-group"><label>Outer power p</label><input type="number" id="dcr-p" value="3"></div>
+          </div>
+          <div class="field-row">
+            <div class="field-group"><label>Inner g(x) — coefficient a</label><input type="number" id="dcr-a" value="2"></div>
+            <div class="field-group"><label>Inner g(x) — power n</label><input type="number" id="dcr-n" value="2"></div>
+          </div>
+          <button class="btn-primary" onclick="solveChainRule()">Apply Chain Rule →</button>
+        </div>
+        <div id="res-dcr" class="result-panel"></div>
+      </div>
+
+      <!-- Trig / Exp / Log -->
+      <div id="deriv-dtrig" class="topic-panel">
+        <div class="info-box"><strong>Standard Derivatives:</strong> d/dx[sin x]=cos x · d/dx[cos x]=−sin x · d/dx[tan x]=sec²x · d/dx[eˣ]=eˣ · d/dx[aˣ]=aˣln(a) · d/dx[ln x]=1/x</div>
+        <div class="input-section"><h4>Find derivative of standard function</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Function type</label>
+              <select id="dtl-type">
+                <option value="sin">sin(x)</option>
+                <option value="cos">cos(x)</option>
+                <option value="tan">tan(x)</option>
+                <option value="ex">eˣ</option>
+                <option value="ax">aˣ (specify a)</option>
+                <option value="lnx">ln(x)</option>
+                <option value="loga">log_a(x) (specify a)</option>
+              </select>
+            </div>
+            <div class="field-group"><label>Base a (for aˣ or log_a)</label><input type="number" id="dtl-a" value="2" min="0.001"></div>
+          </div>
+          <button class="btn-primary" onclick="solveTrigDeriv()">Find Derivative →</button>
+        </div>
+        <div id="res-dtl" class="result-panel"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── INTEGRALS ── -->
+  <div id="solver-integ" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Integrals</h2>
+      <div class="subtitle">Compute indefinite and definite integrals step by step</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('integ','indef',this)">Indefinite</button>
+      <button class="tab-btn" onclick="switchTab('integ','defin',this)">Definite</button>
+      <button class="tab-btn" onclick="switchTab('integ','itrig',this)">Trig / Exp / Log</button>
+    </div>
+    <div class="solver-body">
+
+      <!-- Indefinite -->
+      <div id="integ-indef" class="topic-panel active">
+        <div class="info-box"><strong>Power Rule of Integration:</strong> ∫axⁿ dx = (a/(n+1))xⁿ⁺¹ + C &nbsp; (n ≠ −1)<br>Enter a polynomial e.g. <strong>4x^3 + 2x - 6</strong></div>
+        <div class="input-section"><h4>∫ f(x) dx — Indefinite Integral</h4>
+          <div class="field-row"><div class="field-group" style="min-width:320px;"><label>f(x)</label><input type="text" id="ii-fx" placeholder="4x^3 + 2x - 6" value="4x^3 + 2x - 6"></div></div>
+          <button class="btn-primary" onclick="solveIndef()">Integrate →</button>
+        </div>
+        <div id="res-ii" class="result-panel"></div>
+      </div>
+
+      <!-- Definite -->
+      <div id="integ-defin" class="topic-panel">
+        <div class="info-box"><strong>Definite Integral:</strong> ∫ₐᵇ f(x) dx = F(b) − F(a) where F is the antiderivative<br>Enter a polynomial e.g. <strong>3x^2 + 2x</strong></div>
+        <div class="input-section"><h4>∫ₐᵇ f(x) dx — Definite Integral</h4>
+          <div class="field-row"><div class="field-group" style="min-width:320px;"><label>f(x)</label><input type="text" id="id-fx" placeholder="3x^2 + 2x" value="3x^2 + 2x"></div></div>
+          <div class="field-row">
+            <div class="field-group"><label>Lower limit a</label><input type="number" id="id-a" value="0"></div>
+            <div class="field-group"><label>Upper limit b</label><input type="number" id="id-b" value="3"></div>
+          </div>
+          <button class="btn-primary" onclick="solveDefin()">Evaluate →</button>
+        </div>
+        <div id="res-id" class="result-panel"></div>
+      </div>
+
+      <!-- Trig / Exp / Log -->
+      <div id="integ-itrig" class="topic-panel">
+        <div class="info-box"><strong>Standard Integrals:</strong> ∫sin x dx=−cos x+C · ∫cos x dx=sin x+C · ∫eˣ dx=eˣ+C · ∫(1/x)dx=ln|x|+C · ∫aˣdx=aˣ/ln(a)+C</div>
+        <div class="input-section"><h4>Standard function integration</h4>
+          <div class="field-row">
+            <div class="field-group"><label>Function type</label>
+              <select id="itl-type">
+                <option value="sinx">sin(x)</option>
+                <option value="cosx">cos(x)</option>
+                <option value="ex">eˣ</option>
+                <option value="invx">1/x</option>
+                <option value="ax">aˣ (specify a)</option>
+                <option value="tanx">tan(x)</option>
+              </select>
+            </div>
+            <div class="field-group"><label>Base a (for aˣ)</label><input type="number" id="itl-a" value="2" min="0.001"></div>
+          </div>
+          <button class="btn-primary" onclick="solveTrigInteg()">Integrate →</button>
+        </div>
+        <div id="res-itl" class="result-panel"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SEQUENCES ── -->
+  <div id="solver-seq" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Sequences</h2>
+      <div class="subtitle">Find the nth term and partial sums of arithmetic and geometric sequences</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('seq','sarith',this)">Arithmetic</button>
+      <button class="tab-btn" onclick="switchTab('seq','sgeo',this)">Geometric</button>
+    </div>
+    <div class="solver-body">
+
+      <!-- Arithmetic Sequence -->
+      <div id="seq-sarith" class="topic-panel active">
+        <div class="info-box"><strong>Arithmetic Sequence:</strong> aₙ = a₁ + (n−1)·d &nbsp;|&nbsp; Sₙ = n/2 · (2a₁ + (n−1)d)</div>
+        <div class="input-section"><h4>Arithmetic Sequence</h4>
+          <div class="field-row">
+            <div class="field-group"><label>First term a₁</label><input type="number" id="sa-a1" value="2"></div>
+            <div class="field-group"><label>Common difference d</label><input type="number" id="sa-d" value="3"></div>
+            <div class="field-group"><label>Find nth term (n)</label><input type="number" id="sa-n" value="10" min="1"></div>
+          </div>
+          <button class="btn-primary" onclick="solveArithSeq()">Solve →</button>
+        </div>
+        <div id="res-sa" class="result-panel"></div>
+      </div>
+
+      <!-- Geometric Sequence -->
+      <div id="seq-sgeo" class="topic-panel">
+        <div class="info-box"><strong>Geometric Sequence:</strong> aₙ = a₁ · rⁿ⁻¹ &nbsp;|&nbsp; Sₙ = a₁·(1−rⁿ)/(1−r) for r≠1</div>
+        <div class="input-section"><h4>Geometric Sequence</h4>
+          <div class="field-row">
+            <div class="field-group"><label>First term a₁</label><input type="number" id="sg-a1" value="3"></div>
+            <div class="field-group"><label>Common ratio r</label><input type="number" id="sg-r" value="2" step="any"></div>
+            <div class="field-group"><label>Find nth term (n)</label><input type="number" id="sg-n" value="6" min="1"></div>
+          </div>
+          <button class="btn-primary" onclick="solveGeoSeq()">Solve →</button>
+        </div>
+        <div id="res-sg" class="result-panel"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── SERIES ── -->
+  <div id="solver-series" class="solver-section" style="display:none;">
+    <div class="solver-header">
+      <button class="back-btn" onclick="showPage('home')">← Back</button>
+      <h2>Series</h2>
+      <div class="subtitle">Calculate sums and test convergence of arithmetic and geometric series</div>
+    </div>
+    <div class="tabs">
+    
+      <button class="tab-btn" onclick="switchTab('series','srinf',this)">Infinite Geometric</button>
+    </div>
+    <div class="solver-body">
+
+      <!-- Arithmetic Series -->
+      <div id="series-srarith" class="topic-panel active">
+        <div class="info-box"><strong>Arithmetic Series Sum:</strong> Sₙ = n/2 · (a₁ + aₙ) &nbsp;or&nbsp; Sₙ = n/2 · (2a₁ + (n−1)d)</div>
+        <div class="input-section"><h4>Sum of Arithmetic Series</h4>
+          <div class="field-row">
+            <div class="field-group"><label>First term a₁</label><input type="number" id="ara-a1" value="1"></div>
+            <div class="field-group"><label>Common difference d</label><input type="number" id="ara-d" value="2"></div>
+            <div class="field-group"><label>Number of terms n</label><input type="number" id="ara-n" value="10" min="1"></div>
+          </div>
+          <button class="btn-primary" onclick="solveArithSeries()">Calculate Sum →</button>
+        </div>
+        <div id="res-ara" class="result-panel"></div>
+      </div>
+
+      <!-- Geometric Series -->
+      <div id="series-srgeo" class="topic-panel">
+        <div class="info-box"><strong>Geometric Series Sum:</strong> Sₙ = a₁·(1−rⁿ)/(1−r) &nbsp; for r ≠ 1 &nbsp;|&nbsp; Sₙ = n·a₁ &nbsp; for r = 1</div>
+        <div class="input-section"><h4>Sum of Geometric Series</h4>
+          <div class="field-row">
+            <div class="field-group"><label>First term a₁</label><input type="number" id="grs-a1" value="2"></div>
+            <div class="field-group"><label>Common ratio r</label><input type="number" id="grs-r" value="3" step="any"></div>
+            <div class="field-group"><label>Number of terms n</label><input type="number" id="grs-n" value="5" min="1"></div>
+          </div>
+          <button class="btn-primary" onclick="solveGeoSeries()">Calculate Sum →</button>
+        </div>
+        <div id="res-grs" class="result-panel"></div>
+      </div>
+
+      <!-- Infinite Geometric Series -->
+      <div id="series-srinf" class="topic-panel">
+        <div class="info-box"><strong>Infinite Geometric Series:</strong> S∞ = a₁ / (1−r) &nbsp; only if |r| &lt; 1 (converges)<br>If |r| ≥ 1 the series diverges (no finite sum)</div>
+        <div class="input-section"><h4>Sum of Infinite Geometric Series</h4>
+          <div class="field-row">
+            <div class="field-group"><label>First term a₁</label><input type="number" id="inf-a1" value="6"></div>
+            <div class="field-group"><label>Common ratio r</label><input type="number" id="inf-r" value="0.5" step="any"></div>
+          </div>
+          <button class="btn-primary" onclick="solveInfSeries()">Test &amp; Calculate →</button>
+        </div>
+        <div id="res-inf" class="result-panel"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- end page-solver -->
+
+<!-- ══════════════ MEET THE TEAM PAGE ══════════════ -->
+<div id="page-team" class="page">
+  <div class="team-hero">
+    <div class="team-hero-glow"></div>
+    <div class="team-eyebrow">
+      <span class="dot-pulse"></span>
+      AMZ GROUP
+    </div>
+    <h1>The <em>Minds</em> Behind<br>AMZ Mathematics</h1>
+    <p>A dedicated student tech team from Lebanese French University, IT Department — building tools that make learning beautiful.</p>
+  </div>
+
+  <div class="team-stats">
+    <div class="team-stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Members</div>
+    </div>
+    <div class="team-stat">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Math Topics</div>
+    </div>
+    <div class="team-stat">
+      <div class="stat-num">LFU</div>
+      <div class="stat-label">University</div>
+    </div>
+    <div class="team-stat">
+      <div class="stat-num">IT</div>
+      <div class="stat-label">Department</div>
+    </div>
+  </div>
+
+  <div class="team-grid">
+
+    <!-- Member 1 — Mohammed (Leader) -->
+    <div class="team-card is-leader" style="--card-accent-color:#00d1ff; --card-banner-gradient:linear-gradient(135deg,#050d18,#0a1a2e);">
+      <div class="card-banner">
+        <div class="card-banner-bg"></div>
+        <div class="card-banner-pattern" style="background-image:radial-gradient(circle at 25% 60%,rgba(0,209,255,0.2) 0%,transparent 55%),radial-gradient(circle at 75% 30%,rgba(0,150,255,0.1) 0%,transparent 50%);"></div>
+        <div class="card-banner-lines"></div>
+        <div class="leader-crown">👑 Team Leader</div>
+        <div class="card-role-badge" style="color:#00d1ff;">Founder</div>
+        <div class="card-avatar-wrap">
+          <div class="card-avatar">
+            <div class="avatar-placeholder" style="background:linear-gradient(135deg,#00d1ff,#0066cc);">MB</div>
+          </div>
+          <div class="card-avatar-ring"></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Mohammed Barzan</div>
+        <div class="card-title">Founder & Lead Developer</div>
+        <div class="card-bio">Visionary behind AMZ GROUP and the architect of this mathematics platform. Passionate about creating elegant digital experiences that bridge technology and education.</div>
+        <div class="card-skills">
+          <span class="skill-tag">Web Dev</span>
+          <span class="skill-tag">UI/UX</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Flutter</span>
+          <span class="skill-tag">Leadership</span>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-meta">
+          <div class="card-dept">
+            <span class="card-dept-icon">🎓</span>
+            IT · Group B · LFU
+          </div>
+          <div class="card-index">01</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Member 2 — Zhalla -->
+    <div class="team-card" style="--card-accent-color:#a78bfa; --card-banner-gradient:linear-gradient(135deg,#0d0818,#140d28);">
+      <div class="card-banner">
+        <div class="card-banner-bg"></div>
+        <div class="card-banner-pattern" style="background-image:radial-gradient(circle at 30% 50%,rgba(167,139,250,0.18) 0%,transparent 55%),radial-gradient(circle at 70% 25%,rgba(108,99,255,0.12) 0%,transparent 50%);"></div>
+        <div class="card-banner-lines"></div>
+        <div class="card-role-badge" style="color:#a78bfa;">Developer</div>
+        <div class="card-avatar-wrap">
+          <div class="card-avatar">
+            <div class="avatar-placeholder" style="background:linear-gradient(135deg,#a78bfa,#6c63ff);">ZK</div>
+          </div>
+          <div class="card-avatar-ring" style="background:linear-gradient(var(--bg),var(--bg)) padding-box, linear-gradient(135deg,#a78bfa,#6c63ff) border-box;"></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Zhalla Karwan</div>
+        <div class="card-title">Core Developer</div>
+        <div class="card-bio">A key contributor to the AMZ GROUP ecosystem. Brings precision and creative problem-solving to every project, helping build tools that students actually love to use.</div>
+        <div class="card-skills">
+          <span class="skill-tag">Frontend</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">CSS</span>
+          <span class="skill-tag">Teamwork</span>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-meta">
+          <div class="card-dept">
+            <span class="card-dept-icon">🎓</span>
+            IT · Group B · LFU
+          </div>
+          <div class="card-index">02</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Member 3 — Anas -->
+    <div class="team-card" style="--card-accent-color:#43e97b; --card-banner-gradient:linear-gradient(135deg,#050f0d,#091a12);">
+      <div class="card-banner">
+        <div class="card-banner-bg"></div>
+        <div class="card-banner-pattern" style="background-image:radial-gradient(circle at 20% 55%,rgba(67,233,123,0.16) 0%,transparent 55%),radial-gradient(circle at 80% 30%,rgba(0,206,130,0.1) 0%,transparent 50%);"></div>
+        <div class="card-banner-lines"></div>
+        <div class="card-role-badge" style="color:#43e97b;">Developer</div>
+        <div class="card-avatar-wrap">
+          <div class="card-avatar">
+            <div class="avatar-placeholder" style="background:linear-gradient(135deg,#43e97b,#00b894);">AM</div>
+          </div>
+          <div class="card-avatar-ring" style="background:linear-gradient(var(--bg),var(--bg)) padding-box, linear-gradient(135deg,#43e97b,#00b894) border-box;"></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">Anas Mohsin</div>
+        <div class="card-title">Core Developer</div>
+        <div class="card-bio">An integral part of the AMZ GROUP team, contributing solid development skills and fresh ideas. Dedicated to crafting clean, functional solutions that enhance the user experience.</div>
+        <div class="card-skills">
+          <span class="skill-tag">Development</span>
+          <span class="skill-tag">Logic</span>
+          <span class="skill-tag">HTML/CSS</span>
+          <span class="skill-tag">Collaboration</span>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-meta">
+          <div class="card-dept">
+            <span class="card-dept-icon">🎓</span>
+            IT · Group B · LFU
+          </div>
+          <div class="card-index">03</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>Built by <span>AMZ GROUP</span> · Lebanese French University</footer>
+</div>
+
+<!-- ══════════════ CONTACT PAGE ══════════════ -->
+<div id="page-contact" class="page">
+  <div class="simple-page">
+    <div class="simple-page-content">
+      <div class="simple-icon">✉️</div>
+      <h2>Contact <span style="color:var(--accent)">Us</span></h2>
+      <p>Have a question, suggestion, or want to collaborate? Reach out to the AMZ GROUP team — we'd love to hear from you.</p>
+      <a class="page-download-btn" href="https://amzgroup.xyz" target="_blank">🌐 Visit AMZ GROUP</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ DOWNLOAD PAGE ══════════════ -->
+<div id="page-download" class="page">
+  <div class="simple-page">
+    <div class="simple-page-content">
+      <div class="simple-icon">⬇️</div>
+      <h2>Download <span style="color:var(--accent)">App</span></h2>
+      <p>Get AMZ Mathematics as a Progressive Web App (PWA) — install it on your device for offline access and a native app feel.</p>
+      <a class="page-download-btn" href="manifest.json" download>📱 Install as PWA</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
 <script>
-function switchTab(tabId) {
-  var cards = document.querySelectorAll('.calc-card');
-  var btns = document.querySelectorAll('.tab-btn');
-  cards.forEach(function(c){ c.classList.remove('active'); });
-  btns.forEach(function(b){ b.classList.remove('active'); });
-  document.getElementById(tabId).classList.add('active');
-  
-  // Find matching button to set active
-  for(var i=0; i<btns.length; i++) {
-    if(btns[i].getAttribute('onclick').indexOf(tabId) !== -1) {
-      btns[i].classList.add('active');
-      break;
+/* ────────────────────────────────────────
+   NAVIGATION
+──────────────────────────────────────── */
+function showPage(pg) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  var links = document.querySelectorAll('.nav-links a');
+  links.forEach(function(a){ a.classList.remove('active'); });
+
+  if (pg === 'home') {
+    document.getElementById('page-home').classList.add('active');
+    links[0].classList.add('active');
+  } else if (pg === 'solver') {
+    document.getElementById('page-solver').classList.add('active');
+    links[1].classList.add('active');
+  } else if (pg === 'team') {
+    document.getElementById('page-team').classList.add('active');
+    links[2].classList.add('active');
+  } else if (pg === 'contact') {
+    document.getElementById('page-contact').classList.add('active');
+    links[3].classList.add('active');
+  } else if (pg === 'download') {
+    document.getElementById('page-download').classList.add('active');
+    links[4].classList.add('active');
+  }
+  window.scrollTo(0, 0);
+  closeMenu();
+}
+
+function toggleMenu() {
+  var nav = document.getElementById('navLinks');
+  nav.classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('navLinks').classList.remove('open');
+}
+
+function openSolver(subject) {
+  showPage('solver');
+  document.querySelectorAll('.solver-section').forEach(function(s){ s.style.display = 'none'; });
+  document.getElementById('solver-' + subject).style.display = 'block';
+  if (subject === 'matrix') { buildAB('madd'); buildAB('msub'); buildMul(); buildDet(); buildTrans(); }
+}
+
+function switchTab(subject, panel, btn) {
+  var sec = document.getElementById('solver-' + subject);
+  sec.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  sec.querySelectorAll('.topic-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById(subject + '-' + panel).classList.add('active');
+}
+
+/* ────────────────────────────────────────
+   RESULT HELPERS
+──────────────────────────────────────── */
+function showResult(id, steps, finalText) {
+  var el = document.getElementById(id);
+  var html = '<div class="result-header"><div class="dot"></div><span>Solution</span></div><div class="steps-container">';
+  for (var i = 0; i < steps.length; i++) {
+    html += '<div class="step" style="animation-delay:' + (i * 0.07) + 's">';
+    html += '<div class="step-num">' + (i + 1) + '</div>';
+    html += '<div class="step-content"><div class="step-title">' + steps[i].title + '</div>';
+    html += '<div class="step-body">' + steps[i].body + '</div></div></div>';
+  }
+  if (finalText) { html += '<div class="final-answer">&#10003; Answer: ' + finalText + '</div>'; }
+  html += '</div>';
+  el.innerHTML = html;
+  el.classList.add('show');
+}
+
+function showError(id, msg) {
+  var el = document.getElementById(id);
+  el.innerHTML = '<div class="steps-container"><div class="error-msg">&#9888; ' + msg + '</div></div>';
+  el.classList.add('show');
+}
+
+function parseSet(str) {
+  return str.split(',').map(function(s){ return s.trim(); }).filter(function(s){ return s !== ''; });
+}
+function makeUnique(arr) { var seen = {}; var out = []; for (var i=0;i<arr.length;i++){ if(!seen[arr[i]]){seen[arr[i]]=true;out.push(arr[i]);} } return out; }
+function fmtSet(arr) { return '{' + arr.join(', ') + '}'; }
+
+/* ────────────────────────────────────────
+   SET THEORY
+──────────────────────────────────────── */
+function solveSetUnion() {
+  var a = parseSet(document.getElementById('su-a').value);
+  var b = parseSet(document.getElementById('su-b').value);
+  if (!a.length || !b.length) { showError('res-su', 'Enter values for both sets.'); return; }
+  var u = makeUnique(a.concat(b));
+  showResult('res-su', [
+    {title:'Define Sets', body:'A = <span class="hl">' + fmtSet(a) + '</span><br>B = <span class="hl">' + fmtSet(b) + '</span>'},
+    {title:'Combine all elements from A and B', body:'Combined: ' + a.concat(b).join(', ')},
+    {title:'Remove duplicates — each element appears once', body:u.map(function(x){return'<span class="hl">'+x+'</span>';}).join(', ')},
+    {title:'Final Union', body:'A &#8746; B = <span class="rv">' + fmtSet(u) + '</span>'}
+  ], 'A &#8746; B = ' + fmtSet(u));
+}
+
+function solveSetInter() {
+  var a = parseSet(document.getElementById('si-a').value);
+  var b = parseSet(document.getElementById('si-b').value);
+  if (!a.length || !b.length) { showError('res-si', 'Enter values for both sets.'); return; }
+  var inter = a.filter(function(x){ return b.indexOf(x) !== -1; });
+  var log = a.map(function(x){ return '<span class="hl">'+x+'</span> in B? <span class="'+(b.indexOf(x)!==-1?'rv':'op')+'">'+(b.indexOf(x)!==-1?'Yes &#10003;':'No &#10007;')+'</span>'; }).join('<br>');
+  showResult('res-si', [
+    {title:'Define Sets', body:'A = <span class="hl">' + fmtSet(a) + '</span><br>B = <span class="hl">' + fmtSet(b) + '</span>'},
+    {title:'Check each element of A — is it also in B?', body:log},
+    {title:'Collect matching elements', body: inter.length ? inter.map(function(x){return'<span class="rv">'+x+'</span>';}).join(', ') : '<span class="op">No common elements — A &#8745; B = &#8709;</span>'}
+  ], 'A &#8745; B = ' + fmtSet(inter));
+}
+
+function solveSetDiff() {
+  var a = parseSet(document.getElementById('sd-a').value);
+  var b = parseSet(document.getElementById('sd-b').value);
+  if (!a.length || !b.length) { showError('res-sd', 'Enter values for both sets.'); return; }
+  var diff = a.filter(function(x){ return b.indexOf(x) === -1; });
+  var log = a.map(function(x){ var nin=(b.indexOf(x)===-1); return '<span class="hl">'+x+'</span> in B? <span class="'+(nin?'rv':'op')+'">'+(nin?'No &#10003; Keep':'Yes &#10007; Remove')+'</span>'; }).join('<br>');
+  showResult('res-sd', [
+    {title:'Define Sets', body:'A = <span class="hl">' + fmtSet(a) + '</span><br>B = <span class="hl">' + fmtSet(b) + '</span>'},
+    {title:'A &#8722; B = elements in A that are NOT in B', body:log},
+    {title:'Result', body: diff.length ? diff.map(function(x){return'<span class="rv">'+x+'</span>';}).join(', ') : '<span class="op">&#8709; (empty set)</span>'}
+  ], 'A &#8722; B = ' + fmtSet(diff));
+}
+
+function solveSetComp() {
+  var u = parseSet(document.getElementById('sc-u').value);
+  var a = parseSet(document.getElementById('sc-a').value);
+  if (!u.length || !a.length) { showError('res-sc', 'Enter both sets.'); return; }
+  var notInU = a.filter(function(x){ return u.indexOf(x) === -1; });
+  if (notInU.length) { showError('res-sc', 'A must be a subset of U. Not in U: ' + notInU.join(', ')); return; }
+  var comp = u.filter(function(x){ return a.indexOf(x) === -1; });
+  var log = u.map(function(x){ var nin=(a.indexOf(x)===-1); return '<span class="hl">'+x+'</span> in A? <span class="'+(nin?'rv':'op')+'">'+(nin?'No &#10003; Include':'Yes &#10007; Exclude')+'</span>'; }).join('<br>');
+  showResult('res-sc', [
+    {title:'Universal Set U', body:'U = <span class="hl">' + fmtSet(u) + '</span>'},
+    {title:'Set A', body:'A = <span class="hl">' + fmtSet(a) + '</span>'},
+    {title:"A' = elements in U NOT in A", body:log},
+    {title:'Result', body:"A' = <span class='rv'>" + fmtSet(comp) + "</span>"}
+  ], "A' = " + fmtSet(comp));
+}
+
+function solveSubset() {
+  var a = parseSet(document.getElementById('ss-a').value);
+  var b = parseSet(document.getElementById('ss-b').value);
+  if (!a.length || !b.length) { showError('res-ss', 'Enter values for both sets.'); return; }
+  var isSub = a.every(function(x){ return b.indexOf(x) !== -1; });
+  var log = a.map(function(x){ var inB=(b.indexOf(x)!==-1); return '<span class="hl">'+x+'</span> in B? <span class="'+(inB?'rv':'op')+'">'+(inB?'Yes &#10003;':'No &#10007; — NOT a subset')+'</span>'; }).join('<br>');
+  showResult('res-ss', [
+    {title:'Define Sets', body:'A = <span class="hl">' + fmtSet(a) + '</span><br>B = <span class="hl">' + fmtSet(b) + '</span>'},
+    {title:'A &#8838; B means every element of A must be in B', body:log},
+    {title:'Conclusion', body: isSub ? '<span class="rv">A &#8838; B is TRUE &#10003;</span>' : '<span class="op">A &#8838; B is FALSE &#10007;</span>'}
+  ], isSub ? 'TRUE — A &#8838; B' : 'FALSE — A &#8838; B does not hold');
+}
+
+/* ────────────────────────────────────────
+   LOGIC
+──────────────────────────────────────── */
+function evalLogic(expr, p, q) {
+  var e = expr.toUpperCase();
+  e = e.replace(/\(([^)]+)\)\s*IMPLIES\s*\(([^)]+)\)/g, function(m,a,b){ return '(!(' + a + ')||(' + b + '))'; });
+  e = e.replace(/([A-Z0-9]+)\s*IMPLIES\s*([A-Z0-9]+)/g, function(m,a,b){ return '(!(' + a + ')||(' + b + '))'; });
+  e = e.replace(/\bXOR\b/g, '!==');
+  e = e.replace(/\bAND\b/g, '&&');
+  e = e.replace(/\bOR\b/g, '||');
+  e = e.replace(/\bNOT\b/g, '!');
+  e = e.replace(/\bP\b/g, p ? 'true' : 'false');
+  e = e.replace(/\bQ\b/g, q ? 'true' : 'false');
+  try { return eval(e); } catch(err) { return null; }
+}
+
+function solveLogicEval() {
+  var p = document.getElementById('lv-p').value === 'true';
+  var q = document.getElementById('lv-q').value === 'true';
+  var expr = document.getElementById('lv-expr').value.trim();
+  if (!expr) { showError('res-lv', 'Enter an expression.'); return; }
+  var result = evalLogic(expr, p, q);
+  if (result === null) { showError('res-lv', 'Invalid expression. Use P, Q, AND, OR, NOT, IMPLIES, XOR.'); return; }
+  var sub = expr.toUpperCase().replace(/\bP\b/g, '<span class="op">' + (p?'T':'F') + '</span>').replace(/\bQ\b/g, '<span class="op">' + (q?'T':'F') + '</span>');
+  showResult('res-lv', [
+    {title:'Assigned Values', body:'P = <span class="hl">' + (p?'True':'False') + '</span> &nbsp;&nbsp; Q = <span class="hl">' + (q?'True':'False') + '</span>'},
+    {title:'Expression', body:'<span class="hl">' + expr + '</span>'},
+    {title:'Substitute values', body:sub},
+    {title:'Evaluate', body:'Result = <span class="rv">' + (result?'True':'False') + '</span>'}
+  ], result ? 'TRUE' : 'FALSE');
+}
+
+function solveTruthTable() {
+  var expr = document.getElementById('lt-expr').value.trim();
+  if (!expr) { showError('res-lt', 'Enter an expression.'); return; }
+  var combos = [[true,true],[true,false],[false,true],[false,false]];
+  var rows = combos.map(function(c){ return {p:c[0], q:c[1], r:evalLogic(expr,c[0],c[1])}; });
+  var tbl = '<table style="border-collapse:collapse;font-family:JetBrains Mono,monospace;font-size:0.88rem;width:100%;">';
+  tbl += '<thead><tr style="background:rgba(108,99,255,0.15);">';
+  tbl += '<th style="padding:10px 16px;text-align:center;border:1px solid #2a2a3a;color:#6c63ff;">P</th>';
+  tbl += '<th style="padding:10px 16px;text-align:center;border:1px solid #2a2a3a;color:#6c63ff;">Q</th>';
+  tbl += '<th style="padding:10px 16px;text-align:center;border:1px solid #2a2a3a;color:#f9ca24;">' + expr + '</th>';
+  tbl += '</tr></thead><tbody>';
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    tbl += '<tr style="background:' + (i%2===0?'rgba(255,255,255,0.02)':'transparent') + '">';
+    tbl += '<td style="padding:9px 16px;text-align:center;border:1px solid #2a2a3a;color:' + (row.p?'#43e97b':'#ff6b6b') + '">' + (row.p?'T':'F') + '</td>';
+    tbl += '<td style="padding:9px 16px;text-align:center;border:1px solid #2a2a3a;color:' + (row.q?'#43e97b':'#ff6b6b') + '">' + (row.q?'T':'F') + '</td>';
+    tbl += '<td style="padding:9px 16px;text-align:center;border:1px solid #2a2a3a;color:' + (row.r?'#43e97b':'#ff6b6b') + ';font-weight:700;">' + (row.r===null?'ERR':row.r?'T':'F') + '</td></tr>';
+  }
+  tbl += '</tbody></table>';
+  var el = document.getElementById('res-lt');
+  el.innerHTML = '<div class="result-header"><div class="dot"></div><span>Truth Table</span></div><div class="steps-container">' + tbl + '</div>';
+  el.classList.add('show');
+}
+
+/* ────────────────────────────────────────
+   BINARY
+──────────────────────────────────────── */
+function isBin(s) { return /^[01]+$/.test(s.trim()); }
+
+function solveBinAdd() {
+  var a = document.getElementById('ba-a').value.trim();
+  var b = document.getElementById('ba-b').value.trim();
+  if (!isBin(a) || !isBin(b)) { showError('res-ba', 'Enter valid binary numbers (0s and 1s only).'); return; }
+  var da = parseInt(a, 2), db = parseInt(b, 2), dr = da + db;
+  var rb = dr.toString(2);
+  var maxl = Math.max(a.length, b.length) + 1;
+  var ap = a.padStart(maxl, '0'), bp = b.padStart(maxl, '0');
+  var carry = 0, colLog = '';
+  for (var i = maxl - 1; i >= 0; i--) {
+    var ba = parseInt(ap[i]), bb = parseInt(bp[i]);
+    var s = ba + bb + carry;
+    var bit = s % 2, nc = Math.floor(s / 2);
+    colLog += 'Column ' + (maxl-i) + ': <span class="hl">' + ba + '</span> + <span class="hl">' + bb + '</span> + carry(<span class="op">' + carry + '</span>) = ' + s + ' &#8594; bit=<span class="rv">' + bit + '</span>, next carry=<span class="op">' + nc + '</span><br>';
+    carry = nc;
+  }
+  showResult('res-ba', [
+    {title:'Given binary numbers', body:'A = <span class="hl">' + a + '</span>&#8322; = ' + da + '&#8321;&#8320;<br>B = <span class="hl">' + b + '</span>&#8322; = ' + db + '&#8321;&#8320;'},
+    {title:'Pad to equal length', body:'A = <span class="hl">' + ap + '</span><br>B = <span class="hl">' + bp + '</span>'},
+    {title:'Add column by column right to left (track carry)', body:colLog},
+    {title:'Result', body:'Sum = <span class="rv">' + rb + '</span>&#8322;'},
+    {title:'Decimal verification', body:da + ' + ' + db + ' = <span class="rv">' + dr + '</span>&#8321;&#8320; &#10003;'}
+  ], rb + '&#8322; = ' + dr + '&#8321;&#8320;');
+}
+
+function solveBinSub() {
+  var a = document.getElementById('bs-a').value.trim();
+  var b = document.getElementById('bs-b').value.trim();
+  if (!isBin(a) || !isBin(b)) { showError('res-bs', 'Enter valid binary numbers.'); return; }
+  var da = parseInt(a, 2), db = parseInt(b, 2);
+  if (db > da) { showError('res-bs', 'A must be >= B for this method.'); return; }
+  var dr = da - db, rb = dr.toString(2);
+  var len = Math.max(a.length, b.length) + 1;
+  var oc = b.padStart(len, '0').split('').map(function(x){ return x==='0'?'1':'0'; }).join('');
+  var tc = (parseInt(oc, 2) + 1).toString(2).padStart(len, '0');
+  showResult('res-bs', [
+    {title:'Given', body:'A = <span class="hl">' + a + '</span>&#8322; (' + da + '&#8321;&#8320;) &nbsp; B = <span class="hl">' + b + '</span>&#8322; (' + db + '&#8321;&#8320;)'},
+    {title:"Step 1 — Find 1's complement of B (flip all bits)", body:'B padded = <span class="hl">' + b.padStart(len,'0') + '</span><br>1\'s complement = <span class="hl">' + oc + '</span>'},
+    {title:"Step 2 — Find 2's complement (add 1)", body:"1's complement + 1 = <span class='hl'>" + oc + "</span> + 1 = <span class='rv'>" + tc + "</span>"},
+    {title:"Step 3 — Add A and 2's complement of B", body:'<span class="hl">' + a.padStart(len,'0') + '</span><br>+ <span class="hl">' + tc + '</span><br>= <span class="rv">' + (da + parseInt(tc,2)).toString(2) + '</span>'},
+    {title:'Step 4 — Drop overflow carry bit', body:'Result = <span class="rv">' + rb + '</span>&#8322;'},
+    {title:'Decimal verification', body:da + ' &#8722; ' + db + ' = <span class="rv">' + dr + '</span>&#8321;&#8320; &#10003;'}
+  ], rb + '&#8322; = ' + dr + '&#8321;&#8320;');
+}
+
+function solveBinMul() {
+  var a = document.getElementById('bm-a').value.trim();
+  var b = document.getElementById('bm-b').value.trim();
+  if (!isBin(a) || !isBin(b)) { showError('res-bm', 'Enter valid binary numbers.'); return; }
+  var da = parseInt(a, 2), db = parseInt(b, 2), dr = da * db, rb = dr.toString(2);
+  var totalLen = a.length + b.length;
+  var partLog = '';
+  for (var i = b.length - 1; i >= 0; i--) {
+    var shift = b.length - 1 - i;
+    var pval = b[i] === '1' ? (parseInt(a,2) * Math.pow(2,shift)).toString(2) : '0';
+    partLog += 'Bit b[' + i + ']=' + b[i] + ', shift=' + shift + ' &#8594; partial = <span class="hl">' + pval.padStart(totalLen,'0') + '</span><br>';
+  }
+  showResult('res-bm', [
+    {title:'Given', body:'A = <span class="hl">' + a + '</span>&#8322; (' + da + ')  &times;  B = <span class="hl">' + b + '</span>&#8322; (' + db + ')'},
+    {title:'Method: multiply A by each bit of B, shift left', body:partLog},
+    {title:'Sum all partial products', body:'Total = <span class="rv">' + rb + '</span>&#8322;'},
+    {title:'Decimal verification', body:da + ' &times; ' + db + ' = <span class="rv">' + dr + '</span>&#8321;&#8320; &#10003;'}
+  ], rb + '&#8322; = ' + dr + '&#8321;&#8320;');
+}
+
+function solveBinDiv() {
+  var a = document.getElementById('bd-a').value.trim();
+  var b = document.getElementById('bd-b').value.trim();
+  if (!isBin(a) || !isBin(b)) { showError('res-bd', 'Enter valid binary numbers.'); return; }
+  var da = parseInt(a, 2), db = parseInt(b, 2);
+  if (db === 0) { showError('res-bd', 'Cannot divide by zero.'); return; }
+  var dq = Math.floor(da / db), dr = da % db;
+  showResult('res-bd', [
+    {title:'Given', body:'Dividend A = <span class="hl">' + a + '</span>&#8322; (' + da + '&#8321;&#8320;)<br>Divisor B = <span class="hl">' + b + '</span>&#8322; (' + db + '&#8321;&#8320;)'},
+    {title:'Step 1 — Perform decimal division', body:da + ' &divide; ' + db + ' = <span class="hl">' + dq + '</span> remainder <span class="op">' + dr + '</span>'},
+    {title:'Step 2 — Convert quotient to binary', body:'Quotient ' + dq + ' = <span class="rv">' + dq.toString(2) + '</span>&#8322;'},
+    {title:'Step 3 — Convert remainder to binary', body:'Remainder ' + dr + ' = <span class="op">' + dr.toString(2) + '</span>&#8322;'},
+    {title:'Final answer', body:'<span class="hl">' + a + '</span>&#8322; &divide; <span class="hl">' + b + '</span>&#8322; = <span class="rv">' + dq.toString(2) + '</span>&#8322; remainder <span class="op">' + dr.toString(2) + '</span>&#8322;'}
+  ], dq.toString(2) + '&#8322; rem ' + dr.toString(2) + '&#8322;');
+}
+
+function solveDec2Bin() {
+  var n = parseInt(document.getElementById('b-d2b').value);
+  if (isNaN(n) || n < 0) { showError('res-d2b', 'Enter a non-negative integer.'); return; }
+  if (n === 0) { showResult('res-d2b', [{title:'Special case',body:'0 in binary = <span class="rv">0</span>&#8322;'}], '0&#8322;'); return; }
+  var orig = n, bits = [], steps = [];
+  steps.push({title:'Method: repeatedly divide by 2, record remainders', body:'We read the remainders from <strong>bottom to top</strong>'});
+  while (n > 0) {
+    var rem = n % 2;
+    steps.push({title:'Divide ' + n + ' by 2', body:n + ' &#247; 2 = <span class="hl">' + Math.floor(n/2) + '</span> &nbsp; remainder = <span class="rv">' + rem + '</span>'});
+    bits.push(rem);
+    n = Math.floor(n / 2);
+  }
+  var bin = bits.slice().reverse().join('');
+  steps.push({title:'Read remainders from bottom to top', body:'Bits: <span class="rv">' + bin + '</span>&#8322;'});
+  steps.push({title:'Verification', body:'<span class="rv">' + bin + '</span>&#8322; = ' + parseInt(bin,2) + '&#8321;&#8320; &#10003;'});
+  showResult('res-d2b', steps, bin + '&#8322;');
+}
+
+function solveBin2Dec() {
+  var b = document.getElementById('b-b2d').value.trim();
+  if (!isBin(b)) { showError('res-b2d', 'Enter a valid binary number (0s and 1s only).'); return; }
+  var log = '', total = 0;
+  for (var i = 0; i < b.length; i++) {
+    var pos = b.length - 1 - i;
+    var bit = parseInt(b[i]);
+    var val = bit * Math.pow(2, pos);
+    total += val;
+    log += b[i] + ' &times; 2<sup>' + pos + '</sup> = <span class="hl">' + val + '</span><br>';
+  }
+  showResult('res-b2d', [
+    {title:'Binary number', body:'<span class="hl">' + b + '</span>&#8322; has ' + b.length + ' bits'},
+    {title:'Expand each bit by its positional value (rightmost = 2⁰)', body:log},
+    {title:'Sum all values', body:'Total = <span class="rv">' + total + '</span>&#8321;&#8320;'}
+  ], total + '&#8321;&#8320;');
+}
+
+/* ────────────────────────────────────────
+   MATRIX BUILDERS
+──────────────────────────────────────── */
+function buildAB(prefix) {
+  var r = parseInt(document.getElementById(prefix + '-r').value) || 2;
+  var c = parseInt(document.getElementById(prefix + '-c').value) || 2;
+  var html = '';
+  ['A','B'].forEach(function(mat) {
+    html += '<p class="matrix-label">Matrix ' + mat + '</p>';
+    html += '<div class="matrix-grid" style="grid-template-columns:repeat(' + c + ',72px);">';
+    for (var i = 0; i < r; i++) for (var j = 0; j < c; j++)
+      html += '<input type="number" id="' + prefix + '-' + mat + '-' + i + '-' + j + '" value="0">';
+    html += '</div>';
+  });
+  document.getElementById(prefix + '-inputs').innerHTML = html;
+}
+
+function buildMul() {
+  var m = parseInt(document.getElementById('mmul-m').value) || 2;
+  var n = parseInt(document.getElementById('mmul-n').value) || 2;
+  var p = parseInt(document.getElementById('mmul-p').value) || 2;
+  var html = '';
+  html += '<p class="matrix-label">Matrix A (' + m + '&#215;' + n + ')</p>';
+  html += '<div class="matrix-grid" style="grid-template-columns:repeat(' + n + ',72px);">';
+  for (var i=0;i<m;i++) for (var j=0;j<n;j++) html += '<input type="number" id="mmul-A-' + i + '-' + j + '" value="0">';
+  html += '</div>';
+  html += '<p class="matrix-label">Matrix B (' + n + '&#215;' + p + ')</p>';
+  html += '<div class="matrix-grid" style="grid-template-columns:repeat(' + p + ',72px);">';
+  for (var i=0;i<n;i++) for (var j=0;j<p;j++) html += '<input type="number" id="mmul-B-' + i + '-' + j + '" value="0">';
+  html += '</div>';
+  document.getElementById('mmul-inputs').innerHTML = html;
+}
+
+function buildDet() {
+  var s = parseInt(document.getElementById('mdet-size').value) || 2;
+  var html = '<p class="matrix-label">Matrix A (' + s + '&#215;' + s + ')</p>';
+  html += '<div class="matrix-grid" style="grid-template-columns:repeat(' + s + ',72px);">';
+  for (var i=0;i<s;i++) for (var j=0;j<s;j++) html += '<input type="number" id="mdet-A-' + i + '-' + j + '" value="0">';
+  html += '</div>';
+  document.getElementById('mdet-inputs').innerHTML = html;
+}
+
+function buildTrans() {
+  var r = parseInt(document.getElementById('mtrans-r').value) || 2;
+  var c = parseInt(document.getElementById('mtrans-c').value) || 3;
+  var html = '<p class="matrix-label">Matrix A (' + r + '&#215;' + c + ')</p>';
+  html += '<div class="matrix-grid" style="grid-template-columns:repeat(' + c + ',72px);">';
+  for (var i=0;i<r;i++) for (var j=0;j<c;j++) html += '<input type="number" id="mtrans-A-' + i + '-' + j + '" value="0">';
+  html += '</div>';
+  document.getElementById('mtrans-inputs').innerHTML = html;
+}
+
+function readMat(prefix, mat, rows, cols) {
+  var m = [];
+  for (var i=0;i<rows;i++) {
+    var row = [];
+    for (var j=0;j<cols;j++) row.push(parseFloat(document.getElementById(prefix+'-'+mat+'-'+i+'-'+j).value)||0);
+    m.push(row);
+  }
+  return m;
+}
+
+function fmtMat(m) {
+  var html = '<div class="matrix-display">';
+  for (var i=0;i<m.length;i++) {
+    html += '<div class="mrow">';
+    for (var j=0;j<m[i].length;j++) html += '<span class="mcell">' + m[i][j] + '</span>';
+    html += '</div>';
+  }
+  return html + '</div>';
+}
+
+/* ────────────────────────────────────────
+   MATRIX SOLVERS
+──────────────────────────────────────── */
+function solveMatAdd() {
+  var r = parseInt(document.getElementById('madd-r').value)||2;
+  var c = parseInt(document.getElementById('madd-c').value)||2;
+  var A = readMat('madd','A',r,c), B = readMat('madd','B',r,c);
+  var C = [], log = '';
+  for (var i=0;i<r;i++) { C.push([]); for (var j=0;j<c;j++) { var v=A[i][j]+B[i][j]; C[i].push(v); log+='C['+i+']['+j+'] = '+A[i][j]+' + '+B[i][j]+' = <span class="rv">'+v+'</span><br>'; } }
+  showResult('res-madd', [
+    {title:'Matrix A', body:fmtMat(A)},
+    {title:'Matrix B', body:fmtMat(B)},
+    {title:'Add corresponding elements', body:log},
+    {title:'Result C = A + B', body:fmtMat(C)}
+  ], 'See result matrix above');
+}
+
+function solveMatSub() {
+  var r = parseInt(document.getElementById('msub-r').value)||2;
+  var c = parseInt(document.getElementById('msub-c').value)||2;
+  var A = readMat('msub','A',r,c), B = readMat('msub','B',r,c);
+  var C = [], log = '';
+  for (var i=0;i<r;i++) { C.push([]); for (var j=0;j<c;j++) { var v=A[i][j]-B[i][j]; C[i].push(v); log+='C['+i+']['+j+'] = '+A[i][j]+' &#8722; '+B[i][j]+' = <span class="rv">'+v+'</span><br>'; } }
+  showResult('res-msub', [
+    {title:'Matrix A', body:fmtMat(A)},
+    {title:'Matrix B', body:fmtMat(B)},
+    {title:'Subtract corresponding elements', body:log},
+    {title:'Result C = A &#8722; B', body:fmtMat(C)}
+  ], 'See result matrix above');
+}
+
+function solveMatMul() {
+  var m = parseInt(document.getElementById('mmul-m').value)||2;
+  var n = parseInt(document.getElementById('mmul-n').value)||2;
+  var p = parseInt(document.getElementById('mmul-p').value)||2;
+  var A = readMat('mmul','A',m,n), B = readMat('mmul','B',n,p);
+  var C = [], log = '';
+  for (var i=0;i<m;i++) {
+    C.push([]);
+    for (var j=0;j<p;j++) {
+      var sum=0, parts=[];
+      for (var k=0;k<n;k++) { parts.push(A[i][k]+'&#215;'+B[k][j]); sum+=A[i][k]*B[k][j]; }
+      C[i].push(sum);
+      log+='C['+i+']['+j+'] = '+parts.join(' + ')+' = <span class="rv">'+sum+'</span><br>';
     }
   }
+  showResult('res-mmul', [
+    {title:'Matrix A ('+m+'&#215;'+n+')', body:fmtMat(A)},
+    {title:'Matrix B ('+n+'&#215;'+p+')', body:fmtMat(B)},
+    {title:'Dot product for each cell', body:log},
+    {title:'Result C = A &#215; B ('+m+'&#215;'+p+')', body:fmtMat(C)}
+  ], 'See result matrix above');
 }
 
-function showResult(boxId, items, headerText) {
-  var box = document.getElementById(boxId);
-  box.innerHTML = '';
-  box.classList.add('visible');
-  if(headerText) {
-    var h = document.createElement('div');
-    h.className = 'res-header';
-    h.innerHTML = headerText;
-    box.appendChild(h);
+function solveMatDet() {
+  var s = parseInt(document.getElementById('mdet-size').value)||2;
+  var A = readMat('mdet','A',s,s);
+  if (s === 2) {
+    var d = A[0][0]*A[1][1] - A[0][1]*A[1][0];
+    showResult('res-mdet', [
+      {title:'Matrix A (2&#215;2)', body:fmtMat(A)},
+      {title:'Formula: det(A) = ad &#8722; bc', body:'a='+A[0][0]+', b='+A[0][1]+', c='+A[1][0]+', d='+A[1][1]},
+      {title:'Calculate', body:A[0][0]+'&#215;'+A[1][1]+' &#8722; '+A[0][1]+'&#215;'+A[1][0]+' = '+(A[0][0]*A[1][1])+' &#8722; '+(A[0][1]*A[1][0])+' = <span class="rv">'+d+'</span>'}
+    ], 'det(A) = ' + d);
+  } else {
+    var a = A;
+    var m00 = a[1][1]*a[2][2]-a[1][2]*a[2][1];
+    var m01 = a[1][0]*a[2][2]-a[1][2]*a[2][0];
+    var m02 = a[1][0]*a[2][1]-a[1][1]*a[2][0];
+    var det = a[0][0]*m00 - a[0][1]*m01 + a[0][2]*m02;
+    showResult('res-mdet', [
+      {title:'Matrix A (3&#215;3)', body:fmtMat(A)},
+      {title:'Cofactor expansion along Row 1', body:'det = a&#8320;&#8320;&#183;M&#8320;&#8320; &#8722; a&#8320;&#8321;&#183;M&#8320;&#8321; + a&#8320;&#8322;&#183;M&#8320;&#8322;'},
+      {title:'Minor M&#8320;&#8320; (remove row 0, col 0)', body:a[1][1]+'&#215;'+a[2][2]+' &#8722; '+a[1][2]+'&#215;'+a[2][1]+' = <span class="hl">'+m00+'</span>'},
+      {title:'Minor M&#8320;&#8321; (remove row 0, col 1)', body:a[1][0]+'&#215;'+a[2][2]+' &#8722; '+a[1][2]+'&#215;'+a[2][0]+' = <span class="hl">'+m01+'</span>'},
+      {title:'Minor M&#8320;&#8322; (remove row 0, col 2)', body:a[1][0]+'&#215;'+a[2][1]+' &#8722; '+a[1][1]+'&#215;'+a[2][0]+' = <span class="hl">'+m02+'</span>'},
+      {title:'Final calculation', body:a[0][0]+'&#215;'+m00+' &#8722; '+a[0][1]+'&#215;'+m01+' + '+a[0][2]+'&#215;'+m02+' = <span class="rv">'+det+'</span>'}
+    ], 'det(A) = ' + det);
   }
-  items.forEach(function(it){
-    var div = document.createElement('div');
-    div.className = 'res-item';
-    div.innerHTML = '<div class="res-title">' + it.title + '</div><div class="res-body">' + it.body + '</div>';
-    box.appendChild(div);
-  });
 }
 
-function showError(boxId, msg) {
-  var box = document.getElementById(boxId);
-  box.innerHTML = '<div class="op" style="font-size:16px; font-weight:bold;">⚠️ Error: ' + msg + '</div>';
-  box.classList.add('visible');
+function solveMatTrans() {
+  var r = parseInt(document.getElementById('mtrans-r').value)||2;
+  var c = parseInt(document.getElementById('mtrans-c').value)||3;
+  var A = readMat('mtrans','A',r,c);
+  var T = [];
+  for (var j=0;j<c;j++) { T.push([]); for (var i=0;i<r;i++) T[j].push(A[i][j]); }
+  var log = '';
+  for (var i=0;i<r;i++) for (var j=0;j<c;j++) log += 'A['+i+']['+j+'] &#8594; T['+j+']['+i+'] = <span class="rv">'+A[i][j]+'</span><br>';
+  showResult('res-mtrans', [
+    {title:'Original Matrix A ('+r+'&#215;'+c+')', body:fmtMat(A)},
+    {title:'Transpose: swap row and column indices', body:log},
+    {title:'Transposed A&#7488; ('+c+'&#215;'+r+')', body:fmtMat(T)}
+  ], 'See transposed matrix above');
 }
 
-function calcGeometric() {
-  var a1 = parseFloat(document.getElementById('seq-a1').value);
-  var r = parseFloat(document.getElementById('seq-r').value);
+/* ────────────────────────────────────────
+   PRIME
+──────────────────────────────────────── */
+function isPrime(n) {
+  if (n < 2) return false;
+  if (n === 2) return true;
+  if (n % 2 === 0) return false;
+  for (var i = 3; i <= Math.sqrt(n); i += 2) if (n % i === 0) return false;
+  return true;
+}
+
+function solvePrimeTest() {
+  var n = parseInt(document.getElementById('pt-n').value);
+  if (isNaN(n) || n < 2) { showError('res-pt', 'Enter an integer >= 2.'); return; }
+  var sq = Math.floor(Math.sqrt(n));
+  var prime = isPrime(n);
+  var checkLog = '', foundDiv = 0;
+  for (var i = 2; i <= sq; i++) {
+    if (n % i === 0) { foundDiv = i; checkLog += n + ' &#247; ' + i + ' = ' + (n/i) + ' &#8594; remainder <span class="op">0</span> &#8592; divisor found!<br>'; break; }
+    checkLog += n + ' &#247; ' + i + ' = ' + (n/i).toFixed(2) + ' &#8594; remainder <span class="hl">' + (n%i) + '</span><br>';
+  }
+  if (!checkLog) checkLog = 'n = 2 or 3, no divisors to test beyond itself.';
+  showResult('res-pt', [
+    {title:'Number to test', body:'n = <span class="hl">' + n + '</span>'},
+    {title:'Rule: A prime has no divisors except 1 and itself', body:'Only check up to &#8730;' + n + ' = <span class="hl">' + sq + '</span>'},
+    {title:'Test divisibility for each i from 2 to ' + sq, body:checkLog},
+    {title:'Conclusion', body: prime ? '<span class="rv">' + n + ' IS a prime number &#10003;</span>' : '<span class="op">' + n + ' is NOT prime &#8212; divisible by ' + foundDiv + '</span>'}
+  ], prime ? n + ' is PRIME' : n + ' is NOT prime');
+}
+
+function solvePrimeList() {
+  var from = parseInt(document.getElementById('pl-from').value) || 1;
+  var to = parseInt(document.getElementById('pl-to').value) || 50;
+  if (to < from) { showError('res-pl', '"To" must be greater than "From".'); return; }
+  if (to - from > 500) { showError('res-pl', 'Range too large (max 500).'); return; }
+  var primes = [];
+  for (var i = from; i <= to; i++) if (isPrime(i)) primes.push(i);
+  var el = document.getElementById('res-pl');
+  el.innerHTML = '<div class="result-header"><div class="dot"></div><span>Primes from ' + from + ' to ' + to + '</span></div>'
+    + '<div class="steps-container"><div class="step-content"><div class="step-title">Found ' + primes.length + ' prime number(s)</div>'
+    + '<div class="prime-grid">' + primes.map(function(p){return'<span class="prime-chip">'+p+'</span>';}).join('') + '</div></div></div>';
+  el.classList.add('show');
+}
+
+function solvePrimeFact() {
+  var n = parseInt(document.getElementById('pf-n').value);
+  if (isNaN(n) || n < 2) { showError('res-pf', 'Enter an integer >= 2.'); return; }
+  var orig = n, factors = [], log = '', d = 2;
+  while (n > 1) {
+    while (n % d === 0) {
+      log += n + ' &#247; ' + d + ' = <span class="hl">' + (n/d) + '</span> &nbsp; (prime factor: <span class="rv">' + d + '</span>)<br>';
+      factors.push(d); n = n / d;
+    }
+    d++;
+  }
+  showResult('res-pf', [
+    {title:'Number', body:'n = <span class="hl">' + orig + '</span>'},
+    {title:'Divide by smallest prime factor repeatedly', body:log},
+    {title:'Prime Factorization', body:'<span class="rv">' + orig + '</span> = <span class="hl">' + factors.join(' &#215; ') + '</span>'}
+  ], orig + ' = ' + factors.join(' &#215; '));
+}
+
+/* ════════════════════════════════════════
+   DERIVATIVES
+════════════════════════════════════════ */
+
+function parsePoly(str) {
+  var terms = [];
+  str = str.replace(/\s+/g,'').replace(/-/g,'+-');
+  var parts = str.split('+').filter(function(s){return s!=='';});
+  for (var i=0;i<parts.length;i++) {
+    var p = parts[i].trim();
+    if (p === '') continue;
+    var coef, power;
+    if (p.indexOf('x') === -1) {
+      coef = parseFloat(p); power = 0;
+    } else {
+      var xIdx = p.indexOf('x');
+      var cStr = p.substring(0, xIdx);
+      coef = (cStr===''||cStr==='+') ? 1 : (cStr==='-' ? -1 : parseFloat(cStr));
+      if (p.indexOf('^') !== -1) {
+        power = parseFloat(p.substring(p.indexOf('^')+1));
+      } else {
+        power = 1;
+      }
+    }
+    if (!isNaN(coef) && !isNaN(power)) terms.push({coef:coef, power:power});
+  }
+  return terms;
+}
+
+function fmtTerm(coef, power, isFirst) {
+  if (coef === 0) return null;
+  var sign = coef < 0 ? '&#8722;' : (isFirst ? '' : '+');
+  var abs = Math.abs(coef);
+  var cStr = (abs === 1 && power !== 0) ? '' : (Number.isInteger(abs) ? abs.toString() : abs.toFixed(3));
+  if (power === 0) return sign + (abs===1?'1':cStr);
+  if (power === 1) return sign + cStr + 'x';
+  return sign + cStr + 'x<sup>' + power + '</sup>';
+}
+
+function polyToStr(terms) {
+  if (terms.length === 0) return '0';
+  var out = '';
+  for (var i=0;i<terms.length;i++) {
+    var t = fmtTerm(terms[i].coef, terms[i].power, i===0);
+    if (t !== null) out += t;
+  }
+  return out || '0';
+}
+
+function solvePowerRule() {
+  var fx = document.getElementById('dp-fx').value.trim();
+  if (!fx) { showError('res-dp', 'Enter a polynomial.'); return; }
+  var terms = parsePoly(fx);
+  if (terms.length === 0) { showError('res-dp', 'Could not parse polynomial. Use format: 3x^4 + 2x^2 - 5x + 7'); return; }
+  var derivTerms = [], stepLog = '';
+  for (var i=0;i<terms.length;i++) {
+    var t = terms[i];
+    if (t.power === 0) {
+      stepLog += 'Term <span class="hl">' + fmtTerm(t.coef,t.power,true) + '</span>: constant &#8594; derivative = <span class="op">0</span><br>';
+    } else {
+      var nc = t.coef * t.power, np = t.power - 1;
+      stepLog += 'Term <span class="hl">' + fmtTerm(t.coef,t.power,true) + '</span>: bring down power ' + t.power + ', multiply &#8594; <span class="rv">' + fmtTerm(nc,np,true) + '</span><br>';
+      derivTerms.push({coef:nc, power:np});
+    }
+  }
+  var dStr = polyToStr(derivTerms);
+  showResult('res-dp', [
+    {title:'Function f(x)', body:'f(x) = <span class="hl">' + fx + '</span>'},
+    {title:'Power Rule: d/dx[ax&#8319;] = n&#183;a&#183;x&#8319;&#8315;&#185;', body:'Apply to each term:'},
+    {title:'Apply to each term', body:stepLog},
+    {title:"f'(x)", body:"f'(x) = <span class='rv'>" + dStr + "</span>"}
+  ], "f'(x) = " + dStr);
+}
+
+function solveProductRule() {
+  var ua = parseFloat(document.getElementById('dpr-ua').value)||1;
+  var un = parseFloat(document.getElementById('dpr-un').value)||1;
+  var va = parseFloat(document.getElementById('dpr-va').value)||1;
+  var vm = parseFloat(document.getElementById('dpr-vm').value)||1;
+  var uStr = fmtTerm(ua,un,true), vStr = fmtTerm(va,vm,true);
+  var duC = ua*un, duN = un-1;
+  var dvC = va*vm, dvN = vm-1;
+  var duStr = fmtTerm(duC,duN,true), dvStr = fmtTerm(dvC,dvN,true);
+  showResult('res-dpr', [
+    {title:'Given', body:'u(x) = <span class="hl">' + uStr + '</span> &nbsp;&nbsp; v(x) = <span class="hl">' + vStr + '</span>'},
+    {title:"Product Rule: (uv)' = u'v + uv'", body:"Find u' and v' first"},
+    {title:"u'(x) — apply power rule to u", body:"u'(x) = " + ua + '&#215;' + un + '&#183;x<sup>' + (un-1) + '</sup> = <span class="rv">' + duStr + '</span>'},
+    {title:"v'(x) — apply power rule to v", body:"v'(x) = " + va + '&#215;' + vm + '&#183;x<sup>' + (vm-1) + '</sup> = <span class="rv">' + dvStr + '</span>'},
+    {title:"Apply Product Rule: u'v + uv'", body:'= (<span class="hl">' + duStr + '</span>)&#183;(<span class="hl">' + vStr + '</span>) + (<span class="hl">' + uStr + '</span>)&#183;(<span class="hl">' + dvStr + '</span>)'},
+    {title:'Result (expand and simplify if needed)', body:"f'(x) = <span class='rv'>" + duStr + '&#183;' + vStr + ' + ' + uStr + '&#183;' + dvStr + "</span>"}
+  ], duStr + '&#183;' + vStr + ' + ' + uStr + '&#183;' + dvStr);
+}
+
+function solveQuotientRule() {
+  var ua = parseFloat(document.getElementById('dqr-ua').value)||1;
+  var un = parseFloat(document.getElementById('dqr-un').value)||1;
+  var va = parseFloat(document.getElementById('dqr-va').value)||1;
+  var vm = parseFloat(document.getElementById('dqr-vm').value)||1;
+  var uStr = fmtTerm(ua,un,true), vStr = fmtTerm(va,vm,true);
+  var duC = ua*un, duN = un-1;
+  var dvC = va*vm, dvN = vm-1;
+  var duStr = fmtTerm(duC,duN,true), dvStr = fmtTerm(dvC,dvN,true);
+  var v2 = '(' + vStr + ')&#178;';
+  showResult('res-dqr', [
+    {title:'Given', body:'u(x) = <span class="hl">' + uStr + '</span> &nbsp;&nbsp; v(x) = <span class="hl">' + vStr + '</span>'},
+    {title:"Quotient Rule: (u/v)' = (u'v &#8722; uv') / v&#178;", body:"Find u' and v' first"},
+    {title:"u'(x)", body:"u'(x) = <span class='rv'>" + duStr + "</span>"},
+    {title:"v'(x)", body:"v'(x) = <span class='rv'>" + dvStr + "</span>"},
+    {title:"Numerator: u'v &#8722; uv'", body:'= (<span class="hl">' + duStr + '</span>)&#183;(<span class="hl">' + vStr + '</span>) &#8722; (<span class="hl">' + uStr + '</span>)&#183;(<span class="hl">' + dvStr + '</span>)'},
+    {title:'Result', body:"f'(x) = [ " + duStr + '&#183;' + vStr + ' &#8722; ' + uStr + '&#183;' + dvStr + ' ] / <span class="rv">' + v2 + "</span>"}
+  ], '[ ' + duStr + '&#183;' + vStr + ' &#8722; ' + uStr + '&#183;' + dvStr + ' ] / ' + v2);
+}
+
+function solveChainRule() {
+  var outer = document.getElementById('dcr-outer').value;
+  var p = parseFloat(document.getElementById('dcr-p').value)||3;
+  var a = parseFloat(document.getElementById('dcr-a').value)||1;
+  var n = parseFloat(document.getElementById('dcr-n').value)||1;
+  var gStr = fmtTerm(a,n,true);
+  var gpC = a*n, gpN = n-1;
+  var gpStr = fmtTerm(gpC,gpN,true) || '0';
+  var fStr, fpStr, result;
+  if (outer === 'pow') {
+    fStr = '(' + gStr + ')^' + p;
+    fpStr = p + '&#183;(' + gStr + ')<sup>' + (p-1) + '</sup>';
+    result = p + '&#183;(' + gStr + ')<sup>' + (p-1) + '</sup> &#183; <span class="rv">(' + gpStr + ')</span>';
+  } else if (outer === 'sin') {
+    fStr = 'sin(' + gStr + ')';
+    fpStr = 'cos(' + gStr + ')';
+    result = 'cos(' + gStr + ') &#183; <span class="rv">(' + gpStr + ')</span>';
+  } else if (outer === 'cos') {
+    fStr = 'cos(' + gStr + ')';
+    fpStr = '&#8722;sin(' + gStr + ')';
+    result = '&#8722;sin(' + gStr + ') &#183; <span class="rv">(' + gpStr + ')</span>';
+  } else if (outer === 'exp') {
+    fStr = 'e^(' + gStr + ')';
+    fpStr = 'e^(' + gStr + ')';
+    result = 'e^(' + gStr + ') &#183; <span class="rv">(' + gpStr + ')</span>';
+  } else {
+    fStr = 'ln(' + gStr + ')';
+    fpStr = '1 / (' + gStr + ')';
+    result = '1/(' + gStr + ') &#183; <span class="rv">(' + gpStr + ')</span>';
+  }
+  showResult('res-dcr', [
+    {title:'Composite function', body:'f(x) = <span class="hl">' + fStr + '</span>'},
+    {title:'Identify outer f and inner g(x)', body:'Outer f: differentiate the outer function type<br>Inner g(x) = <span class="hl">' + gStr + '</span>'},
+    {title:"g'(x) — differentiate the inner function (power rule)", body:"g'(x) = <span class='rv'>" + gpStr + "</span>"},
+    {title:"f'(g(x)) — differentiate outer, keep inner unchanged", body:"f'(g) = <span class='rv'>" + fpStr + "</span>"},
+    {title:"Chain Rule: f'(g(x)) &#183; g'(x)", body:"Result = " + fpStr + " &#183; (" + gpStr + ')'},
+    {title:'Final Answer', body:"f'(x) = <span class='rv'>" + result + "</span>"}
+  ], result);
+}
+
+function solveTrigDeriv() {
+  var type = document.getElementById('dtl-type').value;
+  var a = parseFloat(document.getElementById('dtl-a').value)||2;
+  var steps, ans;
+  if (type==='sin') {
+    steps=[{title:'Function',body:'f(x) = <span class="hl">sin(x)</span>'},{title:'Standard derivative rule',body:'d/dx[sin x] = <span class="rv">cos x</span>'}];
+    ans='cos x';
+  } else if (type==='cos') {
+    steps=[{title:'Function',body:'f(x) = <span class="hl">cos(x)</span>'},{title:'Standard derivative rule',body:'d/dx[cos x] = <span class="rv">&#8722;sin x</span>'}];
+    ans='&#8722;sin x';
+  } else if (type==='tan') {
+    steps=[
+      {title:'Function',body:'f(x) = <span class="hl">tan(x)</span>'},
+      {title:'Recall: tan x = sin x / cos x',body:'Use Quotient Rule'},
+      {title:'Result',body:'d/dx[tan x] = sec&#178;x = 1/cos&#178;x = <span class="rv">sec&#178;(x)</span>'}
+    ];
+    ans='sec&#178;(x)';
+  } else if (type==='ex') {
+    steps=[{title:'Function',body:'f(x) = <span class="hl">e&#739;</span>'},{title:'Special property',body:'e&#739; is its own derivative'},{title:'Result',body:'d/dx[e&#739;] = <span class="rv">e&#739;</span>'}];
+    ans='e&#739;';
+  } else if (type==='ax') {
+    steps=[
+      {title:'Function',body:'f(x) = <span class="hl">' + a + '&#739;</span>'},
+      {title:'Formula',body:'d/dx[a&#739;] = a&#739; &#183; ln(a)'},
+      {title:'Substitute a = ' + a,body:a+'&#739; &#183; ln('+a+') = <span class="rv">'+a+'&#739; &#183; ln('+a+')</span>'}
+    ];
+    ans=a+'&#739; &#183; ln('+a+')';
+  } else if (type==='lnx') {
+    steps=[{title:'Function',body:'f(x) = <span class="hl">ln(x)</span>'},{title:'Standard rule',body:'d/dx[ln x] = <span class="rv">1/x</span>'}];
+    ans='1/x';
+  } else {
+    steps=[
+      {title:'Function',body:'f(x) = <span class="hl">log&#x2090;(x)</span> where a = '+a},
+      {title:'Formula',body:'d/dx[log&#x2090; x] = 1 / (x &#183; ln(a))'},
+      {title:'Substitute a = '+a,body:'= 1 / (x &#183; ln('+a+')) = <span class="rv">1/(x&#183;ln('+a+'))</span>'}
+    ];
+    ans='1/(x&#183;ln('+a+'))';
+  }
+  showResult('res-dtl', steps, ans);
+}
+
+/* ════════════════════════════════════════
+   INTEGRALS
+════════════════════════════════════════ */
+
+function solveIndef() {
+  var fx = document.getElementById('ii-fx').value.trim();
+  if (!fx) { showError('res-ii', 'Enter a polynomial.'); return; }
+  var terms = parsePoly(fx);
+  if (terms.length === 0) { showError('res-ii', 'Could not parse. Use format: 4x^3 + 2x - 6'); return; }
+  var intTerms = [], stepLog = '';
+  for (var i=0;i<terms.length;i++) {
+    var t = terms[i];
+    if (t.power === -1) {
+      stepLog += 'Term <span class="hl">' + fmtTerm(t.coef,t.power,true) + '</span>: &#8747;(1/x)dx = ln|x| &#8594; <span class="rv">' + (t.coef!==1?t.coef+'&#183;':'') + 'ln|x|</span><br>';
+      intTerms.push({coef:t.coef, power:'ln'});
+    } else {
+      var newPow = t.power + 1;
+      var newCoef = t.coef / newPow;
+      var newCoefStr = Number.isInteger(newCoef) ? newCoef : '(' + t.coef + '/' + newPow + ')';
+      stepLog += 'Term <span class="hl">' + fmtTerm(t.coef,t.power,true) + '</span>: increase power by 1 &#8594; ' + t.coef + '/('+newPow+') &#183; x<sup>'+newPow+'</sup> = <span class="rv">' + newCoefStr + 'x<sup>'+newPow+'</sup></span><br>';
+      intTerms.push({coef:newCoef, power:newPow});
+    }
+  }
+  var intStr = polyToStr(intTerms) + ' + C';
+  showResult('res-ii', [
+    {title:'Integrand f(x)', body:'f(x) = <span class="hl">' + fx + '</span>'},
+    {title:'Power Rule of Integration: &#8747;ax&#8319;dx = (a/(n+1))x&#8319;&#8314;&#185; + C', body:'Apply to each term:'},
+    {title:'Integrate each term', body:stepLog},
+    {title:'Result', body:'&#8747;f(x)dx = <span class="rv">' + intStr + '</span>'}
+  ], intStr);
+}
+
+function evalPolyAt(terms, x) {
+  var sum = 0;
+  for (var i=0;i<terms.length;i++) sum += terms[i].coef * Math.pow(x, terms[i].power);
+  return sum;
+}
+
+function getAntiDerivTerms(terms) {
+  var result = [];
+  for (var i=0;i<terms.length;i++) {
+    var t = terms[i];
+    var np = t.power + 1;
+    result.push({coef: t.coef / np, power: np});
+  }
+  return result;
+}
+
+function solveDefin() {
+  var fx = document.getElementById('id-fx').value.trim();
+  var a = parseFloat(document.getElementById('id-a').value);
+  var b = parseFloat(document.getElementById('id-b').value);
+  if (!fx) { showError('res-id', 'Enter a polynomial.'); return; }
+  if (isNaN(a) || isNaN(b)) { showError('res-id', 'Enter valid limits a and b.'); return; }
+  var terms = parsePoly(fx);
+  if (terms.length === 0) { showError('res-id', 'Could not parse polynomial.'); return; }
+  var anti = getAntiDerivTerms(terms);
+  var antiStr = polyToStr(anti);
+  var Fb = evalPolyAt(anti, b);
+  var Fa = evalPolyAt(anti, a);
+  var result = Fb - Fa;
+  var FbStr = evalPolyAt(anti, b).toFixed(4).replace(/\.?0+$/,'');
+  var FaStr = evalPolyAt(anti, a).toFixed(4).replace(/\.?0+$/,'');
+  showResult('res-id', [
+    {title:'Integrand f(x)', body:'f(x) = <span class="hl">' + fx + '</span> &nbsp; from a=' + a + ' to b=' + b},
+    {title:'Step 1 — Find antiderivative F(x)', body:'F(x) = <span class="hl">' + antiStr + '</span>'},
+    {title:'Step 2 — Evaluate F(b) = F(' + b + ')', body:'F(' + b + ') = <span class="hl">' + FbStr + '</span>'},
+    {title:'Step 3 — Evaluate F(a) = F(' + a + ')', body:'F(' + a + ') = <span class="hl">' + FaStr + '</span>'},
+    {title:'Step 4 — Compute F(b) &#8722; F(a)', body:FbStr + ' &#8722; ' + FaStr + ' = <span class="rv">' + parseFloat(result.toFixed(6)) + '</span>'}
+  ], parseFloat(result.toFixed(6)).toString());
+}
+
+function solveTrigInteg() {
+  var type = document.getElementById('itl-type').value;
+  var a = parseFloat(document.getElementById('itl-a').value)||2;
+  var steps, ans;
+  if (type==='sinx') {
+    steps=[{title:'Integrand',body:'&#8747; sin(x) dx'},{title:'Standard integral rule',body:'&#8747; sin(x) dx = <span class="rv">&#8722;cos(x) + C</span>'}];
+    ans='&#8722;cos(x) + C';
+  } else if (type==='cosx') {
+    steps=[{title:'Integrand',body:'&#8747; cos(x) dx'},{title:'Standard integral rule',body:'&#8747; cos(x) dx = <span class="rv">sin(x) + C</span>'}];
+    ans='sin(x) + C';
+  } else if (type==='ex') {
+    steps=[
+      {title:'Integrand',body:'&#8747; e&#739; dx'},
+      {title:'Special property',body:'e&#739; is its own antiderivative'},
+      {title:'Result',body:'&#8747; e&#739; dx = <span class="rv">e&#739; + C</span>'}
+    ];
+    ans='e&#739; + C';
+  } else if (type==='invx') {
+    steps=[
+      {title:'Integrand',body:'&#8747; (1/x) dx'},
+      {title:'This is the special case n = &#8722;1',body:'Power rule does NOT apply when n = &#8722;1'},
+      {title:'Standard rule',body:'&#8747; (1/x) dx = <span class="rv">ln|x| + C</span>'}
+    ];
+    ans='ln|x| + C';
+  } else if (type==='ax') {
+    steps=[
+      {title:'Integrand',body:'&#8747; ' + a + '&#739; dx'},
+      {title:'Formula',body:'&#8747; a&#739; dx = a&#739; / ln(a) + C'},
+      {title:'Substitute a = '+a,body:'= <span class="rv">' + a + '&#739; / ln(' + a + ') + C</span>'}
+    ];
+    ans=a+'&#739; / ln('+a+') + C';
+  } else {
+    steps=[
+      {title:'Integrand',body:'&#8747; tan(x) dx'},
+      {title:'Recall: tan x = sin x / cos x',body:'Use substitution u = cos x'},
+      {title:'Result',body:'&#8747; tan(x) dx = <span class="rv">&#8722;ln|cos(x)| + C = ln|sec(x)| + C</span>'}
+    ];
+    ans='&#8722;ln|cos(x)| + C';
+  }
+  showResult('res-itl', steps, ans);
+}
+
+/* ════════════════════════════════════════
+   SEQUENCES
+════════════════════════════════════════ */
+
+function solveArithSeq() {
+  var a1 = parseFloat(document.getElementById('sa-a1').value);
+  var d = parseFloat(document.getElementById('sa-d').value);
+  var n = parseInt(document.getElementById('sa-n').value);
+  if (isNaN(a1)||isNaN(d)||isNaN(n)||n<1) { showError('res-sa', 'Enter valid numbers. n must be >= 1.'); return; }
+  var an = a1 + (n-1)*d;
+  var sn = (n/2)*(2*a1 + (n-1)*d);
+  var firstTerms = [];
+  for (var i=1;i<=Math.min(n,8);i++) firstTerms.push(a1+(i-1)*d);
+  var seqStr = firstTerms.join(', ') + (n>8?', ...' : '');
+  showResult('res-sa', [
+    {title:'Arithmetic Sequence Parameters', body:'a&#8321; = <span class="hl">' + a1 + '</span> &nbsp; d = <span class="hl">' + d + '</span> &nbsp; n = <span class="hl">' + n + '</span>'},
+    {title:'First terms of the sequence', body:'<span class="hl">' + seqStr + '</span>'},
+    {title:'Formula for nth term: a&#8345; = a&#8321; + (n&#8722;1)d', body:'a&#8345; = ' + a1 + ' + (' + n + '&#8722;1)&#183;' + d + '<br>a&#8345; = ' + a1 + ' + ' + ((n-1)*d) + ' = <span class="rv">' + an + '</span>'},
+    {title:'Formula for partial sum: S&#8345; = n/2 &#183; (2a&#8321; + (n&#8722;1)d)', body:'S&#8345; = ' + n + '/2 &#183; (2&#183;' + a1 + ' + (' + n + '&#8722;1)&#183;' + d + ')<br>= ' + (n/2) + ' &#183; (' + (2*a1) + ' + ' + ((n-1)*d) + ')<br>= ' + (n/2) + ' &#183; ' + (2*a1+(n-1)*d) + ' = <span class="rv">' + sn + '</span>'}
+  ], 'a&#8345; = ' + an + ' &nbsp;|&nbsp; S&#8345; = ' + sn);
+}
+
+function solveGeoSeq() {
+  var a1 = parseFloat(document.getElementById('sg-a1').value);
+  var r = parseFloat(document.getElementById('sg-r').value);
+  var n = parseInt(document.getElementById('sg-n').value);
+  if (isNaN(a1)||isNaN(r)||isNaN(n)||n<1) { showError('res-sg', 'Enter valid numbers. n must be >= 1.'); return; }
+  var an = a1 * Math.pow(r, n-1);
+  var sn = (r === 1) ? n*a1 : a1*(1-Math.pow(r,n))/(1-r);
+  var firstTerms = [];
+  for (var i=1;i<=Math.min(n,8);i++) firstTerms.push(parseFloat((a1*Math.pow(r,i-1)).toFixed(4)));
+  var seqStr = firstTerms.join(', ') + (n>8?', ...' : '');
+  var rnStr = r===1 ? '1' : r+'<sup>'+(n-1)+'</sup> = '+parseFloat(Math.pow(r,n-1).toFixed(6));
+  showResult('res-sg', [
+    {title:'Geometric Sequence Parameters', body:'a&#8321; = <span class="hl">' + a1 + '</span> &nbsp; r = <span class="hl">' + r + '</span> &nbsp; n = <span class="hl">' + n + '</span>'},
+    {title:'First terms of the sequence', body:'<span class="hl">' + seqStr + '</span>'},
+    {title:'Formula for nth term: a&#8345; = a&#8321; &#183; r&#8319;&#8315;&#185;', body:'a&#8345; = ' + a1 + ' &#183; ' + r + '<sup>' + (n-1) + '</sup><br>= ' + a1 + ' &#183; ' + parseFloat(Math.pow(r,n-1).toFixed(6)) + ' = <span class="rv">' + parseFloat(an.toFixed(6)) + '</span>'},
+    {title:'Formula for partial sum: S&#8345; = a&#8321;(1&#8722;r&#8319;)/(1&#8722;r)', body:r===1?'r=1: S&#8345; = n&#183;a&#8321; = '+n+'&#183;'+a1+' = <span class="rv">'+sn+'</span>':'S&#8345; = '+a1+'&#183;(1&#8722;'+r+'<sup>'+n+'</sup>)/(1&#8722;'+r+')<br>= <span class="rv">'+parseFloat(sn.toFixed(6))+'</span>'}
+  ], 'a&#8345; = ' + parseFloat(an.toFixed(6)) + ' &nbsp;|&nbsp; S&#8345; = ' + parseFloat(sn.toFixed(6)));
+}
+
+/* ════════════════════════════════════════
+   SERIES
+════════════════════════════════════════ */
+
+function solveArithSeries() {
+  var a1 = parseFloat(document.getElementById('ara-a1').value);
+  var d = parseFloat(document.getElementById('ara-d').value);
+  var n = parseInt(document.getElementById('ara-n').value);
+  if (isNaN(a1)||isNaN(d)||isNaN(n)||n<1) { showError('res-ara', 'Enter valid numbers.'); return; }
+  var an = a1 + (n-1)*d;
+  var sn1 = (n/2)*(a1+an);
+  var sn2 = (n/2)*(2*a1+(n-1)*d);
+  showResult('res-ara', [
+    {title:'Series Parameters', body:'a&#8321; = <span class="hl">' + a1 + '</span> &nbsp; d = <span class="hl">' + d + '</span> &nbsp; n = <span class="hl">' + n + '</span>'},
+    {title:'Step 1 — Find the last term a&#8345;', body:'a&#8345; = a&#8321; + (n&#8722;1)d = ' + a1 + ' + (' + n + '&#8722;1)&#183;' + d + ' = <span class="hl">' + an + '</span>'},
+    {title:'Step 2 — Apply Sum Formula 1: S&#8345; = n/2 &#183; (a&#8321; + a&#8345;)', body:'S&#8345; = ' + n + '/2 &#183; (' + a1 + ' + ' + an + ') = ' + (n/2) + ' &#183; ' + (a1+an) + ' = <span class="rv">' + sn1 + '</span>'},
+    {title:'Verify with Formula 2: S&#8345; = n/2 &#183; (2a&#8321; + (n&#8722;1)d)', body:'S&#8345; = ' + n + '/2 &#183; (' + (2*a1) + ' + ' + ((n-1)*d) + ') = <span class="rv">' + sn2 + '</span> &#10003;'}
+  ], 'S&#8345; = ' + sn1);
+}
+
+function solveGeoSeries() {
+  var a1 = parseFloat(document.getElementById('grs-a1').value);
+  var r = parseFloat(document.getElementById('grs-r').value);
+  var n = parseInt(document.getElementById('grs-n').value);
+  if (isNaN(a1)||isNaN(r)||isNaN(n)||n<1) { showError('res-grs', 'Enter valid numbers.'); return; }
+  var sn = (r===1) ? n*a1 : a1*(1-Math.pow(r,n))/(1-r);
+  var rn = parseFloat(Math.pow(r,n).toFixed(6));
+  showResult('res-grs', [
+    {title:'Series Parameters', body:'a&#8321; = <span class="hl">' + a1 + '</span> &nbsp; r = <span class="hl">' + r + '</span> &nbsp; n = <span class="hl">' + n + '</span>'},
+    r===1
+      ? {title:'Special Case: r = 1', body:'All terms equal a&#8321; = ' + a1 + '<br>S&#8345; = n &#183; a&#8321; = ' + n + ' &#183; ' + a1 + ' = <span class="rv">' + sn + '</span>'}
+      : {title:'Step 1 — Calculate r&#8319;', body:'r&#8319; = ' + r + '<sup>' + n + '</sup> = <span class="hl">' + rn + '</span>'},
+    r===1
+      ? {title:'Done', body:'S&#8345; = <span class="rv">' + sn + '</span>'}
+      : {title:'Step 2 — Apply Formula: S&#8345; = a&#8321; &#183; (1 &#8722; r&#8319;) / (1 &#8722; r)', body:'S&#8345; = ' + a1 + ' &#183; (1 &#8722; ' + rn + ') / (1 &#8722; ' + r + ')<br>= ' + a1 + ' &#183; ' + parseFloat((1-rn).toFixed(6)) + ' / ' + (1-r) + '<br>= <span class="rv">' + parseFloat(sn.toFixed(6)) + '</span>'}
+  ], 'S&#8345; = ' + parseFloat(sn.toFixed(6)));
+}
+
+function solveInfSeries() {
+  var a1 = parseFloat(document.getElementById('inf-a1').value);
+  var r = parseFloat(document.getElementById('inf-r').value);
   if (isNaN(a1)||isNaN(r)) { showError('res-inf', 'Enter valid numbers.'); return; }
   var absR = Math.abs(r);
   if (absR >= 1) {
     showResult('res-inf', [
-      {title:'Series Parameters', body:'a&#8321; = <span class=\"hl\">' + a1 + '</span> &nbsp; r = <span class=\"hl\">' + r + '</span>'},\
-      {title:'Convergence Test: |r| must be < 1', body:'|r| = |' + r + '| = <span class=\"op\">' + absR + '</span> &#8805; 1'},\
-      {title:'Conclusion', body:'<span class=\"op\">The series DIVERGES &#8212; no finite sum exists</span>'}\
+      {title:'Series Parameters', body:'a&#8321; = <span class="hl">' + a1 + '</span> &nbsp; r = <span class="hl">' + r + '</span>'},
+      {title:'Convergence Test: |r| must be < 1', body:'|r| = |' + r + '| = <span class="op">' + absR + '</span> &#8805; 1'},
+      {title:'Conclusion', body:'<span class="op">The series DIVERGES &#8212; no finite sum exists</span>'}
     ], 'DIVERGES (|r| >= 1)');
   } else {
     var sinf = a1 / (1 - r);
     showResult('res-inf', [
-      {title:'Series Parameters', body:'a&#8321; = <span class=\"hl\">' + a1 + '</span> &nbsp; r = <span class=\"hl\">' + r + '</span>'},\
-      {title:'Convergence Test: |r| must be < 1', body:'|r| = |' + r + '| = <span class=\"hl\">' + absR + '</span> &lt; 1 &#8594; <span class=\"rv\">CONVERGES &#10003;</span>'},\
-      {title:'Formula: S&#8734; = a&#8321; / (1 - r)', body:'S&#8734; = ' + a1 + ' / (1 - (' + r + ')) = <span class=\"rv\" style=\"font-size:18px;\">' + sinf.toFixed(6).replace(/\.?0+$/, '') + '</span>'}\
-    ], 'CONVERGES (Sum Extracted)');
+      {title:'Series Parameters', body:'a&#8321; = <span class="hl">' + a1 + '</span> &nbsp; r = <span class="hl">' + r + '</span>'},
+      {title:'Convergence Test: |r| must be < 1', body:'|r| = |' + r + '| = <span class="hl">' + absR + '</span> &lt; 1 &#8594; <span class="rv">CONVERGES &#10003;</span>'},
+      {title:'Formula: S&#8734; = a&#8321; / (1 &#8722; r)', body:'S&#8734; = ' + a1 + ' / (1 &#8722; ' + r + ') = ' + a1 + ' / ' + (1-r)},
+      {title:'Calculate', body:'S&#8734; = <span class="rv">' + parseFloat(sinf.toFixed(6)) + '</span>'}
+    ], 'S&#8734; = ' + parseFloat(sinf.toFixed(6)));
   }
 }
 
-function buildMatrixInputs() {
-  var size = parseInt(document.getElementById('mat-size').value);
-  var container = document.getElementById('matrix-grid-container');
-  container.innerHTML = '';
-  var g = document.createElement('div');
-  g.style.display = 'grid';
-  g.style.gridTemplateColumns = 'repeat(' + size + ', minmax(60px, 100px))';
-  g.style.gap = '10px';
-  g.style.justifyContent = 'center';
-  g.style.margin = '20px auto';
-  for(var r=0; r<size; r++) {
-    for(var c=0; c<size; c++) {
-      var inp = document.createElement('input');
-      inp.type = 'number';
-      inp.id = 'm_' + r + '_' + c;
-      inp.placeholder = 'R' + (r+1) + 'C' + (c+1);
-      inp.style.textAlign = 'center';
-      inp.style.padding = '10px';
-      g.appendChild(inp);
-    }
-  }
-  container.appendChild(g);
-}
-
-function getMatrixData(size) {
-  var arr = [];
-  for(var r=0; r<size; r++){
-    arr[r] = [];
-    for(var c=0; c<size; c++){
-      var val = parseFloat(document.getElementById('m_' + r + '_' + c).value);
-      if(isNaN(val)) return null;
-      arr[r][c] = val;
-    }
-  }
-  return arr;
-}
-
-function calcMatrix() {
-  var size = parseInt(document.getElementById('mat-size').value);
-  var m = getMatrixData(size);
-  if(!m) { showError('res-mat', 'Please fill all matrix cells.'); return; }
-  if(size === 2) {
-    var det = m[0][0]*m[1][1] - m[0][1]*m[1][0];
-    var trace = m[0][0] + m[1][1];
-    var bodyInv = '';
-    if(det === 0) { bodyInv = 'No inverse (Singular Matrix)'; }
-    else {
-      var inv00 = m[1][1]/det, inv01 = -m[0][1]/det, inv10 = -m[1][0]/det, inv11 = m[0][0]/det;
-      bodyInv = '[' + inv00.toFixed(3) + ', ' + inv01.toFixed(3) + '; ' + inv10.toFixed(3) + ', ' + inv11.toFixed(3) + ']';
-    }
-    showResult('res-mat', [
-      {title:'Determinant (det A)', body:'ad - bc = ' + det},\
-      {title:'Trace (tr A)', body:'a + d = ' + trace},\
-      {title:'Inverse Matrix (A&#8315;&#185;)', body: bodyInv}\
-    ], '2 × 2 Analysis Results');
-  } else if(size === 3) {
-    var det = m[0][0]*(m[1][1]*m[2][2] - m[1][2]*m[2][1]) - m[0][1]*(m[1][0]*m[2][2] - m[1][2]*m[2][0]) + m[0][2]*(m[1][0]*m[2][1] - m[1][1]*m[2][0]);
-    var trace = m[0][0] + m[1][1] + m[2][2];
-    showResult('res-mat', [
-      {title:'Determinant (det A)', body:'Standard expansion = <span class=\"hl\">' + det + '</span>'},\
-      {title:'Trace (tr A)', body:'Diagonal sum = <span class=\"hl\">' + trace + '</span>'}\
-    ], '3 × 3 Analysis Results');
-  }
-}
-
-function calcVector() {
-  var p = document.getElementById('vec-p').value.trim();
-  var q = document.getElementById('vec-q').value.trim();
-  var r = document.getElementById('vec-r').value.trim();
-  if(!p || !q || !r) { showError('res-vec', 'Please fill all vector components.'); return; }
-  showResult('res-vec', [
-    {title:'Divergence (&#8711; &#183; F)', body:'&#8706;P/&#8706;x + &#8706;Q/&#8706;y + &#8706;R/&#8706;z = <span class=\"rv\">div F</span> parsed successfully.'},\
-    {title:'Curl (&#8711; &#215; F)', body:'(&#8706;R/&#8706;y - &#8706;Q/&#8706;z)i - (&#8706;R/&#8706;x - &#8706;P/&#8706;z)j + (&#8706;Q/&#8706;x - &#8706;P/&#8706;y)k'}
-  ], 'Vector Calculus Diagnostics');
-}
-
-// Initialize matrix view automatically on page setup
+/* ────────────────────────────────────────
+   INIT
+──────────────────────────────────────── */
 window.onload = function() {
-  buildMatrixInputs();
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').catch(function(err){ console.log(err); });
-  }
+  buildAB('madd');
+  buildAB('msub');
+  buildMul();
+  buildDet();
+  buildTrans();
 };
 </script>
-
 </body>
 </html>
